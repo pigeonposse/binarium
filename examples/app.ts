@@ -6,10 +6,10 @@ interface Flags {
 	name?: string;
 	age?: string;
 }
-export const name = 'binarium-test'
 
 function showHelp() {
 
+	const name = 'binarium-test'
 	console.log( `
 Usage: ${name} [options]
 

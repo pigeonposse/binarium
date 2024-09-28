@@ -1,9 +1,8 @@
-import { name }  from './app'
 import { build } from '../dist/main'
 
 build( {
 	input : 'examples/app',
-	name  : name,
+	name  : 'binarium-test',
 	// outDir : resolve( 'build' ),
 	type  : 'bin',
 } )

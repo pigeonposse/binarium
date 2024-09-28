@@ -7,11 +7,10 @@
 	"homepage": "https://github.com/pigeonposse/binarium",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/binarium",
-		"directory": "packages/builder"
+		"url": "https://github.com/pigeonposse/binarium"
 	},
 	"bugs": {
-		"url": "https://github.com/pigeonposse/clippo/issues",
+		"url": "https://github.com/pigeonposse/binarium/issues",
 		"email": "dev@pigeonposse.com"
 	},
 	"funding": {
@@ -74,10 +73,10 @@
 		"@parcel/transformer-typescript-types": "2.12.0",
 		"@pigeon-posse/eslint-config": "1.0.1",
 		"@types/archiver": "6.0.2",
-		"@types/node": "22.5.5",
+		"@types/node": "22.7.4",
 		"@typescript-eslint/eslint-plugin": "8.2.0",
 		"@typescript-eslint/parser": "8.2.0",
-		"commitizen": "4.3.0",
+		"commitizen": "4.3.1",
 		"commitlint-config-gitmoji": "2.3.1",
 		"cz-customizable": "7.2.1",
 		"cz-emoji": "1.3.2-canary.2",
@@ -97,7 +96,6 @@
 		"git-cz": "4.9.0",
 		"husky": "9.1.6",
 		"jsdoc": "4.0.3",
-		"jsdoc-to-markdown": "9.0.1",
 		"jsonc-eslint-parser": "2.4.0",
 		"lint-staged": "15.2.10",
 		"rimraf": "^6.0.1",
@@ -105,8 +103,8 @@
 		"tslib": "2.7.0",
 		"tsx": "^4.19.1",
 		"typescript": "5.6.2",
-		"vite": "5.4.5",
-		"vite-plugin-dts": "4.2.1",
+		"vite": "5.4.8",
+		"vite-plugin-dts": "4.2.2",
 		"vitest": "2.1.1"
 	},
 	"dependencies": {
