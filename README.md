@@ -25,15 +25,11 @@ Using  *binarium* is simple and will work in most cases, but that may not be the
 
 ## 🔑 Installation
 
-```bash [npm]
+```bash
 npm install binarium
-```
-
-```bash [pnpm]
+# or pnpm
 pnpm add binarium
-```
-
-```bash [yarn]
+# or yarn
 yarn add binarium
 ```
 
@@ -56,7 +52,7 @@ await build( {
 binarium --input=src/server.js --name=app-name
 ```
 
-## ⚙️ Options
+### ⚙️ Options
 
 All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` and its value.
 
