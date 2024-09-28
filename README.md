@@ -11,6 +11,17 @@
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/binarium)
 
+## 📖 Description
+
+Package your Node.js project into an executable that can be run even on devices without Node.js installed.
+
+The construction of the binary allows compilation on `arm` and `x64` architecture.
+> If you compile on an `x64` system it will not create the binaries for `arm`, but if you compile on `arm` it will create the binaries for both architectures.
+
+This library works thanks to [ncc](https://github.com/vercel/ncc), [pkg](https://github.com/yao-pkg/pkg) and [esbuild](https://esbuild.github.io), which facilitate this process.
+
+Using  *binarium* `Builder` is simple and will work in most cases, but that may not be the case. If so, we recommend using other alternatives such as [ncc](https://github.com/vercel/ncc) or [pkg](https://github.com/yao-pkg/pkg).
+
 ## 🔑 Installation
 
 ```bash [npm]
@@ -27,18 +38,7 @@ yarn add binarium
 
 [![NPM Version](https://img.shields.io/npm/v/binarium?style=for-the-badge&color=yellow)](https://www.npmjs.com/package/binarium)
 
-## Build `binaries`
-
-Package your Node.js project into an executable that can be run even on devices without Node.js installed.
-
-The construction of the binary allows compilation on `arm` and `x64` architecture.
-> If you compile on an `x64` system it will not create the binaries for `arm`, but if you compile on `arm` it will create the binaries for both architectures.
-
-This library works thanks to [ncc](https://github.com/vercel/ncc), [pkg](https://github.com/yao-pkg/pkg) and [esbuild](https://esbuild.github.io), which facilitate this process.
-
-Using  *binarium* `Builder` is simple and will work in most cases, but that may not be the case. If so, we recommend using other alternatives such as [ncc](https://github.com/vercel/ncc) or [pkg](https://github.com/yao-pkg/pkg).
-
-### 📈 usage
+## 📈 usage
 
 ```js
 import {build} from 'binarium'
@@ -53,7 +53,7 @@ await build( {
 binarium --input=src/server.js --name=app-name
 ```
 
-### ⚙️ Configuration
+## ⚙️ Configuration
 
 All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` and its value.
 
