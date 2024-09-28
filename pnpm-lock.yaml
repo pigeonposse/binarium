@@ -5316,14 +5316,12 @@ snapshots:
       '@parcel/plugin': 2.12.0(@parcel/core@2.12.0)
     transitivePeerDependencies:
       - '@parcel/core'
-      - '@swc/helpers'
 
   '@parcel/plugin@2.12.0(@parcel/core@2.12.0)':
     dependencies:
       '@parcel/types': 2.12.0(@parcel/core@2.12.0)
     transitivePeerDependencies:
       - '@parcel/core'
-      - '@swc/helpers'
 
   '@parcel/profiler@2.12.0':
     dependencies:
@@ -5348,7 +5346,6 @@ snapshots:
       typescript: 5.6.2
     transitivePeerDependencies:
       - '@parcel/core'
-      - '@swc/helpers'
 
   '@parcel/ts-utils@2.12.0(typescript@5.6.2)':
     dependencies:
@@ -5444,8 +5441,6 @@ snapshots:
       '@parcel/types': 2.12.0(@parcel/core@2.12.0)
       '@parcel/utils': 2.12.0
       nullthrows: 1.1.1
-    transitivePeerDependencies:
-      - '@swc/helpers'
 
   '@pigeon-posse/eslint-config@1.0.1(eslint-plugin-align-assignments@1.1.2(eslint@8.57.0))(eslint-plugin-align-import@1.0.0)(eslint-plugin-html@7.1.0)(eslint-plugin-promise@6.1.1(eslint@8.57.0))(eslint@8.57.0)':
     dependencies:

@@ -35,14 +35,14 @@ import type { BuilderParams } from './types'
 
 export type * from './types'
 
+export const BINARIUM_CONSTS: { name?: string, debug?: boolean } = {
+	name  : undefined,
+	debug : undefined, 
+}
+
 /**
  * FUNCTIONS.
  */
-const isDebug = existsFlag( 'debug' )
-const log     = logger( {
-	name,
-	isDebug,
-} )
 
 export const buildConstructor = async ( { 
 	input,
@@ -50,7 +50,8 @@ export const buildConstructor = async ( {
 	outDir = resolvePath( 'build' ),
 	onlyOs = false,
 	type = BUILDER_TYPE.ALL, 
-}: BuilderParams ) => {
+	log,
+}: BuilderParams & { log: ReturnType<typeof logger> } ) => {
 
 	const arch         = await getArch()
 	const plat         = await getPlatform()
@@ -267,9 +268,9 @@ export const buildConstructor = async ( {
 }
 
 /**
- * Package your `BACKAN` App for different platforms based on the architecture.
+ * Package your cli application for different platforms and architectures.
  *
- * @param   {object}            params        - The parameters for creating the binaries.
+ * @param   {BuilderParams}     params        - The parameters for creating the binaries.
  * @param   {string}            params.name   - The name of the binary file to be created.
  * @param   {string}            params.outDir - Directory for the output build.
  * @param   {string}            params.input  - The input file for the build process.
@@ -281,7 +282,7 @@ export const buildConstructor = async ( {
  *
  * build({
  *   input: 'examples/app',
- *   // name: 'backan',
+ *   // name: 'my-app-name',
  *   // outDir: resolve('build'),
  *   // type: 'all',
  * })
@@ -289,12 +290,19 @@ export const buildConstructor = async ( {
  */
 export const build = async ( params: BuilderParams ) =>{
 
+	const isDebug = existsFlag( 'debug' ) || BINARIUM_CONSTS?.debug
+	const log     = logger( {
+		name : BINARIUM_CONSTS?.name || name,
+		isDebug,
+	} )
+
 	// This is not recomended but is for not display `(node:31972) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.` message.
 	// @ts-ignore
 	process.noDeprecation = true
 
 	process.on( 'exit', async function ( code ){
 
+		console.log( code )
 		if( code !== 130 ) return
 
 		console.groupEnd()
@@ -310,7 +318,10 @@ export const build = async ( params: BuilderParams ) =>{
 
 		log.info( 'Starting construction...' )
 		console.group()
-		await buildConstructor( params )
+		await buildConstructor( {
+			...params,
+			log,
+		} )
 		console.groupEnd()
 		log.success( 'Build successful!! ✨' )
 	

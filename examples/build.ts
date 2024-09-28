@@ -1,4 +1,9 @@
-import { build } from '../dist/main'
+import {
+	build,
+	BINARIUM_CONSTS, 
+} from '../dist/main'
+
+BINARIUM_CONSTS.name = 'binarium-test'
 
 build( {
 	input : 'examples/app',

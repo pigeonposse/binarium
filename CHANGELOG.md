@@ -1,5 +1,11 @@
 # binarium
 
+## 0.1.2
+
+### Patch Changes
+
+- add bin consts exportables
+
 ## 0.1.1
 
 ### Patch Changes
