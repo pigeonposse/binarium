@@ -1,6 +1,6 @@
 {
 	"name": "binarium",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Zero-configuration node library and CLI for building executables for all platforms and architectures",
 	"type": "module",
 	"license": "GPL-3.0",
@@ -22,7 +22,7 @@
 		"email": "angelo@pigeonposse.com",
 		"url": "https://github.com/angelespejo"
 	},
-	"packageManager": "pnpm@9.9.0",
+	"packageManager": "pnpm@9.11.0",
 	"engines": {
 		"node": ">=20.0.0",
 		"pnpm": ">=8.10.0"
@@ -51,7 +51,9 @@
 		"binaries",
 		"bin",
 		"packager",
-		"builder"
+		"builder",
+		"pigeonposse",
+		"pp"
 	],
 	"scripts": {
 		"dev": "pnpm build && tsx examples/build.ts",

@@ -22,3 +22,13 @@ export const ARCH = {
 	ARM64 : 'arm64',
 	X64   : 'x64',
 } as const
+
+export const BINARIUM_CONSTS: { 
+	name?: string, 
+	debug?: boolean, 
+	icon?: string 
+} = {
+	icon  : undefined,
+	name  : undefined,
+	debug : undefined, 
+}

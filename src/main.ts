@@ -14,6 +14,7 @@ import {
 	name,
 	BUILDER_TYPE,
 	ARCH,
+	BINARIUM_CONSTS,
 } from './const'
 import { BuildError } from './error'
 import { logger }     from './logger'
@@ -34,20 +35,6 @@ import {
 import type { BuilderParams } from './types'
 
 export type * from './types'
-
-export const BINARIUM_CONSTS: { 
-	name?: string, 
-	debug?: boolean, 
-	icon?: string 
-} = {
-	icon  : undefined,
-	name  : undefined,
-	debug : undefined, 
-}
-
-/**
- * FUNCTIONS.
- */
 
 export const buildConstructor = async ( { 
 	input,
@@ -295,11 +282,10 @@ export const buildConstructor = async ( {
  */
 export const build = async ( params: BuilderParams ) =>{
 
-	const isDebug = existsFlag( 'debug' ) || BINARIUM_CONSTS?.debug
-	const log     = logger( {
-		icon : BINARIUM_CONSTS?.icon || '📦',
-		name : BINARIUM_CONSTS?.name || name,
-		isDebug,
+	const log = logger( {
+		icon    : BINARIUM_CONSTS.icon || '📦',
+		name    : BINARIUM_CONSTS.name || name,
+		isDebug : BINARIUM_CONSTS.debug || existsFlag( 'debug' ) || false,
 	} )
 
 	// This is not recomended but is for not display `(node:31972) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.` message.
