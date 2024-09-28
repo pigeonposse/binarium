@@ -1,0 +1,441 @@
+# #############################################################################
+# Eslint config.
+# #############################################################################
+#
+# @description ESLint is a tool for identifying and 
+#              reporting on patterns found in ECMAScript/JavaScript code, 
+#              with the goal of making code more consistent and avoiding bugs.
+#
+# @see https://eslint.org/
+# @see https://eslint.org/docs/latest/
+#
+# #############################################################################
+
+---
+
+# #############################################################################
+# GENERAL.
+# #############################################################################
+
+root: true
+env:
+  node: true
+  browser: true
+  es2022: true
+parserOptions:
+  ecmaVersion: 2023
+  sourceType: module
+  allowImportExportEverywhere: true
+plugins:
+  - html
+  - align-import
+  - align-assignments
+  - promise
+  - jsonc
+  - yaml
+  - canonical
+extends:
+  - eslint:recommended
+  - plugin:promise/recommended
+  - plugin:jsdoc/recommended
+  - plugin:import/recommended
+
+# #############################################################################
+# RULES.
+# @see https://eslint.org/docs/latest/rules/
+# #############################################################################
+rules:
+  camelcase: warn
+  key-spacing:
+    - error
+    - multiLine:
+        beforeColon: true
+        afterColon: true
+      align:
+        beforeColon: true
+        afterColon: true
+        on: colon
+  switch-colon-spacing:
+    - error
+    - after: true
+      before: true
+  comma-dangle:
+    - error
+    - always-multiline
+  comma-spacing:
+    - error
+    - after: true 
+  computed-property-spacing:
+    - error
+    - always
+  no-multiple-empty-lines:
+    - error
+    - max: 1
+      maxEOF: 1
+      maxBOF: 1
+  padded-blocks:
+    - error
+    - always
+  one-var:
+    - error
+    - var: always
+      let: always
+      const: never
+  vars-on-top: warn
+  space-in-parens:
+    - error
+    - always
+  object-curly-newline:
+    - error
+    - multiline: true
+      minProperties: 2
+    #   consistent: true
+    # - ObjectPattern:
+    #     multiline: true
+    #   ObjectExpression:
+    #     minProperties: 1
+    #   ImportDeclaration:
+    #     multiline: true
+    #     minProperties: 2
+  object-property-newline:
+    - error
+  object-curly-spacing:
+    - error
+    - always
+  array-element-newline:
+    - error
+    # - multiline: true
+    - minItems: 3
+  array-bracket-newline:
+    - error
+    # - multiline: true
+    - minItems: 3
+  array-bracket-spacing:
+    - error
+    - always
+  linebreak-style:
+    - error
+    - unix
+  semi:
+    - error
+    - never
+  operator-linebreak:
+    - error
+    - before
+  arrow-parens:
+    - error
+    - as-needed
+  default-case-last: error
+  indent:
+    - error
+    - tab
+    - SwitchCase: 1
+  default-case: error
+  eol-last:
+    - error
+    - always
+  no-prototype-builtins: off
+  no-inline-comments: off
+  space-infix-ops: error
+  no-multi-spaces:
+    - error
+    - exceptions:
+        ImportDeclaration: true
+        VariableDeclarator: true
+        AssignmentExpression: true
+  # IMPORT.
+  # #############################################################################
+  import/no-unresolved: off
+  import/newline-after-import:
+    - error
+  # https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
+  import/order:
+    - error
+    - groups:
+      - [
+          "builtin", "external"
+        ]
+      - [
+          "internal", "parent", "sibling", "index", "object",
+        ]
+      - [
+          "type"
+        ]
+      pathGroups: []
+      pathGroupsExcludedImportTypes: []
+      alphabetize:
+        order: asc
+        caseInsensitive: true
+      newlines-between: "always"
+      warnOnUnassignedImports: true
+  # ALIGN.
+  # #############################################################################
+  align-import/align-import: error
+  align-import/trim-import: error
+  align-assignments/align-assignments:
+    - error
+    - requiresOnly: false
+  canonical/import-specifier-newline: error
+  canonical/export-specifier-newline: error
+
+
+# #############################################################################
+# IGNORE FILES.
+# 
+# @description Specifies which files and directories should be ignored by ESLint,
+#              helping to exclude specific files from linting.
+# @see https://eslint.org/docs/user-guide/configuring/ignoring-code
+#
+# #############################################################################
+ignorePatterns:
+  # module folders
+  - 'vendor/'
+  - '**/vendor/*'
+  - '**/vendor/**'
+  - '**/node_modules/*'
+  # static folders
+  - '**/static/*'
+  - '**/public/*'
+  # dist folders
+  - 'dist/*'
+  - '**/dist/*'
+  - '**/build/*'
+  - '**/.svelte-kit/*'
+  # others
+  - '**/*.timestamp-*'
+  - '**/*.d.ts'
+  - 'packages/_config/*'
+  - '**/__temp__/*'
+  - '**/__cache__/*'
+  # md
+  - "**/LICENSE"
+  # project
+  - "docs/partials/**"
+  - "docs/index.md"
+  - '!.dev'
+  - '!.utils'
+
+
+# #############################################################################
+# CONFIG FOR SPECIF FILES.
+# #############################################################################
+
+overrides:
+
+  # ###########################################################################
+  # JS & TS config.
+  # ###########################################################################
+  - files:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.jxs'
+      - '**/*.ts'
+      - '**/*.mts'
+      - '**/*.cts'
+      - '**/*.txs'
+    rules:
+      quotes:
+        - error
+        - single
+
+  # ###########################################################################
+  # COMMON JS config.
+  # ###########################################################################
+  - files:
+      - '**/*.cjs'
+    env:
+      node: true
+
+  # ###########################################################################
+  # JSDOC config.
+  # @see https://github.com/gajus/eslint-plugin-jsdoc
+  # ###########################################################################
+  - files:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.jxs'
+      - '**/*.ts'
+      - '**/*.mts'
+      - '**/*.cts'
+      - '**/*.txs'
+    rules:
+    #   jsdoc/check-examples:
+    #     - error # at the moment is not available in eslint8
+      jsdoc/sort-tags:
+        - error
+      jsdoc/require-jsdoc:
+        - error
+        - require: {}
+      jsdoc/require-description:
+        - error
+        - descriptionStyle: body
+      jsdoc/require-hyphen-before-param-description:
+        - error
+        - always
+        - tags:
+            returns: always
+      jsdoc/check-indentation: 
+        - error
+      jsdoc/check-line-alignment:
+        - error
+        - always
+        - tags:
+            - version
+            - description
+            - since
+            - param
+            - returns
+
+      jsdoc/require-description-complete-sentence:
+        - error
+        - tags:
+            - param
+            - returns
+            - description
+      jsdoc/tag-lines:
+        - error
+        - never
+        - startLines: 1
+          endLines: 0
+          tags:
+            # see:
+            #   count: 1
+            #   lines: always
+            example:
+              count: 1
+              lines: always
+            version:
+              count: 1
+              lines: always
+            author:
+              count: 1
+              lines: always
+      jsdoc/require-example: 
+        - error
+    #   jsdoc/check-syntax: 
+    #     - error
+
+    settings:
+      jsdoc:
+        tagNamePreference:
+          experimental: experimental
+          beta: beta
+
+  # ###########################################################################
+  # TYPESCRIPT config.
+  # @see https://typescript-eslint.io
+  # ###########################################################################
+  - files:
+      - '**/*.ts'
+    plugins:
+      - '@typescript-eslint'
+    extends:
+      - eslint:recommended
+      - plugin:@typescript-eslint/eslint-recommended
+      - plugin:@typescript-eslint/recommended
+    parser: '@typescript-eslint/parser'
+    rules:
+      '@typescript-eslint/consistent-type-imports':
+        - error
+        - prefer: type-imports
+          disallowTypeAnnotations: false
+      '@typescript-eslint/no-unused-vars': 
+        - error
+        - args: all
+          argsIgnorePattern: "^_"
+          caughtErrors: all
+          caughtErrorsIgnorePattern: "^_"
+          destructuredArrayIgnorePattern: "^_"
+          varsIgnorePattern: "^_"
+          ignoreRestSiblings: true
+      '@typescript-eslint/ban-ts-comment': off
+
+  # ###########################################################################
+  # YAML config.
+  # @see https://www.npmjs.com/package/eslint-plugin-yaml
+  # ###########################################################################
+  - files:
+      - '**/*.yaml'
+      - '**/*.yml'
+    extends:
+      - plugin:yaml/recommended
+
+  # ###########################################################################
+  # MARKDOWN config.
+  # @see https://github.com/paweldrozd/eslint-plugin-markdownlint
+  # @see https://github.com/DavidAnson/markdownlint
+  # @see https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
+  # ###########################################################################
+  - files:
+      - '**/*.md'
+    parser: eslint-plugin-markdownlint/parser
+    extends: 
+      - plugin:markdownlint/recommended
+    rules: 
+      # Line length | MD013/line-length 
+      markdownlint/md013: "off" 
+      # Inline HTML |  MD033/no-inline-html
+      markdownlint/md033: "off" 
+      # Multiple headings with the same content | MD024/no-duplicate-heading/no-duplicate-header 
+      markdownlint/md024: "off"
+
+  # ###########################################################################
+  # JSON config.
+  # @see https://ota-meshi.github.io/eslint-plugin-jsonc/rules/
+  # ###########################################################################
+  - files:
+      - '**/*.json'
+      - '**/*.json5'
+      - '**/*.jsonc'
+    parser: jsonc-eslint-parser
+    rules:
+      strict: error
+      jsonc/auto: off
+      jsonc/no-comments: off
+      jsonc/indent:
+        - error
+        - tab
+      jsonc/comma-style:
+        - error
+        - last
+      jsonc/array-bracket-newline:
+        - error
+        - always
+      jsonc/comma-dangle:
+        - error
+        - never
+      jsonc/key-spacing:
+        - error
+        - beforeColon: false
+          afterColon: true
+          mode: strict
+      jsonc/object-curly-newline:
+        - error
+        - multiline: true
+          minProperties: 1
+      jsonc/quotes:
+        - error
+        - double
+        - avoidEscape: false
+
+  # ###########################################################################
+  # PACKAGE JSON config.
+  # @see https://www.npmjs.com/package/eslint-plugin-package-json
+  # @see https://github.com/JoshuaKGoldberg/eslint-plugin-package-json/tree/main/docs/rules
+  # ###########################################################################
+  - files: 
+      - "package.json"
+    extends: 
+      - "plugin:package-json/recommended"
+    parser: "jsonc-eslint-parser"
+    plugins: 
+      - "package-json"
+    rules: 
+      'package-json/valid-repository-directory': off
+      package-json/sort-collections: 
+         - error
+         - ["devDependencies", "dependencies", "peerDependencies", "config"]
+
+# #############################################################################

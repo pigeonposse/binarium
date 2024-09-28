@@ -1,0 +1,64 @@
+/** 
+* *****************************************************************************
+* vscode config.
+* *****************************************************************************
+*
+* @description Configuration file for Visual Studio Code (VSCode) settings specific to your project.
+* @see https://code.visualstudio.com/docs/getstarted/settings
+*
+* *****************************************************************************
+*/
+{
+	"editor.tabSize": 4,
+	"editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "files.autoSave": "onFocusChange",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh", 
+    "terminal.integrated.profiles.linux": {
+        "zsh": {
+            "path": "/bin/zsh"
+        },
+    },
+	/** 
+	* *****************************************************************************
+	* ESLINT EXTENSION
+	* *****************************************************************************
+	*/
+    "eslint.validate": [
+        "javascript", 
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "json", 
+        "jsonc", 
+        "json5",
+        "yaml",
+        "toml",
+		"markdown",
+		"md"
+    ],
+	/** 
+	* *****************************************************************************
+	* TODO-TREE EXTENSION 
+	* *****************************************************************************
+	*/
+	"todo-tree.filtering.excludeGlobs":[
+		"/node_modules/*/**",
+		"**/node_modules/*/**"
+	],
+	"todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+	"todo-tree.general.tags":[
+		"BUG",
+		"FIXME",
+		"TODO",
+		" * @todo",
+		"[ ]",
+		"[x]"
+	],
+}
