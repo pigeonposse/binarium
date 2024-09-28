@@ -65,6 +65,7 @@
 		"test:unit": "vitest run src --passWithNoTests",
 		"lint": "pnpm eslint src",
 		"update-version": "changeset && changeset version",
+		"prepush": "doctoc README.md",
 		"push": "git add . && cz && git push -f origin $@"
 	},
 	"devDependencies": {
@@ -82,6 +83,7 @@
 		"commitlint-config-gitmoji": "2.3.1",
 		"cz-customizable": "7.2.1",
 		"cz-emoji": "1.3.2-canary.2",
+		"doctoc": "^2.2.1",
 		"eslint": "8.57.0",
 		"eslint-plugin-align-assignments": "1.1.2",
 		"eslint-plugin-align-import": "1.0.0",

@@ -11,6 +11,25 @@
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/binarium)
 
+## Index
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [📖 Description](#-description)
+- [🔑 Installation](#-installation)
+- [📈 usage](#-usage)
+  - [Node example](#node-example)
+  - [CLI example](#cli-example)
+  - [Options](#options)
+- [👨‍💻 Development](#-development)
+- [☕ Donate](#-donate)
+- [📜 License](#-license)
+- [🐦 About us](#-about-us)
+  - [Collaborators](#collaborators)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 📖 Description
 
 Package your Node.js project into an executable that can be run even on devices without Node.js installed.
@@ -52,7 +71,7 @@ await build( {
 binarium --input=src/server.js --name=app-name
 ```
 
-### ⚙️ Options
+### Options
 
 All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` and its value.
 
