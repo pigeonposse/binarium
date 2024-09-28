@@ -1,5 +1,11 @@
 # binarium
 
+## 0.1.4
+
+### Patch Changes
+
+- fix consts
+
 ## 0.1.3
 
 ### Patch Changes

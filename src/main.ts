@@ -40,7 +40,7 @@ export const BINARIUM_CONSTS: {
 	debug?: boolean, 
 	icon?: string 
 } = {
-	icon  : '📦',
+	icon  : undefined,
 	name  : undefined,
 	debug : undefined, 
 }
@@ -297,6 +297,7 @@ export const build = async ( params: BuilderParams ) =>{
 
 	const isDebug = existsFlag( 'debug' ) || BINARIUM_CONSTS?.debug
 	const log     = logger( {
+		icon : BINARIUM_CONSTS?.icon || '📦',
 		name : BINARIUM_CONSTS?.name || name,
 		isDebug,
 	} )
