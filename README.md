@@ -36,12 +36,12 @@ pnpm add binarium
 yarn add binarium
 ```
 
-[![NPM Version](https://img.shields.io/npm/v/binarium?style=for-the-badge&color=yellow)](https://www.npmjs.com/package/binarium)
-
 ## 📈 usage
 
+### Node example
+
 ```js
-import {build} from 'binarium'
+import { build } from 'binarium'
 
 await build( {
  input  : 'src/cli.js', // JS or TS file
@@ -49,11 +49,13 @@ await build( {
 } )
 ```
 
+### CLI example
+
 ```bash
 binarium --input=src/server.js --name=app-name
 ```
 
-## ⚙️ Configuration
+## ⚙️ Options
 
 All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` and its value.
 
