@@ -1,9 +1,11 @@
-const icon = '💾'
+
 export const logger = ( 
 	{ 
+		icon = '📦',
 		name,
 		isDebug = false, 
 	}: {
+		icon?: string
 		name: string
 		isDebug?:boolean
 	}, 

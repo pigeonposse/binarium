@@ -35,7 +35,12 @@ import type { BuilderParams } from './types'
 
 export type * from './types'
 
-export const BINARIUM_CONSTS: { name?: string, debug?: boolean } = {
+export const BINARIUM_CONSTS: { 
+	name?: string, 
+	debug?: boolean, 
+	icon?: string 
+} = {
+	icon  : '📦',
 	name  : undefined,
 	debug : undefined, 
 }
@@ -302,7 +307,6 @@ export const build = async ( params: BuilderParams ) =>{
 
 	process.on( 'exit', async function ( code ){
 
-		console.log( code )
 		if( code !== 130 ) return
 
 		console.groupEnd()
