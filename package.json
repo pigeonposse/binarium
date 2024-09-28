@@ -1,6 +1,6 @@
 {
 	"name": "binarium",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Zero-config library and CLI for creating executables for all platforms",
 	"type": "module",
 	"license": "GPL-3.0",
@@ -62,7 +62,9 @@
 		"build:lib": "vite build",
 		"test": "pnpm run --sequential \"/^test:.*/\"",
 		"test:unit": "vitest run src --passWithNoTests",
-		"lint": "pnpm eslint src"
+		"lint": "pnpm eslint src",
+		"update-version": "changeset && changeset version",
+		"push": "git add . && cz && git push -f origin $@"
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "0.5.0",
@@ -135,5 +137,20 @@
 		"cz-customizable": {
 			"config": ".dev/cz-config.cjs"
 		}
+	},
+	"extra": {
+		"id": "binarium",
+		"productName": "Binarium",
+		"scopes": [
+			{
+				"name": "core"
+			},
+			{
+				"name": "env"
+			},
+			{
+				"name": "all"
+			}
+		]
 	}
 }
