@@ -11,6 +11,8 @@
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/binarium)
 
+Zero-configuration node library and CLI for building executables for all platforms and architectures.
+
 ## Index
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
