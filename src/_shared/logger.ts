@@ -1,7 +1,7 @@
 
 export const logger = ( 
 	{ 
-		icon = '📦',
+		icon,
 		name,
 		isDebug = false, 
 	}: {

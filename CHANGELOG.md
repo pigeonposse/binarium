@@ -1,5 +1,11 @@
 # binarium
 
+## 0.2.0
+
+### Minor Changes
+
+- refactor, add advance configuration, config file support, increase performance etc
+
 ## 0.1.6
 
 ### Patch Changes

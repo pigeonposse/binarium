@@ -3,260 +3,173 @@
  *
  * @description File with build function.
  */
-// @ts-ignore
-import ncc                 from '@vercel/ncc'
-import { exec as execPkg } from '@yao-pkg/pkg'
-
-import { zipFilesInDirectory } from './compress'
+import { catchError }      from './_shared/error'
+import {
+	exit,
+	onExit,
+	setNoDeprecationAlerts,
+} from './_shared/process'
+import { joinPath } from './_shared/sys'
+import { perf }     from './_shared/time'
 import {
 	ERROR_ID, 
 	target, 
-	name,
 	BUILDER_TYPE,
-	ARCH,
 	BINARIUM_CONSTS,
 } from './const'
+import { getData }    from './data'
 import { BuildError } from './error'
-import { logger }     from './logger'
-import {
-	deleteFile,
-	existsFlag,
-	existsPath,
-	getArch, 
-	getFilename, 
-	getFlagValue, 
-	getPlatform, 
-	joinPath,
-	packageDir,
-	resolvePath,
-	writeFile,
-} from './utils'
+import { getLog }     from './log'
+import buildBins      from './steps/bin'
+import buildCjs       from './steps/cjs'
+import compile        from './steps/compile'
+import compress       from './steps/compress'
 
-import type { BuilderParams } from './types'
+import type {
+	BuilderParams,
+	ConfigParams, 
+} from './types'
 
 export type * from './types'
 
-export const buildConstructor = async ( { 
-	input,
-	name, 
-	outDir = resolvePath( 'build' ),
-	onlyOs = false,
-	type = BUILDER_TYPE.ALL, 
-	log,
-}: BuilderParams & { log: ReturnType<typeof logger> } ) => {
+export { BINARIUM_CONSTS }
 
-	const arch         = await getArch()
-	const plat         = await getPlatform()
-	const projectBuild = outDir 
+export const buildConstructor = async ( params: Parameters<typeof getData>[0] ) => {
 	
-	const params =  Object.assign( {}, { 
-		input,
-		name, 
-		outDir,
-		onlyOs,
-		type, 
-	} )
-	const flags  = {
-		input  : getFlagValue( 'input' ), 
-		onlyOs : existsFlag( 'onlyOs' ),
-		outDir : getFlagValue( 'outDir' ),
-		type   : getFlagValue( 'type' ) as typeof type,
-		name   : getFlagValue( 'name' ),
-	}
-	if( flags.name ) name = flags.name
-	if( flags.input ) input = flags.input
-	if( flags.onlyOs ) onlyOs = flags.onlyOs
-	if( flags.outDir ) outDir = flags.outDir
-	if( flags.type && Object.values( BUILDER_TYPE ).includes( flags.type ) ) type = flags.type 
+	const { log } = params
+	const data    = await getData( params )
 
-	if( !name ) name = getFilename( input )
+	const projectBuildCjsFile   = joinPath( data.jsDir, 'node.cjs' )
+	const projectBuildIndexFile = joinPath( data.jsDir, 'index.cjs' )
 		
-	const opts = {
-		input,
-		name, 
-		outDir,
-		onlyOs,
-		type, 
-	}
-	const data = {
-		platform : plat,
-		arch,
-		opts,
-	}
+	// ESBUILD
+	const esbuildLog = log.group( 'Building cjs files...' )
+	esbuildLog.start()
+	const esbuildTime = perf()
 
-	const projectBuildBin       = joinPath( projectBuild, 'bin' )
-	const projectBuildZip       = joinPath( projectBuild, 'zip' )
-	const projectBuildCjs       = joinPath( projectBuild, 'cjs' )
-	const projectBuildCjsFile   = joinPath( projectBuildCjs, 'node.cjs' )
-	const projectBuildIndexFile = joinPath( projectBuildCjs, 'index.cjs' )
+	const cjs = await buildCjs( {
+		input   : data.input,
+		output  : projectBuildCjsFile,
+		target  : target,
+		// @ts-ignore
+		config  : data?.options?.esbuild,
+		isDebug : log.isDebug,
+		debug   : log.debug,
+	} )
 
-	// GET TARGETS
-	const getTargets = ( arch: typeof ARCH[keyof typeof ARCH] ) => ( onlyOs ? [ `${target}-${plat}-${arch}` ] : [
-		`${target}-alpine-${arch}`,
-		`${target}-linux-${arch}`,
-		`${target}-linuxstatic-${arch}`,
-		`${target}-macos-${arch}`,
-		`${target}-win-${arch}`,
-	] )
-	
-	const targets = arch === ARCH.ARM64 
-		? [ ...getTargets( ARCH.ARM64 ), ...getTargets( ARCH.X64 ) ] 
-		: getTargets( ARCH.X64 )
-	
-	log.debug( JSON.stringify( {
-		message : 'Init data: function params, process flags, final options..',
-		data    : {
-			params, 
-			flags,
-			...data, 
-			targets,
-		},
-	}, null, 2 ) )
+	if( cjs ) {
 
-	// EXIST INPUT
-	const getInput = async ( path: string ) => {
+		const [ cjsError ] = cjs
+		if( cjsError ) {
 
-		const validExtensions = [
-			'.ts',
-			'.js',
-			'.mjs',
-			'.mts',
-			'.cjs',
-			'.cts',
-		]
-
-		if( !validExtensions.some( ext => path.endsWith( ext ) ) ){
-
-			for ( let index = 0; index < validExtensions.length; index++ ) {
-				
-				const input = path + validExtensions[ index ]
-
-				const exists = await existsPath( input )
-				if( exists ) return input
-			
-			}
-			return undefined
+			esbuildLog.end()
+			throw new BuildError( ERROR_ID.ON_ESBUILD, {
+				...data, 
+				error : cjsError,
+			} )
 		
 		}
-		const exists = await existsPath( path )
-		if( exists ) return path
-		return undefined
-	
-	}
-
-	const exists = await getInput( input )
-	if( !exists ) throw new BuildError( ERROR_ID.NO_INPUT, data )
-	else input = exists
-
-	if( plat === 'unknown' ) throw new BuildError( ERROR_ID.PLATFORM_UNKWON, data )
 		
-	/**
-	 * ESBUILD BUILD.
-	 *
-	 * @see https://esbuild.github.io/api/#build
-	 */
-	const esbuildLog = log.group( 'Building cjs file...' )
-	esbuildLog.start()
-	const { build } = await import( 'esbuild' )
-
-	const getTsConfig = async () =>{
-
-		const userTs      = resolvePath( 'tsconfig.json' )
-		const existUserTs = await existsPath( userTs )
-		if( existUserTs ) return userTs
-		return joinPath( packageDir, 'tsconfig.builder.json' )
-	
 	}
 
-	await build( {
-		entryPoints : [ input ],
-		minify      : true,
-		bundle      : true,
-		format      : 'cjs',
-		platform    : 'node',
-		target,
-		outfile     : projectBuildCjsFile,
-		tsconfig    : await getTsConfig(),
-	} ).catch( err => {
-
-		esbuildLog.end()
-		throw new BuildError( ERROR_ID.ON_ESBUILD, {
-			...data, 
-			error : err,
-		} )
-	
-	} )
+	console.info( `\nTotal time: ${esbuildTime.stop()} seconds.` )
 	esbuildLog.end()
 
-	/**
-	 * NCC BUILD.
-	 *
-	 * @see https://github.com/vercel/ncc?tab=readme-ov-file#programmatically-from-nodejs
-	 */
-
+	// ncc
 	const nccLog = log.group( 'Converting cjs file in a single file...' )
 	nccLog.start()
-	const { code } = await ncc( projectBuildCjsFile, {
-		minify : true,
-		cache  : false,
-		// target,
-	} ).catch( ( error: unknown ) => {
-
-		nccLog.end()
-		throw new BuildError( ERROR_ID.ON_NCC, {
-			...data, 
-			error,
-		} )
+	const nccTime = perf()
 	
+	const compileRes = await compile( {
+		input   : projectBuildCjsFile,
+		output  : projectBuildIndexFile,
+		// @ts-ignore
+		config  : data?.options?.ncc,
+		isDebug : log.isDebug,
+		debug   : log.debug,
 	} )
+
+	if( compileRes ){
+
+		const [ compileError ] = compileRes
+		if( compileError ) {
+
+			nccLog.end()
+			throw new BuildError( ERROR_ID.ON_NCC, {
+				...data, 
+				error : compileError,
+			} )
+		
+		}
+	
+	}
+
+	console.info( `\nTotal time: ${nccTime.stop()} seconds.` )
 	nccLog.end()
 
-	await writeFile( projectBuildIndexFile, code )
-	await deleteFile( projectBuildCjsFile )
+	if ( data.type === BUILDER_TYPE.CJS ) return
+	
+	// BINS
+	
+	const binLog = log.group( 'Creating binaries...' )
+	binLog.start()
+	const binTime = perf()
+	
+	const bin = await buildBins( {
+		targets : data.targets,
+		input   : projectBuildIndexFile,
+		name    : data.name,
+		output  : data.binDir,
+		// @ts-ignore
+		config  : data?.options?.pkg,
+		isDebug : log.isDebug,
+		debug   : log.debug,
+	} )
 
-	if ( type === BUILDER_TYPE.CJS ) return
+	if( bin ) {
 
-	/**
-	 * PKG BUILD.
-	 *
-	 * @see https://www.npmjs.com/package/@yao-pkg/pkg
-	 */
+		const [ binError ] = bin
+		if( binError ) {
 
-	const pkgLog = log.group( 'Creating binaries...' )
-	pkgLog.start()
+			binLog.end( )
+			throw new BuildError( ERROR_ID.ON_PKG, {
+				...data, 
+				error : binError,
+			} )
+		
+		}
+	
+	}
 
-	await execPkg( [
-		projectBuildIndexFile,
-		'--targets',
-		targets.join( ',' ),
-		'--output',
-		joinPath( projectBuildBin, name ),
-		'--compress',
-		'GZip', 
-		// '--debug',
-	] ).catch( ( error: unknown ) => {
+	console.info( `\nTotal time: ${binTime.stop()} seconds.` )
+	binLog.end( )
 
-		pkgLog.end( )
-		throw new BuildError( ERROR_ID.ON_PKG, {
+	if ( data.type === BUILDER_TYPE.BIN ) return
+
+	// COMPRESS
+	const compressLog = log.group( 'Compressing binaries...' )
+	compressLog.start()
+	const compressTime  = perf()
+	const [ compError ] = await compress( {
+		input   : data.binDir,
+		output  : data.compressDir,
+		isDebug : log.isDebug,
+		debug   : log.debug,
+	} )
+
+	if( compError ) {
+
+		compressLog.end()
+		throw new BuildError( ERROR_ID.ON_COMPRESSION, {
 			...data, 
-			error,
+			error : compError,
 		} )
 	
-	} )
-	pkgLog.end( )
+	}
 
-	if ( type === BUILDER_TYPE.BIN ) return
+	console.info( `\nTotal time: ${compressTime.stop()} seconds.` )
+	compressLog.end()
 
-	// ZIP
-	log.debug( 'Creating zips...' )
-
-	console.group( )
-	await zipFilesInDirectory(
-		projectBuildBin,
-		projectBuildZip,
-	)
-	console.groupEnd( )
-	
 }
 
 /**
@@ -282,91 +195,78 @@ export const buildConstructor = async ( {
  */
 export const build = async ( params: BuilderParams ) =>{
 
-	const log = logger( {
-		icon    : BINARIUM_CONSTS.icon || '📦',
-		name    : BINARIUM_CONSTS.name || name,
-		isDebug : BINARIUM_CONSTS.debug || existsFlag( 'debug' ) || false,
-	} )
+	const log = getLog()
 
-	// This is not recomended but is for not display `(node:31972) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.` message.
-	// @ts-ignore
-	process.noDeprecation = true
+	setNoDeprecationAlerts()
 
-	process.on( 'exit', async function ( code ){
+	onExit( async code => {
 
 		if( code !== 130 ) return
 
-		console.groupEnd()
 		console.log( '\n' )
-		return log.warn( 'Process cancelled 👋' )
+		console.groupEnd( )
+		log.warn( 'Process cancelled 👋\n' )
+		exit( 0 )
 	
 	} )
 
-	const start = performance.now()
-	const stop  = () => log.info( `Total time: ${( ( performance.now() - start ) / 1000 ).toFixed( 2 )} seconds.` )
+	const timeout = perf()
 
-	try {
+	const [ e ] = await catchError( buildConstructor( {
+		...params,
+		log,
+	} ) )
 
-		log.info( 'Starting construction...' )
-		console.group()
-		await buildConstructor( {
-			...params,
-			log,
+	if( e ) {
+
+		console.groupEnd( )
+		if( 'name' in e && e.name === 'ExitPromptError' ) return exit( 130 )
+			
+		const errorMessages: { [key: string]: string } = {
+			// @ts-ignore
+			[ ERROR_ID.ON_CONFIG ]       : 'Error on config file: ' + e?.data?.error?.message || 'Unexpected error',
+			[ ERROR_ID.ON_PKG ]          : 'Error on PKG',
+			[ ERROR_ID.ON_NCC ]          : 'Error on NCC',
+			[ ERROR_ID.ON_ESBUILD ]      : 'Error on ESBUILD',
+			[ ERROR_ID.NO_INPUT ]        : 'Input is not valid',
+			[ ERROR_ID.PLATFORM_UNKWON ] : 'Your platform cannot be detected correctly or is unknown. Try to build without [onlyOS] flag',
+			[ ERROR_ID.ON_COMPRESSION ]  : 'Error on Compression',
+		}
+			
+		const message = errorMessages[ e.message ] || 'Unexpected error'
+		if( !log.isDebug ) log.error( `${message}.\n\nAdd "--debug" flag to see error details.\n` )
+		else log.error( {
+			message,
+			// @ts-ignore
+			data : e.data || e,
 		} )
-		console.groupEnd()
-		log.success( 'Build successful!! ✨' )
-	
-	}catch( e ){
+			
+	}else {
 
-		console.groupEnd()
-		// @ts-ignore
-		if( 'name' in e && e.name === 'ExitPromptError' ) return log.warn( 'Process cancelled 👋' )
-		if( !( e instanceof BuildError ) ) return log.error( {
-			message : 'Unexpected error',
-			data    : e,
-		} )
-		
-		if( e.message === ERROR_ID.ON_PKG ) 
-			log.error( {
-				message : 'Error on PKG',
-				// @ts-ignore
-				data    : e.data || e,
-			} )
-		if( e.message === ERROR_ID.ON_NCC ) 
-			log.error( {
-				message : 'Error on NCC',
-				// @ts-ignore
-				data    : e.data || e,
-			} )
-		if( e.message === ERROR_ID.ON_ESBUILD ) 
-			log.error( {
-				message : 'Error on ESBUILD',
-				// @ts-ignore
-				data    : e.data || e,
-			} )
-		if( e.message === ERROR_ID.NO_INPUT ) 
-			log.error( {
-				message : 'Input is not valid', 
-				// @ts-ignore
-				data    : e.data,
-			} )
-		if( e.message === ERROR_ID.PLATFORM_UNKWON ) 
-			log.error( {
-				message : 'Your platform cannot be detected correctly or is unknown. Try to build without [onlyOS] flag',
-				// @ts-ignore
-				data    : e.data,
-			} )
-		if( e.message === ERROR_ID.UNEXPECTED ) 
-			log.error( {
-				message : 'Unexpected error',
-				data    : e,
-			} )
-		return
-	
-	}finally{
-
-		stop()
+		console.log()
+		log.success( `Build successfully in ${timeout.stop()} seconds. ✨\n` )
 	
 	}
 
 }
+
+/**
+ * Define the configuration for the binary builder.
+ *
+ * @param   {ConfigParams} config - The configuration object.
+ * @returns {ConfigParams}        - The configuration object.
+ * @example
+ * import { defineConfig } from 'binarium'
+ *
+ * export default defineConfig({
+ *   name: 'my-app-name',
+ *   onlyOs: true,
+ *   options: {
+ *     esbuild: {
+ *        tsconfig: './tsconfig.custom.json'
+ *     }
+ *   }
+ * })
+ *
+ */
+export const defineConfig = ( config: ConfigParams ) => config

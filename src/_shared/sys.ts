@@ -1,6 +1,5 @@
-
-import { spawn } from 'node:child_process'
 import {
+	readFile,
 	mkdir, 
 	writeFile as fsWriteFile, 
 	access,
@@ -16,11 +15,17 @@ import {
 	parse,
 	dirname,
 	join, 
-	resolve, 
+	resolve,
+	extname, 
 } from 'node:path'
-import * as url from 'node:url'
+import {
+	fileURLToPath,
+	pathToFileURL, 
+} from 'node:url'
+import toml from 'toml'
+import yaml from 'yaml'
 
-export const packageDir = url.fileURLToPath( new URL( '..', import.meta.url ) )
+export const packageDir = fileURLToPath( new URL( '..', import.meta.url ) )
 
 export const joinPath = join
 export const resolvePath = resolve
@@ -98,45 +103,6 @@ export const getPlatform = async () => {
 
 }
 
-export const getFlagValue = ( key: string ) =>{
-
-	const flags = process.argv
-	for ( const flag of flags ) {
-
-		if ( flag.startsWith( `--${key}=` ) ) return flag.split( '=' )[ 1 ]
-	
-	}
-	return undefined
-
-}
-export const existsFlag = ( v: string ) => process.argv.includes( `--${v}` )
-
-export const exec = async ( cmd: string ) => {
- 
-	await new Promise<void>( ( resolve, reject ) => {
-
-		const childProcess = spawn( cmd, {
-			shell : true,
-			stdio : 'inherit',
-		} )
-
-		childProcess.on( 'close', code => {
-
-			if ( code === 0 ) resolve()
-			else {
-
-				const error = new Error( `Command failed with code ${code}` )
-				console.error( error )
-				reject( error )
-				
-			}
-			
-		} )
-		
-	} )
-
-}
-
 export const removePathIfExist = async ( path: string ) => {
 
 	try {
@@ -171,3 +137,46 @@ export const removePathIfExist = async ( path: string ) => {
 	}
 
 }
+
+/**
+ * Reads a configuration file and returns the parsed content.
+ *
+ * @param   {string}          filePath - The path to the configuration file.
+ * @returns {Promise<object>}          - The parsed content of the configuration file.
+ * @throws {Error} - If the file extension is not supported.
+ * @example ``
+ *
+ */
+export const readConfigFile = async ( filePath: string ): Promise<object> => {
+
+	const ext     = extname( filePath )
+	const content = await readFile( filePath, 'utf8' )
+	let res
+	
+	if ( ext === '.json' ) {
+
+		res = JSON.parse( content )
+		
+	} else if ( ext === '.yml' || ext === '.yaml' ) {
+
+		res = yaml.parse( content )
+		
+	} else if ( ext === '.toml' || ext === '.tml' ) {
+
+		res = toml.parse( content )
+		
+	} else if ( ext === '.js' || ext === '.mjs' ) {
+
+		const modulePath = pathToFileURL( filePath ).href
+		res              = ( await import( modulePath ) ).default
+		
+	} else {
+
+		throw new Error( `Unsupported file extension: ${ext}` )
+		
+	}
+
+	return res
+	
+}
+

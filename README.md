@@ -22,6 +22,8 @@
   - [Node example](#node-example)
   - [CLI example](#cli-example)
   - [Options](#options)
+  - [Config File](#config-file)
+    - [Example](#example)
 - [👨‍💻 Development](#-development)
 - [☕ Donate](#-donate)
 - [📜 License](#-license)
@@ -106,8 +108,40 @@ type BuilderParams = {
   * @default 'all'
   */
  type?: 'all'|'cjs'|'bin'
- 
+  /**
+  * Config file path.
+  * 
+  * @default undefined
+  */
+ config?: string
 }
+```
+
+### Config File
+
+For more advanced configuration you can use a configuration file.
+Supported formats are: `.mjs, .js, .json, .yml, .yaml, .toml, .tml`.
+
+In the configuration file you can define your build options and configure advanced options of the build itself using the `options` key.
+
+> The `options` configuration is only recommended for cases that require a more advanced configuration.
+
+#### Example
+
+```bash
+binarium  --config=binarium.config.js
+```
+
+```js
+// binarium.config.js
+import { defineConfig } from 'binarium'
+
+export default defineConfig( {
+ name    : 'my-app-name',
+ onlyOs  : true,
+ options : { esbuild: { tsconfig: './tsconfig.builder.json' } },
+} )
+
 ```
 
 ## 👨‍💻 Development

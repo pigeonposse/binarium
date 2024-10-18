@@ -1,17 +1,16 @@
-import type {
-	BuilderErrors, 
-	BuilderParams, 
-} from './types'
+import type { BuilderErrors } from './types'
 
 export class BuildError extends Error {
 
 	constructor( 
 		message: BuilderErrors, 
-		data: {
-			platform: string
-			arch: string
-			opts: BuilderParams
-		} & Record<string, unknown>, 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		data: any,
+		// data: {
+		// 	platform: string
+		// 	arch: string
+		// 	opts: any
+		// } & Record<string, unknown>, 
 	) {
 
 		super( message )
