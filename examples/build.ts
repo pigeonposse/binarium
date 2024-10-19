@@ -6,7 +6,7 @@ import {
 BINARIUM_CONSTS.name = 'binarium-test'
 
 build( {
-	input : './examples/app',
+	input : 'examples/app',
 	name  : 'binarium-test',
 	// outDir : resolve( 'build' ),
 	type  : 'bin',

@@ -154,9 +154,9 @@ export const getData = async ( {
 	if( !name ) name = getFilename( input )
 		
 	const opts = {
-		input,
+		input   : resolvePath( input ),
 		name, 
-		outDir,
+		outDir  : resolvePath( outDir ),
 		onlyOs,
 		type, 
 		options : configfile?.options,

@@ -1,5 +1,11 @@
 # binarium
 
+## 0.2.1
+
+### Patch Changes
+
+- support relative path without ./
+
 ## 0.2.0
 
 ### Minor Changes

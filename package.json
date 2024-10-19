@@ -1,6 +1,6 @@
 {
 	"name": "binarium",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "Zero-configuration node library and CLI for building executables for all platforms and architectures",
 	"type": "module",
 	"license": "GPL-3.0",
