@@ -1,7 +1,7 @@
 # https://help.github.com/en/articles/metadata-syntax-for-github-actions
 
-name: 'binarium'
-description: 'Zero-configuration library and CLI for building node executables for all platforms and architectures'
+name: 'binarium - Tool to create executables of your Node, Deno or Bun projects'
+description: 'Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.'
 author: 'pigeonposse'
 inputs:
   build:
