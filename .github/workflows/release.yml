@@ -115,10 +115,11 @@ jobs:
           omitBodyDuringUpdate: true
 
       - name: Tag Repo
+        if: ${{ steps.updated.outputs.core_major_version != '' }}
         uses: richardsimko/update-tag@v1
         with:
           tag_name: v${{ steps.updated.outputs.core_major_version}}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 		  
 ###############################################################################
