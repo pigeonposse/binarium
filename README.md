@@ -31,8 +31,10 @@ The construction of the binary allows compilation on `arm64` and `x64` architect
   - [🦕 Deno](#-deno)
   - [🍞 Bun](#-bun)
   - [💻 CLI](#-cli)
-  - [🛠️ With config file (advanced configuration)](#-with-config-file-advanced-configuration)
-    - [Example](#example)
+  - [🛠️ With config file - advanced configuration](#-with-config-file---advanced-configuration)
+    - [Node Example](#node-example)
+    - [Deno Example](#deno-example)
+    - [Bun Example](#bun-example)
   - [🤖 Github Action](#-github-action)
     - [Inputs](#inputs)
     - [Examples](#examples)
@@ -216,19 +218,17 @@ binarium deno --input src/deno-server.js --name deno-app-name
 binarium bun --input src/bun-server.js --name bun-app-name
 ```
 
-### 🛠️ With config file (advanced configuration)
+### 🛠️ With config file - advanced configuration
 
 For more advanced configuration you can use a configuration file.
 Supported formats are: `.mjs, .js, .json, .yml, .yaml, .toml, .tml`.
 
-In the configuration file you can define your build options and configure advanced options of the build itself using the `nodeOptions` key.
+In the configuration file you can define your build options and configure advanced options of the build itself using the `nodeOptions`|`denoOptions`|`bunOptions` key.
 
-> The `nodeOptions` configuration is only recommended for cases that require a more advanced configuration.
-
-#### Example
+#### Node Example
 
 ```bash
-binarium  --config=binarium.config.js
+binarium node --config binarium.config.js
 ```
 
 ```js
@@ -239,6 +239,42 @@ export default defineConfig( {
  name    : 'my-app-name',
  onlyOs  : true,
  nodeOptions : { esbuild: { tsconfig: './tsconfig.builder.json' } },
+} )
+
+```
+
+#### Deno Example
+
+```bash
+binarium deno -c binarium.config.js
+```
+
+```js
+// binarium.config.js
+import { defineConfig } from 'binarium'
+
+export default defineConfig( {
+ name    : 'my-app-name',
+ onlyOs  : true,
+ denoOptions : { flags: [ '--allow-all', '--no-npm' ] },
+} )
+
+```
+
+#### Bun Example
+
+```bash
+binarium bun -c binarium.config.js
+```
+
+```js
+// binarium.config.js
+import { defineConfig } from 'binarium'
+
+export default defineConfig( {
+ name    : 'my-app-name',
+ onlyOs  : true,
+ bunOptions : { flags: [ '--packages external' ] },
 } )
 
 ```

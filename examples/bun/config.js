@@ -4,6 +4,6 @@ export default defineConfig( {
 	name       : 'binarium-bun-test',
 	input      : 'examples/bun/app',
 	onlyOs     : false,
-	type       : 'zip',
+	type       : 'compress',
 	bunOptions : { flags: [ '--packages external' ] },
 } )
