@@ -1,0 +1,31 @@
+# https://help.github.com/en/articles/metadata-syntax-for-github-actions
+
+name: 'BINARIUM'
+description: 'Zero-configuration library and CLI for building node executables for all platforms and architectures'
+author: 'pigeonposse'
+inputs:
+  config:
+    required: false
+    description: 'Path for config file.'
+
+runs:
+  using: "composite"
+  steps:
+    - name: ⬇️🥡 Install pnpm
+      uses: pnpm/action-setup@v4
+    - name: ⬇️🟢 Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+    - name: ⬇️📦 Install dependencies
+      run: pnpm i -g binarium
+      shell: bash
+
+    - name: 🧩📦 Execute bepp
+      run: binarium --config '${{ inputs.config }}'
+      shell: bash
+
+branding:
+  icon: 'package'
+  color: 'purple'

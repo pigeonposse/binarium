@@ -1,15 +1,9 @@
 #!/usr/bin/env node
 /* eslint-disable jsdoc/require-jsdoc */
 
-interface Flags {
-	help?: boolean;
-	name?: string;
-	age?: string;
-}
-
 function showHelp() {
 
-	const name = 'binarium-test'
+	const name = 'binarium-lib-test'
 	console.log( `
 Usage: ${name} [options]
 
@@ -21,17 +15,17 @@ Options:
 
 }
 
-function parseArgs(): Flags {
+const parseArgs = () => {
 
-	const args         = process.argv.slice( 2 )
-	const flags: Flags = {}
+	const args  = process.argv.slice( 2 )
+	const flags = {}
 
 	for ( let i = 0; i < args.length; i++ ) {
 
 		const arg = args[ i ]
 		if ( arg.startsWith( '--' ) ) {
 
-			const flagName = arg.slice( 2 ) as keyof Flags
+			const flagName = arg.slice( 2 )
 			const nextArg  = args[ i + 1 ]
 			if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
@@ -54,10 +48,10 @@ function parseArgs(): Flags {
 
 }
 
-function main(): void {
+function main() {
 
 	const flags = parseArgs()
-
+	
 	if ( flags.help ) showHelp()
 	else {
 

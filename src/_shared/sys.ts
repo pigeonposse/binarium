@@ -1,3 +1,5 @@
+
+import { globby } from 'globby'
 import {
 	readFile,
 	mkdir, 
@@ -6,6 +8,7 @@ import {
 	unlink,
 	stat,
 	rm,
+	copyFile,
 } from 'node:fs/promises'
 import {
 	arch,
@@ -16,7 +19,9 @@ import {
 	dirname,
 	join, 
 	resolve,
-	extname, 
+	extname,
+	basename,
+	isAbsolute, 
 } from 'node:path'
 import {
 	fileURLToPath,
@@ -25,10 +30,21 @@ import {
 import toml from 'toml'
 import yaml from 'yaml'
 
-export const packageDir = fileURLToPath( new URL( '..', import.meta.url ) )
+export * as http from 'node:http'
+export * as https from 'node:https'
 
+export {
+	fileURLToPath,
+	pathToFileURL,
+	readFile,
+}
+
+export const getPaths = globby
+export const packageDir = fileURLToPath( new URL( '..', import.meta.url ) )
 export const joinPath = join
 export const resolvePath = resolve
+export const isAbsolutePath = isAbsolute
+export const getBasename = basename
 export const getFilename = ( path: string ) => {
 
 	const { name } = parse( path )
@@ -111,7 +127,7 @@ export const removePathIfExist = async ( path: string ) => {
 		const stats = await stat( path )
 		
 		if ( stats.isDirectory() ) {
-
+			
 			// If it's a directory, delete it recursively
 			await rm( path, {
 				recursive : true, 
@@ -180,3 +196,32 @@ export const readConfigFile = async ( filePath: string ): Promise<object> => {
 	
 }
 
+export const copyDir = async ( {
+	from, to,
+}:{from: string, to: string} ) =>{
+
+	const includes: string[] = []
+
+	if( await existsPath( to ) ) 
+		throw new Error( `Directory [${to}] already exists` )
+
+	const paths = await getPaths( [ from ] )
+		
+	for ( const path of paths ) {
+
+		const fromPath = resolve( path )
+		const toPath   = join( to, basename( path ) )
+
+		await mkdir( dirname( toPath ), { recursive: true } )
+
+		if ( !( await existsPath( fromPath ) ) ) 
+			throw new Error( `Source file ${fromPath} does not exist` )
+		
+		await copyFile( fromPath, toPath )
+		includes.push( toPath )
+
+	}
+	
+	return includes
+
+}

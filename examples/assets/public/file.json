@@ -1,0 +1,8 @@
+{
+	"onlyOS": true,
+	"options": {
+		"esbuild": {
+			"tsconfig": "./tsconfig.builder.json"
+		}
+	}
+}

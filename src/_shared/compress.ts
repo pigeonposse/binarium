@@ -11,7 +11,7 @@ import { cpus } from 'node:os'
 import { join } from 'node:path'
 
 // Function that handles the zipping of a single file
-const zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory: string ) => {
+const zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory: string, onDone: ( n: string ) => void, onError: ( n: string, err: Error ) => void ) => {
 
 	return new Promise<void>( ( resolve, reject ) => {
 
@@ -20,14 +20,14 @@ const zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory
 
 		output.on( 'close', () => {
 
-			console.log( `Zip file [${zipName}] created successfully!` )
+			onDone( zipName )
 			resolve()
 		
 		} )
 
 		archive.on( 'error', err => {
 
-			console.error( `💥 Error creating ${zipName}:`, err )
+			onError( zipName, err )
 			reject( err )
 		
 		} )
@@ -41,25 +41,26 @@ const zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory
 }
 
 // Function to execute zipping in worker threads
-const createZipForFileInThread = async ( sourceDirectory: string, file: string, outputDirectory: string ) => {
+const createZipForFileInThread = async ( sourceDirectory: string, file: string, outputDirectory: string, onDone: ( n: string ) => void, onError: ( n: string, err: Error ) => void ) => {
 
 	const sourceFilePath = join( sourceDirectory, file )
 	const zipName        = `${file}.zip`
-	return zipFileWorker( sourceFilePath, zipName, outputDirectory )
+	return zipFileWorker( sourceFilePath, zipName, outputDirectory, onDone, onError )
 
 }
 
-export const zipFilesInDirectory = async ( sourceDirectory: string, outputDirectory: string ) => {
+export const zipFilesInDirectory = async ( 
+	sourceDirectory: string, 
+	outputDirectory: string, 
+	onDone: ( n: string ) => void = () => {}, 
+	onError: ( n: string, err: Error ) => void = () => {}, 
+) => {
 
 	// Function to filter out invisible files
 	const filter = ( file: string ) => !( /(^|\/)\.[^\\/\\.]/g ).test( file )
 
 	// Ensure that the output directory exists or create it if it doesn't
-	if ( !existsSync( outputDirectory ) ) {
-
-		await mkdir( outputDirectory, { recursive: true } )
-	
-	}
+	if ( !existsSync( outputDirectory ) ) await mkdir( outputDirectory, { recursive: true } )
 
 	const files = await readdir( sourceDirectory )
 
@@ -80,7 +81,7 @@ export const zipFilesInDirectory = async ( sourceDirectory: string, outputDirect
 	// Process each chunk in parallel using workers
 	await Promise.all( fileChunks.map( async chunk => {
 
-		await Promise.all( chunk.map( file => createZipForFileInThread( sourceDirectory, file, outputDirectory ) ) )
+		await Promise.all( chunk.map( file => createZipForFileInThread( sourceDirectory, file, outputDirectory, onDone, onError ) ) )
 	
 	} ) )
 
