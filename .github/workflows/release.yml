@@ -101,10 +101,8 @@ jobs:
           echo Set changesets outputs
           echo '${{ steps.changesets.outputs }}'
           echo Set updated versions
-          echo "CORE=$core_version CORE_MAJOR=$core_version_major"
           echo "core_version=$core_version" >> $GITHUB_OUTPUT
-
-
+          echo "core_major_version=$core_version_major" >> $GITHUB_OUTPUT
 
       - name: Release binary 
         if: ${{ steps.updated.outputs.core_version != '' }}
@@ -114,8 +112,13 @@ jobs:
           draft: false
           prerelease: false
           allowUpdates: true
-          artifacts: "build/zip/*"
           omitBodyDuringUpdate: true
 
-
+      - name: Tag Repo
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: v${{ steps.updated.outputs.core_major_version}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+		  
 ###############################################################################

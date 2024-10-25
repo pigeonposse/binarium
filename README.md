@@ -321,7 +321,6 @@ jobs:
 
 ```yaml
 # .dev/binarium.config.yml
-# @see https://github.com/pigeonposse/binarium?tab=readme-ov-file#config-file
 name: my-app
 onlyOs: true
 input: src/app.ts
@@ -366,7 +365,6 @@ jobs:
 
 ```yaml
 # ./binarium.config.yml
-# @see https://github.com/pigeonposse/binarium?tab=readme-ov-file#config-file
 name: my-app
 input: src/app.ts
 

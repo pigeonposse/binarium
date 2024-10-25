@@ -1,5 +1,11 @@
 # binarium
 
+## 1.0.0
+
+### Major Changes
+
+- Version 1. Read documentation for see breaking changes
+
 ## 0.2.1
 
 ### Patch Changes
