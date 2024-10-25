@@ -25,15 +25,15 @@ The construction of the binary allows compilation on `arm` and `x64` architectur
 - [🌟 Features](#-features)
 - [🔑 Installation](#-installation)
 - [📈 usage](#-usage)
-  - [JS example](#js-example)
-  - [Node example](#node-example)
-  - [Deno example](#deno-example)
-  - [Bun example](#bun-example)
-  - [CLI example](#cli-example)
+  - [📦 JS](#-js)
+  - [🟢 Node](#-node)
+  - [🦕 Deno](#-deno)
+  - [🍞 Bun](#-bun)
+  - [💻 CLI](#-cli)
   - [Options](#options)
   - [Config File](#config-file)
     - [Example](#example)
-  - [✅ Github Action](#-github-action)
+  - [🤖 Github Action](#-github-action)
     - [Inputs](#inputs)
     - [Examples](#examples)
       - [Build only linux executables](#build-only-linux-executables)
@@ -72,7 +72,7 @@ yarn add binarium
 
 ## 📈 usage
 
-### JS example
+### 📦 JS
 
 Quickly compile your JS project into executables for all platforms and architectures
 
@@ -87,7 +87,7 @@ await build( {
 } )
 ```
 
-### Node example
+### 🟢 Node
 
 Quickly compile your `Node` project into executables for all platforms and architectures
 
@@ -113,7 +113,7 @@ await build( {
 } )
 ```
 
-### Deno example
+### 🦕 Deno
 
 Build Deno executables (`deno compile` wrapper)
 
@@ -126,7 +126,7 @@ await buildDeno( {
 } )
 ```
 
-### Bun example
+### 🍞 Bun
 
 Build Bun executables (`bun build --compile` wrapper)
 
@@ -139,7 +139,7 @@ await buildBun( {
 } )
 ```
 
-### CLI example
+### 💻 CLI
 
 ```bash
 binarium --input src/server.js --name app-name
@@ -234,7 +234,7 @@ export default defineConfig( {
 
 ```
 
-### ✅ Github Action
+### 🤖 Github Action
 
 #### Inputs
 
