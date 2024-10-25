@@ -121,5 +121,6 @@ jobs:
           tag_name: v${{ steps.updated.outputs.core_major_version}}
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-		  
+
+
 ###############################################################################
