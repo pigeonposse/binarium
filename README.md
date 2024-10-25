@@ -1,4 +1,4 @@
-# Binarium - Create executables of your projects with zero config
+# Binarium
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
 [![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com?popup=about)
@@ -13,7 +13,7 @@
 
 Easy-to-use, zero-configuration tool to create executables of your `Node`, `Deno` or `Bun` projects for all platforms and architectures.
 
-The construction of the binary allows compilation on `arm` and `x64` architecture.
+The construction of the binary allows compilation on `arm64` and `x64` architecture.
 
 > If you compile on an `x64` system it will not create the binaries for `arm`, but if you compile on `arm` it will create the binaries for both architectures.
 
@@ -24,14 +24,14 @@ The construction of the binary allows compilation on `arm` and `x64` architectur
 
 - [🌟 Features](#-features)
 - [🔑 Installation](#-installation)
-- [Options](#options)
+- [⚙️ Options](#-options)
 - [📈 usage](#-usage)
   - [📦 JS](#-js)
   - [🟢 Node](#-node)
   - [🦕 Deno](#-deno)
   - [🍞 Bun](#-bun)
   - [💻 CLI](#-cli)
-  - [With config File](#with-config-file)
+  - [🛠️ With config file (advanced configuration)](#-with-config-file-advanced-configuration)
     - [Example](#example)
   - [🤖 Github Action](#-github-action)
     - [Inputs](#inputs)
@@ -63,14 +63,19 @@ The construction of the binary allows compilation on `arm` and `x64` architectur
 ## 🔑 Installation
 
 ```bash
+# npm
 npm install binarium
-# or pnpm
+# pnpm
 pnpm add binarium
-# or yarn
+# yarn
 yarn add binarium
+# bun
+bun add binarium
+# deno
+deno install binarium
 ```
 
-## Options
+## ⚙️ Options
 
 All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` or space and its value.
 
@@ -193,6 +198,8 @@ await buildBun( {
 
 ### 💻 CLI
 
+Use it from Cli.
+
 ```bash
 binarium --input src/server.js --name app-name
 ```
@@ -209,7 +216,7 @@ binarium deno --input src/deno-server.js --name deno-app-name
 binarium bun --input src/bun-server.js --name bun-app-name
 ```
 
-### With config File
+### 🛠️ With config file (advanced configuration)
 
 For more advanced configuration you can use a configuration file.
 Supported formats are: `.mjs, .js, .json, .yml, .yaml, .toml, .tml`.
