@@ -16,6 +16,7 @@ Commands:
   If no command is specified, [${name}] will automatically detect the runtime (Node.js, 
   Deno, or Bun) based on the input file or the current environment and build the 
   corresponding executable.
+  It is recommended to specify the runtime to avoid unexpected errors.
 
 Options:
 
@@ -39,11 +40,13 @@ Global options:
 
 Examples: 
 
-  ${name} --input src/main
-  ${name} --input src/main.js --outDir out
-  ${name} --input src/main.ts --config my-config.js
-  ${name} deno -i src/main.js -o out
-  ${name} node -i src/main.ts --name my-app
+  Simple build:     ${name} --input src/main
+  Custom output:    ${name} --input src/main.js --outDir out
+  With Config file: ${name} --i src/main.ts --config my-config.js
+
+  Build for node:   ${name} node -i src/main
+  Build for deno:   ${name} deno -i src/main.js -o out
+  Build for bun:    ${name} bun -i src/main.ts -n my-app
 ` )
 	exit( 0 )
 

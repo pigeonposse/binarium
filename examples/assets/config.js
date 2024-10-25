@@ -13,5 +13,4 @@ export default defineConfig( {
 		from : 'package.json',
 		to   : 'public/package.json', 
 	} ],
-	denoOptions : { flags: [ '--allow-all', '--no-npm' ] },
 } )

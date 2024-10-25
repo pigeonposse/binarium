@@ -1,4 +1,4 @@
-# Binarium - Build node binaries with zero config
+# Binarium - Create executables of your projects with zero config
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
 [![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com?popup=about)
@@ -11,21 +11,33 @@
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/binarium)
 
-Zero-configuration node library and CLI for building executables for all platforms and architectures.
+Easy-to-use, zero-configuration tool to create executables of your `Node`, `Deno` or `Bun` projects for all platforms and architectures.
+
+The construction of the binary allows compilation on `arm` and `x64` architecture.
+
+> If you compile on an `x64` system it will not create the binaries for `arm`, but if you compile on `arm` it will create the binaries for both architectures.
 
 ## Index
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [📖 Description](#-description)
+- [🌟 Features](#-features)
 - [🔑 Installation](#-installation)
 - [📈 usage](#-usage)
+  - [JS example](#js-example)
   - [Node example](#node-example)
+  - [Deno example](#deno-example)
+  - [Bun example](#bun-example)
   - [CLI example](#cli-example)
   - [Options](#options)
   - [Config File](#config-file)
     - [Example](#example)
+  - [✅ Github Action](#-github-action)
+    - [Inputs](#inputs)
+    - [Examples](#examples)
+      - [Build only linux executables](#build-only-linux-executables)
+      - [Build for all OS and Archs and upload to releases](#build-for-all-os-and-archs-and-upload-to-releases)
 - [👨‍💻 Development](#-development)
 - [☕ Donate](#-donate)
 - [📜 License](#-license)
@@ -34,17 +46,19 @@ Zero-configuration node library and CLI for building executables for all platfor
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## 📖 Description
+## 🌟 Features
 
-Package your Node.js project into an executable that can be run even on devices without Node.js installed.
-
-The construction of the binary allows compilation on `arm` and `x64` architecture.
-
-> If you compile on an `x64` system it will not create the binaries for `arm`, but if you compile on `arm` it will create the binaries for both architectures.
-
-This library works thanks to [ncc](https://github.com/vercel/ncc), [pkg](https://github.com/yao-pkg/pkg) and [esbuild](https://esbuild.github.io), which facilitate this process.
-
-Using  *binarium* is simple and will work in most cases, but that may not be the case. If so, we recommend using other alternatives such as [pkg](https://github.com/yao-pkg/pkg).
+- ⚡ **Fast**: Optimized for quick execution and minimal overhead.
+- 🚀 **Easy to Use**: Simple setup with minimal configuration required.
+- 🛠️ **Advanced Configuration**: Customize to fit your project's exact needs.
+- 🌍 **Available for**:
+  - 🟢 **Node.js**
+  - 🦕 **Deno**
+  - 🍞 **Bun**
+- 🌐 **Supports Multiple Environments**:
+  - 📦 **JavaScript Library**: Integrates seamlessly into any project.
+  - 💻 **Command Line Interface (CLI)**: Works across Node.js, Deno, and Bun environments.
+  - 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
 
 ## 🔑 Installation
 
@@ -58,13 +72,69 @@ yarn add binarium
 
 ## 📈 usage
 
-### Node example
+### JS example
+
+Quickly compile your JS project into executables for all platforms and architectures
+
+> Automatically detects the JS runtime you are working in. Only accepts `node`, `deno`, `bun`
 
 ```js
 import { build } from 'binarium'
 
 await build( {
- input  : 'src/cli.js', // JS or TS file
+ input  : 'src/cli.js', // JS or TS file. You can add it without the extension
+ name   : 'app-name', // default is input filename
+} )
+```
+
+### Node example
+
+Quickly compile your `Node` project into executables for all platforms and architectures
+
+```js
+import { buildNode } from 'binarium'
+
+await buildNode( {
+ input  : 'src/cli', // JS or TS file. You can add it without the extension
+ name   : 'app-name', // default is input filename
+} )
+```
+
+> This function works thanks to [ncc](https://github.com/vercel/ncc), [pkg](https://github.com/yao-pkg/pkg) and [esbuild](https://esbuild.github.io), which facilitate this process.
+
+Alternatively, if you are working in a node environment, you can do:
+
+```js
+import { build } from 'binarium'
+
+await build( {
+ input  : 'src/cli', // JS or TS file. You can add it without the extension
+ name   : 'app-name', // default is input filename
+} )
+```
+
+### Deno example
+
+Build Deno executables (`deno compile` wrapper)
+
+```js
+import { buildDeno } from 'binarium'
+
+await buildDeno( {
+ input  : 'src/cli', // JS or TS file. You can add it without the extension
+ name   : 'app-name', // default is input filename
+} )
+```
+
+### Bun example
+
+Build Bun executables (`bun build --compile` wrapper)
+
+```js
+import { buildBun } from 'binarium'
+
+await buildBun( {
+ input  : 'src/cli', // JS or TS file. You can add it without the extension
  name   : 'app-name', // default is input filename
 } )
 ```
@@ -72,12 +142,30 @@ await build( {
 ### CLI example
 
 ```bash
-binarium --input=src/server.js --name=app-name
+binarium --input src/server.js --name app-name
+```
+
+```bash
+binarium node --input src/node-server.js --name node-app-name
+```
+
+```bash
+binarium deno --input src/deno-server.js --name deno-app-name
+```
+
+```bash
+binarium bun --input src/bun-server.js --name bun-app-name
 ```
 
 ### Options
 
-All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` and its value.
+All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` or space and its value.
+
+For more info execute:
+
+```bash
+binarium --help
+```
 
 ```ts
 type BuilderParams = {
@@ -105,11 +193,11 @@ type BuilderParams = {
   */
  onlyOs?: boolean
  /**
-  * The build type Result [all|cjs|bin].
+  * The build type Result [all|bundle|bin|compress].
   *
   * @default 'all'
   */
- type?: 'all'|'cjs'|'bin'
+ type?: 'all'|'bundle'|'bin'|'compress'
   /**
   * Config file path.
   * 
@@ -124,9 +212,9 @@ type BuilderParams = {
 For more advanced configuration you can use a configuration file.
 Supported formats are: `.mjs, .js, .json, .yml, .yaml, .toml, .tml`.
 
-In the configuration file you can define your build options and configure advanced options of the build itself using the `options` key.
+In the configuration file you can define your build options and configure advanced options of the build itself using the `nodeOptions` key.
 
-> The `options` configuration is only recommended for cases that require a more advanced configuration.
+> The `nodeOptions` configuration is only recommended for cases that require a more advanced configuration.
 
 #### Example
 
@@ -141,8 +229,101 @@ import { defineConfig } from 'binarium'
 export default defineConfig( {
  name    : 'my-app-name',
  onlyOs  : true,
- options : { esbuild: { tsconfig: './tsconfig.builder.json' } },
+ nodeOptions : { esbuild: { tsconfig: './tsconfig.builder.json' } },
 } )
+
+```
+
+### ✅ Github Action
+
+#### Inputs
+
+La acción acepta los siguientes inputs:
+
+- **build** (opcional): Especifica el entorno de ejecución. Los valores aceptables son: `node`, `deno`, `bun`. El valor predeterminado es `node`.
+  
+- **config** (opcional): Ruta al archivo de configuración. El valor predeterminado es `./binarium.config.json`.
+Asegúrate de que el archivo de configuración especificado existe y está correctamente configurado.
+
+#### Examples
+
+Aquí hay un ejemplo de cómo configurarlo:
+
+##### Build only linux executables
+
+```yaml
+name: Build Executable for linux
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Run BINARIUM Action
+        uses: pigeonposse/binarium@v1
+        with:
+          build: 'node'
+          config: '.dev/binarium.config.yml'  
+```
+
+```yaml
+# .dev/binarium.config.yml
+# @see https://github.com/pigeonposse/binarium?tab=readme-ov-file#config-file
+name: my-app
+onlyOs: true
+input: src/app.ts
+assets:
+  - from: src/assets/**
+    to: public
+
+```
+
+##### Build for all OS and Archs and upload to releases
+
+```yaml
+name: Build Executables and upload
+
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-14 # Because it's an arm64. SEE: https://github.com/actions/runner-images?tab=readme-ov-file#available-images
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Run BINARIUM Action
+        uses: pigeonposse/binarium@v1
+        with:
+          build: 'node'
+          config: './binarium.config.yml' # Where is our config file
+      - name: Release binaries
+        uses: ncipollo/release-action@v1
+        with: 
+          tag: "Releases"
+          draft: false
+          prerelease: false
+          allowUpdates: true
+          artifacts: "build/compress/*" # Default build folder
+          omitBodyDuringUpdate: true
+```
+
+```yaml
+# ./binarium.config.yml
+# @see https://github.com/pigeonposse/binarium?tab=readme-ov-file#config-file
+name: my-app
+input: src/app.ts
 
 ```
 

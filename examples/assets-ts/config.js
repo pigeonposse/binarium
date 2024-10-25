@@ -10,6 +10,4 @@ export default defineConfig( {
 		from : 'examples/assets-ts/public/**',
 		to   : 'public', 
 	} ],
-	// only if you want to use deno
-	denoOptions : { flags: [ '--allow-all', '--no-npm' ] },
 } )
