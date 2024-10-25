@@ -24,20 +24,20 @@ The construction of the binary allows compilation on `arm` and `x64` architectur
 
 - [🌟 Features](#-features)
 - [🔑 Installation](#-installation)
+- [Options](#options)
 - [📈 usage](#-usage)
   - [📦 JS](#-js)
   - [🟢 Node](#-node)
   - [🦕 Deno](#-deno)
   - [🍞 Bun](#-bun)
   - [💻 CLI](#-cli)
-  - [Options](#options)
-  - [Config File](#config-file)
+  - [With config File](#with-config-file)
     - [Example](#example)
   - [🤖 Github Action](#-github-action)
     - [Inputs](#inputs)
     - [Examples](#examples)
       - [Build only linux executables](#build-only-linux-executables)
-      - [Build for all OS and Archs and upload to releases](#build-for-all-os-and-archs-and-upload-to-releases)
+      - [Build for all platforms and archs and upload to releases](#build-for-all-platforms-and-archs-and-upload-to-releases)
 - [👨‍💻 Development](#-development)
 - [☕ Donate](#-donate)
 - [📜 License](#-license)
@@ -70,7 +70,59 @@ pnpm add binarium
 yarn add binarium
 ```
 
+## Options
+
+All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` or space and its value.
+
+For more info execute:
+
+```bash
+binarium --help
+```
+
+```ts
+type BuilderParams = {
+ /**
+  * The app server input file.
+  *
+  * The input can be provided without an extension. 
+  * If the extension is omitted, the system will automatically look for the following extensions: `.ts`, `.js`, `.mjs`, `.mts`.
+  */
+ input: string, 
+ /**
+  * Binary name.
+  */
+ name?: string,
+ /**
+  * Directory for the output build.
+  *
+  * @default './build'
+  */
+ outDir?: string, 
+ /**
+  * Build only binary for your current OS.
+  *
+  * @default false
+  */
+ onlyOs?: boolean
+ /**
+  * The build type Result [all|bundle|bin|compress].
+  *
+  * @default 'all'
+  */
+ type?: 'all'|'bundle'|'bin'|'compress'
+  /**
+  * Config file path.
+  * 
+  * @default undefined
+  */
+ config?: string
+}
+```
+
 ## 📈 usage
+
+Below is a sample of the many ways to run `binarium`.
 
 ### 📦 JS
 
@@ -157,57 +209,7 @@ binarium deno --input src/deno-server.js --name deno-app-name
 binarium bun --input src/bun-server.js --name bun-app-name
 ```
 
-### Options
-
-All of these options are available with the `binarium` command by adding the suffix `--` and followed by an `=` or space and its value.
-
-For more info execute:
-
-```bash
-binarium --help
-```
-
-```ts
-type BuilderParams = {
- /**
-  * The app server input file.
-  *
-  * The input can be provided without an extension. 
-  * If the extension is omitted, the system will automatically look for the following extensions: `.ts`, `.js`, `.mjs`, `.mts`.
-  */
- input: string, 
- /**
-  * Binary name.
-  */
- name?: string,
- /**
-  * Directory for the output build.
-  *
-  * @default './build'
-  */
- outDir?: string, 
- /**
-  * Build only binary for your current OS.
-  *
-  * @default false
-  */
- onlyOs?: boolean
- /**
-  * The build type Result [all|bundle|bin|compress].
-  *
-  * @default 'all'
-  */
- type?: 'all'|'bundle'|'bin'|'compress'
-  /**
-  * Config file path.
-  * 
-  * @default undefined
-  */
- config?: string
-}
-```
-
-### Config File
+### With config File
 
 For more advanced configuration you can use a configuration file.
 Supported formats are: `.mjs, .js, .json, .yml, .yaml, .toml, .tml`.
@@ -238,16 +240,16 @@ export default defineConfig( {
 
 #### Inputs
 
-La acción acepta los siguientes inputs:
+The action accepts the following inputs:
 
-- **build** (opcional): Especifica el entorno de ejecución. Los valores aceptables son: `node`, `deno`, `bun`. El valor predeterminado es `node`.
-  
-- **config** (opcional): Ruta al archivo de configuración. El valor predeterminado es `./binarium.config.json`.
-Asegúrate de que el archivo de configuración especificado existe y está correctamente configurado.
+- **build** (optional): Specifies the execution environment. Acceptable values are: `node`, `deno`, `bun`. The default is `node`.
+
+- **config** (optional): Path to the configuration file. The default is `./binarium.config.json`.
+Make sure that the specified configuration file exists and is correctly configured.
 
 #### Examples
 
-Aquí hay un ejemplo de cómo configurarlo:
+Here is an example of how to set it up:
 
 ##### Build only linux executables
 
@@ -286,7 +288,7 @@ assets:
 
 ```
 
-##### Build for all OS and Archs and upload to releases
+##### Build for all platforms and archs and upload to releases
 
 ```yaml
 name: Build Executables and upload
