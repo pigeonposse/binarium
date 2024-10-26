@@ -28,12 +28,12 @@ export const buildBins = async ( params: BuilderContructorParams ) => {
 			[ consts.ARCH.X64 ] : {
 				[ consts.PLATFORM.LINUX ] : 'x86_64-unknown-linux-gnu', 
 				[ consts.PLATFORM.WIN ]   : 'x86_64-pc-windows-msvc',
-				[ consts.PLATFORM.MACOS ] : 'aarch64-apple-darwin',
+				[ consts.PLATFORM.MACOS ] : 'x86_64-apple-darwin',
 			},
 			[ consts.ARCH.ARM64 ] : {
 				[ consts.PLATFORM.LINUX ] : 'aarch64-unknown-linux-gnu', 
 				[ consts.PLATFORM.WIN ]   : undefined,
-				[ consts.PLATFORM.MACOS ] : 'x86_64-apple-darwin',
+				[ consts.PLATFORM.MACOS ] : 'aarch64-apple-darwin',
 			},
 		}
 

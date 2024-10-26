@@ -1,5 +1,11 @@
 # binarium
 
+## 1.0.1
+
+### Patch Changes
+
+- fix denotargets
+
 ## 1.0.0
 
 ### Major Changes
