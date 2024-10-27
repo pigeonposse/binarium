@@ -3,8 +3,6 @@ import {
 	BINARIUM_CONSTS, 
 } from 'binarium'
 
-import { showBinPaths } from '../utils'
-
 BINARIUM_CONSTS.name = 'binarium-lib-test'
 
 await build( {
@@ -13,5 +11,3 @@ await build( {
 	onlyOs : true,
 	type   : 'bin',
 } )
-
-await showBinPaths()

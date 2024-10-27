@@ -6,7 +6,6 @@ import {
 import { name } from './config'
 import {
 	getCurrFileDir,
-	showBinPaths,
 	join, 
 } from '../utils'
 
@@ -16,5 +15,3 @@ await build( {
 	name   : BINARIUM_CONSTS.name,
 	config : join( getCurrFileDir( import.meta.url ), 'config.js' ),
 } )
-
-await showBinPaths()
