@@ -1,8 +1,8 @@
 
-import { execAndCapture }    from '../../_shared/process'
-import { joinPath }          from '../../_shared/sys'
-import { mergeCustom }       from '../../_shared/vars'
-import { assetsConstructor } from '../_shared/assets'
+import { joinPath }            from '../../_shared/sys'
+import { mergeCustom }         from '../../_shared/vars'
+import { buildBinWrappingCmd } from '../_shared/build'
+// import { assetsConstructor } from '../_shared/assets'
 
 import type { BuilderContructorParams } from '../../types'
 
@@ -68,12 +68,12 @@ export const buildBins = async ( params: BuilderContructorParams ) => {
 	const run = async () => {
 
 		const targets = getTargets()
-		const assets  = await assetsConstructor( params )
+		// const assets  = await assetsConstructor( params )
 
 		log.debug( {
 			deno : {
 				targets, 
-				includes : assets.includes,
+				// includes : assets.includes,
 			}, 
 		} )
 		
@@ -86,8 +86,8 @@ export const buildBins = async ( params: BuilderContructorParams ) => {
 			
 			const defaultConf = [ `-o ${joinPath( data.binDir, targetName )}`, `--target ${target}` ]
 			
-			if( assets.includes ) 
-				defaultConf.push( assets.includes.map( path => `--include ${path}` ).join( ' ' ) )
+			// if( assets.includes ) 
+			// 	defaultConf.push( assets.includes.map( path => `--include ${path}` ).join( ' ' ) )
 
 			const merge  = mergeCustom<string[]>( {} )
 			const config = merge( defaultConf, data.denoOptions?.flags || [] )
@@ -95,19 +95,13 @@ export const buildBins = async ( params: BuilderContructorParams ) => {
 			config.push( data.input )
 			const cmd = `deno compile ${config.join( ' ' )}`
 
-			log.debug( { denoCmd: cmd } )
+			log.debug( { cmd: cmd } )
 
-			const spinmer = log.spinner( `Building ${targetName}...` )
-			await execAndCapture( {
-				cmd,
-				onstdout : v => spinmer.text = v,
-				onstderr : v => spinmer.text = v,
-			} )
-			spinmer.info( `${targetName} built.` )
+			await buildBinWrappingCmd( params, cmd, targetName )
 		
 		}
 
-		await assets.rm()
+		// await assets.rm()
 	
 	}
 

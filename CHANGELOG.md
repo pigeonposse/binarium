@@ -1,5 +1,11 @@
 # binarium
 
+## 1.1.0
+
+### Minor Changes
+
+- fix issues in deno and bun process. Improve user cancelation in process. Update from 1.0.1 is Recomemded!
+
 ## 1.0.1
 
 ### Patch Changes

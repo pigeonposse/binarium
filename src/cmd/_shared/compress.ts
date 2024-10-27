@@ -1,6 +1,10 @@
 
 import { zipFilesInDirectory } from '../../_shared/compress'
 import { catchError }          from '../../_shared/error'
+import {
+	cancel,
+	onCancel, 
+}    from '../../_shared/process'
 
 import type { BuilderContructorParams } from '../../types'
 
@@ -14,15 +18,43 @@ const compressConstructor = async ( {
 	}
 	
 	log.debug( { compressOpts } )
+	
+	const run = async () => {
 
-	const spinner = log.spinner( 'Compressing binaries...' )
+		const spinner       = log.spinner( 'Compressing binaries...' )
+		let cancelRequested = false
 
-	return await catchError( zipFilesInDirectory( 
-		compressOpts.input, 
-		compressOpts.output, 
-		n => spinner.info( n ), 
-		n => spinner.fail( n ) ), 
-	)
+		onCancel( () => {
+	
+			cancelRequested = true 
+			spinner.fail( `Compresss ${compressOpts.input}: Cancelled!` )
+			cancel()
+	
+		} )
+
+		spinner.start()
+	
+		await zipFilesInDirectory( 
+			compressOpts.input, 
+			compressOpts.output, 
+			v=> {
+
+				if ( cancelRequested ) cancel()
+				spinner.succeed( v )
+		
+			}, 
+			n => {
+
+				if ( cancelRequested ) cancel()
+				spinner.fail( n )
+			
+			},
+		)
+		if ( cancelRequested ) cancel()
+
+	}
+
+	return await catchError( run() )
 
 }
 
@@ -34,7 +66,7 @@ export const compress = async ( params: BuilderContructorParams ) => {
 		consts,
 	} = params
 
-	const compressLog = log.group( 'Compressing binaries...\n' )
+	const compressLog = log.group( 'Compressing binaries...' )
 	compressLog.start()
 	const compressTime = log.performance()
 

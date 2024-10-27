@@ -53,7 +53,7 @@ export const logger = (
 
 		const title = `${icons[ logType ] || icon}${withName ? ` [${name}]` : ''}` 
 		if( typeof data === 'string' ) console[ logMethod ]( `${logType === 'debug' ? '\n' : ''}${title} ${data}` )
-		else {
+		else if( data !== undefined ){
 
 			console[ logMethod ]( title )
 			console.dir( transform( data ), {
@@ -66,21 +66,47 @@ export const logger = (
 	}
 
 	return {
-		debug : ( data: LogData, withName = true ) => isDebug && setLog( data, 'debug', withName ),
+		debug : ( data: LogData, withName = true ) => {
+
+			if( isDebug ) setLog( data, 'debug', withName ) 
+
+		}, 
 		group : ( data: LogData ) => ( {
 			start : () => {
 
 				setLog( data, 'debug', false )
-				console.group( )
+				// necessry empty string because if is empty bun print a undefined in the console
+				console.group( '' ) 
 			
 			},
-			end : () => console.groupEnd( ),
+			// @ts-ignore: necessry empty string because if is empty bun print a undefined in the console
+			end : () => console.groupEnd( '' ),
 		} ),
 		spinner : ( text: string ) => {
 
-			const s = ora( text )
-			s.start()
-			return s
+			if( isDebug ){
+
+				return {
+					start   : () => setLog( text, 'info', false ),
+					text    : ( v:string ) => setLog( v, 'info', false ),
+					info    : ( v:string ) => setLog( v, 'info', false ),
+					succeed : ( v:string ) => setLog( v, 'success', false ),
+					fail    : ( v:string ) => setLog( v, 'error', false ),
+				}
+			
+			}else {
+
+				const s = ora( text )
+		
+				return {
+					start   : () => s.start( ),
+					text    : ( v: string ) => s.text = v,
+					info    : ( v:string ) => s.info( v ),
+					succeed : ( v:string ) => s.succeed( v ),
+					fail    : ( v:string ) => s.fail( v ),
+				}
+			
+			}
 		
 		},
 		info    : ( data: LogData, withName = true ) => setLog( data, 'info', withName ),

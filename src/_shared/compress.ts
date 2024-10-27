@@ -1,14 +1,15 @@
-import archiver from 'archiver'
-import {
-	createWriteStream, 
-	existsSync, 
-} from 'node:fs'
+import archiver              from 'archiver'
+import { createWriteStream } from 'node:fs'
 import {
 	mkdir,
 	readdir,
 } from 'node:fs/promises'
 import { cpus } from 'node:os'
-import { join } from 'node:path'
+
+import {
+	existsPath,
+	joinPath as join, 
+} from './sys'
 
 // Function that handles the zipping of a single file
 const zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory: string, onDone: ( n: string ) => void, onError: ( n: string, err: Error ) => void ) => {
@@ -60,7 +61,7 @@ export const zipFilesInDirectory = async (
 	const filter = ( file: string ) => !( /(^|\/)\.[^\\/\\.]/g ).test( file )
 
 	// Ensure that the output directory exists or create it if it doesn't
-	if ( !existsSync( outputDirectory ) ) await mkdir( outputDirectory, { recursive: true } )
+	if ( !( await existsPath( outputDirectory ) ) ) await mkdir( outputDirectory, { recursive: true } )
 
 	const files = await readdir( sourceDirectory )
 

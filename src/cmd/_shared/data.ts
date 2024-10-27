@@ -147,16 +147,19 @@ export const getData = async ( {
 	
 	const existsRT = await existsJSRuntimes()
 	
-	const systemRuntime  = {
+	const systemRuntime = {
 		node : existsRT.includes( 'node' ),
 		deno : existsRT.includes( 'deno' ),
 		bun  : existsRT.includes( 'bun' ),
 	}
+
 	const processRuntime = {
-		node : isNode && ( !isDeno || !isBun ),
+		node : ( isDeno || isBun ) ? false : isNode,
 		deno : isDeno,
 		bun  : isBun,
 	}
+	
+	if( processRuntime.bun ) log.debug( 'Bun must be equal or greater than 1.1.7 version. Because compression could not work. see: https://github.com/oven-sh/bun/issues/6992' )
 
 	if( flags.config ) config = flags.config
 	const configfile = await getConfigfile( config )

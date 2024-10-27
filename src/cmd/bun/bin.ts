@@ -1,7 +1,7 @@
 
-import { execAndCapture } from '../../_shared/process'
-import { joinPath }       from '../../_shared/sys'
-import { mergeCustom }    from '../../_shared/vars'
+import { joinPath }            from '../../_shared/sys'
+import { mergeCustom }         from '../../_shared/vars'
+import { buildBinWrappingCmd } from '../_shared/build'
 
 import type { BuilderContructorParams } from '../../types'
 
@@ -90,15 +90,9 @@ export const buildBins = async ( params: BuilderContructorParams ) => {
 		
 			const cmd = `bun build ${data.input} --compile ${config.join( ' ' )}`
 
-			log.debug( { denoCmd: cmd } )
-			const spinmer = log.spinner( `Building ${targetName}...` )
+			log.debug( { cmd: cmd } )
 
-			await execAndCapture( {
-				cmd,
-				onstdout : v => spinmer.text = v,
-				onstderr : v => spinmer.text = v,
-			} )
-			spinmer.info( `${targetName} done!` )
+			await buildBinWrappingCmd( params, cmd, targetName )
 		
 		}
 

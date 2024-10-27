@@ -6,6 +6,7 @@
 
 import { catchError }      from './_shared/error'
 import {
+	cancel,
 	exit,
 	onExit,
 	setNoDeprecationAlerts,
@@ -74,7 +75,7 @@ const _buildContructor = async ( params: BuilderParams, type?: 'auto' | 'node' |
 	if( e ) {
 
 		console.groupEnd( )
-		if( 'name' in e && e.name === 'ExitPromptError' ) return exit( 130 )
+		if( 'name' in e && e.name === 'ExitPromptError' ) return cancel()
 			
 		const errorMessages: { [key: string]: string } = {
 			// @ts-ignore
@@ -89,7 +90,9 @@ const _buildContructor = async ( params: BuilderParams, type?: 'auto' | 'node' |
 			[ ERROR_ID.NO_INPUT ]        : 'Input is not valid. please add a valid input with --input <path>',
 			[ ERROR_ID.PLATFORM_UNKWON ] : 'Your platform cannot be detected correctly or is unknown',
 			[ ERROR_ID.ON_COMPRESSION ]  : 'Error on Compression',
-			[ ERROR_ID.RUNTIME_NODE ]    : `Runtime [Node.js] is not detected.
+			[ ERROR_ID.PROCESS_NODE ]    : `The process must be Node.js.
+To create node binaries you need to run [${log.name}] in [Node.js] environment`,
+			[ ERROR_ID.RUNTIME_NODE ] : `Runtime [Node.js] is not detected.
 
 You must have [Node.js] installed.
 More info: https://nodejs.org/`,

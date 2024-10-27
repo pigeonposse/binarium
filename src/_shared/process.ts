@@ -30,6 +30,14 @@ export const onExit = ( cb: NodeJS.ExitListener ) => {
 
 }
 
+export const cancel = () => exit( 130 )
+
+export const onCancel = ( cb: NodeJS.ExitListener ) => {
+	
+	appProcess.on( 'SIGINT', cb )
+
+}
+
 export const getFlagValue = ( key: string, isAlias = false ) =>{
 
 	const flagLine = isAlias || key.length === 1 ? '-' : '--'
@@ -134,12 +142,15 @@ export const execAndCapture = async ( {
 
 	return new Promise<void>( ( resolve, reject ) => {
 
+		let hasExited      = false
 		const childProcess = spawn( cmd, {
 			shell : true,
 			stdio : 'pipe', 
 		} )
+
 		childProcess.stdout.on( 'data', data => {
 
+			if( data instanceof Error ) reject( data )
 			const output = data.toString() 
 			if ( onstdout ) onstdout( output ) 
 		
@@ -147,24 +158,38 @@ export const execAndCapture = async ( {
 
 		childProcess.stderr.on( 'data', data => {
 
+			if( data instanceof Error ) reject( data )
 			const errorOutput = data.toString() 
+	
 			if ( onstderr ) onstderr( errorOutput )
 		
 		} )
 
 		childProcess.on( 'close', code => {
 
+			hasExited = true
 			if ( code === 0 ) {
 
 				resolve()
 			
+			}else if( code === 130 ) {
+
+				const error = new Error( 'Command aborted!' )
+				reject( error )
+			
 			} else {
 
 				const error = new Error( `Command failed with code ${code}` )
-				console.error( error )
 				reject( error )
 			
 			}
+		
+		} )
+		
+		childProcess.on( 'error', err => {
+
+			if ( !hasExited ) 
+				reject( new Error( `Process exited with error: ${err.message}` ) )
 		
 		} )
 	

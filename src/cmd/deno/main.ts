@@ -15,7 +15,7 @@ export const buildDenoConstructor = async ( params: BuilderContructorParams ) =>
 	log.info( 'Building Deno executables...', false )
 
 	// BIN
-	const binLog = log.group( 'Building binaries...\n' )
+	const binLog = log.group( 'Building binaries...' )
 	binLog.start()
 
 	const binTime = log.performance()

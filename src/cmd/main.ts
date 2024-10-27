@@ -1,4 +1,5 @@
 import { getData }              from './_shared/data'
+import { printResults }         from './_shared/res'
 import { buildBunConstructor }  from './bun/main'
 import { buildDenoConstructor } from './deno/main'
 import { buildNodeConstructor } from './node/main'
@@ -27,10 +28,15 @@ export class CMDS {
 
 		if( !data.systemRuntime.node ) 
 			throw new this.params.Error( this.params.consts.ERROR_ID.RUNTIME_NODE, data )
-		return await buildNodeConstructor( {
+		if( !data.processRuntime.node )
+			throw new this.params.Error( this.params.consts.ERROR_ID.PROCESS_NODE, data )
+
+		const opts = {
 			...this.params,
 			data : data,
-		} )
+		} 
+		await buildNodeConstructor( opts )
+		await printResults( opts )
 	
 	}
 
@@ -38,10 +44,13 @@ export class CMDS {
 
 		if( !data.systemRuntime.deno ) 
 			throw new this.params.Error( this.params.consts.ERROR_ID.RUNTIME_DENO, data )
-		return await buildDenoConstructor( {
+		
+		const opts = {
 			...this.params,
 			data : data,
-		} )
+		} 
+		await buildDenoConstructor( opts )
+		await printResults( opts )
 	
 	}
 
@@ -49,10 +58,13 @@ export class CMDS {
 
 		if( !data.systemRuntime.bun ) 
 			throw new this.params.Error( this.params.consts.ERROR_ID.RUNTIME_BUN, data )
-		return await buildBunConstructor( {
+
+		const opts = {
 			...this.params,
 			data : data,
-		} )
+		} 
+		await buildBunConstructor( opts )
+		await printResults( opts )
 	
 	}
 
