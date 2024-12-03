@@ -1,6 +1,5 @@
 /**
  * PKG BUILD.
- *
  * @see https://www.npmjs.com/package/@yao-pkg/pkg
  */
 
@@ -9,21 +8,21 @@ import {
 	deleteFile,
 	getDirname,
 	joinPath,
-	writeFile, 
+	writeFile,
 } from '../../_shared/sys'
 
 import type { Config }       from './types'
 import type { ConfigParams } from '../../types'
 
 type Opts = {
-	input: string, 
-	output: string, 
-	name: string,
-	targets: string[], 
-	assets?: ConfigParams['assets']
-	config?: Config['pkg']
-	debug: ( data: object | string ) => void
-	isDebug?: boolean
+	input    : string
+	output   : string
+	name     : string
+	targets  : string[]
+	assets?  : ConfigParams['assets']
+	config?  : Config['pkg']
+	debug    : ( data: object | string ) => void
+	isDebug? : boolean
 }
 
 export default async ( {
@@ -50,23 +49,21 @@ export default async ( {
 	const buildConfig = [
 		tempFile,
 		...( isDebug ? [ '--debug' ] : [] ),
-		...( config?.flags ? config.flags : [ ] ), 
+		...( config?.flags ? config.flags : [ ] ),
 	]
 
-	debug( {
-		pkg : {
-			conf : pkgConf,
-			cmd  : buildConfig,
-		},
-	} )
+	debug( { pkg : {
+		conf : pkgConf,
+		cmd  : buildConfig,
+	} } )
 
 	const run = async () => {
-	
+
 		const { exec } = await import( '@yao-pkg/pkg' )
 		await writeFile( tempFile, JSON.stringify( pkgConf, null, 2 ) )
 		await exec( buildConfig )
 		await deleteFile( tempFile )
-	
+
 	}
 
 	return await catchError( run() )

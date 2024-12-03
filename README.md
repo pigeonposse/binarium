@@ -92,10 +92,10 @@ type BuilderParams = {
  /**
   * The app server input file.
   *
-  * The input can be provided without an extension. 
+  * The input can be provided without an extension.
   * If the extension is omitted, the system will automatically look for the following extensions: `.ts`, `.js`, `.mjs`, `.mts`.
   */
- input: string, 
+ input: string,
  /**
   * Binary name.
   */
@@ -105,7 +105,7 @@ type BuilderParams = {
   *
   * @default './build'
   */
- outDir?: string, 
+ output?: string,
  /**
   * Build only binary for your current OS.
   *
@@ -120,7 +120,7 @@ type BuilderParams = {
  type?: 'all'|'bundle'|'bin'|'compress'
   /**
   * Config file path.
-  * 
+  *
   * @default undefined
   */
  config?: string
@@ -316,7 +316,7 @@ jobs:
         uses: pigeonposse/binarium@v1
         with:
           build: 'node'
-          config: '.dev/binarium.config.yml'  
+          config: '.dev/binarium.config.yml'
 ```
 
 ```yaml
@@ -354,7 +354,7 @@ jobs:
           config: './binarium.config.yml' # Where is our config file
       - name: Release binaries
         uses: ncipollo/release-action@v1
-        with: 
+        with:
           tag: "Releases"
           draft: false
           prerelease: false

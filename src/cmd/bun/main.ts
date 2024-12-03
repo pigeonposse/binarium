@@ -17,24 +17,24 @@ export const buildBunConstructor = async ( params: BuilderContructorParams ) => 
 	const binLog = log.group( 'Building binaries...' )
 	binLog.start()
 	const binTime = log.performance()
-	
-	const [ binError ] = await buildBins( params )
-	if( binError ) {
+
+	const [ binError, binTargets ] = await buildBins( params )
+	if ( binError ) {
 
 		binLog.end( )
 		throw new params.Error( consts.ERROR_ID.ON_BUN_COMPILE, {
-			...data, 
+			...data,
 			error : binError,
 		} )
-	
+
 	}
 
 	console.info( `\nTotal time: ${binTime.stop()} seconds.` )
 	binLog.end( )
 
 	if ( data.type === consts.BUILDER_TYPE.BIN ) return
-	
+	// console.debug( { binTargets } )
 	// COMPRESS
-	await compress( params )
+	await compress( params, binTargets )
 
 }

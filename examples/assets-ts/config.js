@@ -6,8 +6,10 @@ export default defineConfig( {
 	onlyOs : true,
 	name,
 	type   : 'bin',
-	assets : [ {
-		from : 'examples/assets-ts/public/**',
-		to   : 'public', 
-	} ],
+	assets : [
+		{
+			from : 'examples/assets-ts/public/**',
+			to   : 'public',
+		},
+	],
 } )

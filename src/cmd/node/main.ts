@@ -9,40 +9,42 @@ import { compress } from '../_shared/compress'
 import type { BuilderContructorParams } from '../../types'
 
 export const buildNodeConstructor = async ( params: BuilderContructorParams ) => {
-	
+
 	const {
-		log, 
-		data, 
+		log,
+		data,
 		consts,
 	} = params
 
 	const {
-		ERROR_ID, 
-		BUILDER_TYPE, 
+		ERROR_ID,
+		BUILDER_TYPE,
 		ARCH,
 	} = consts
 
 	const {
-		platform, 
-		arch,  
+		platform,
+		arch,
 	} = data
 
 	const nodeVersion = '20'
 	const nodeRange   = `node${nodeVersion}`
-	
+
 	log.info( 'Building node executables...', false )
 
 	// TARGETS
-	const getTargets = ( architecture: typeof data.arch ) => ( data.onlyOs ? [ `${nodeRange}-${platform}-${architecture}` ] : [
-		`${nodeRange}-alpine-${architecture}`,
-		`${nodeRange}-linux-${architecture}`,
-		`${nodeRange}-linuxstatic-${architecture}`,
-		`${nodeRange}-macos-${architecture}`,
-		`${nodeRange}-win-${architecture}`,
-	] )
-	
-	const targets = arch === ARCH.ARM64 
-		? [ ...getTargets( ARCH.ARM64 ), ...getTargets( ARCH.X64 ) ] 
+	const getTargets = ( architecture: typeof data.arch ) => ( data.onlyOs
+		? [ `${nodeRange}-${platform}-${architecture}` ]
+		: [
+			`${nodeRange}-alpine-${architecture}`,
+			`${nodeRange}-linux-${architecture}`,
+			`${nodeRange}-linuxstatic-${architecture}`,
+			`${nodeRange}-macos-${architecture}`,
+			`${nodeRange}-win-${architecture}`,
+		] )
+
+	const targets = arch === ARCH.ARM64
+		? [ ...getTargets( ARCH.ARM64 ), ...getTargets( ARCH.X64 ) ]
 		: getTargets( ARCH.X64 )
 
 	// ESBUILD
@@ -62,14 +64,14 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 		debug         : log.debug,
 	} )
 
-	if( cjsError ) {
+	if ( cjsError ) {
 
 		esbuildLog.end()
 		throw new params.Error( ERROR_ID.ON_ESBUILD, {
-			...data, 
+			...data,
 			error : cjsError,
 		} )
-	
+
 	}
 
 	console.info( `\nTotal time: ${esbuildTime.stop()} seconds.` )
@@ -79,7 +81,7 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 	const nccLog = log.group( 'Converting js file in a single file...\n' )
 	nccLog.start()
 	const nccTime = perf()
-	
+
 	const [ compileError, compileInput ] = await compile( {
 		input   : cjsInput,
 		output  : joinPath( data.jsDir, 'index.cjs' ),
@@ -90,27 +92,27 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 		debug   : log.debug,
 	} )
 
-	if( compileError ) {
+	if ( compileError ) {
 
 		nccLog.end()
 		throw new params.Error( ERROR_ID.ON_NCC, {
-			...data, 
+			...data,
 			error : compileError,
 		} )
-	
+
 	}
 
 	console.info( `\nTotal time: ${nccTime.stop()} seconds.` )
 	nccLog.end()
 
 	if ( data.type === BUILDER_TYPE.BUNDLE ) return
-	
+
 	// BINS
-	
+
 	const binLog = log.group( 'Creating binaries...\n' )
 	binLog.start()
 	const binTime = perf()
-	
+
 	const bin = await buildBins( {
 		targets : targets,
 		input   : compileInput,
@@ -124,14 +126,14 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 	} )
 
 	const [ binError ] = bin
-	if( binError ) {
+	if ( binError ) {
 
 		binLog.end( )
 		throw new params.Error( ERROR_ID.ON_PKG, {
-			...data, 
+			...data,
 			error : binError,
 		} )
-	
+
 	}
 
 	console.info( `\nTotal time: ${binTime.stop()} seconds.` )
@@ -140,6 +142,6 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 	if ( data.type === BUILDER_TYPE.BIN ) return
 
 	// COMPRESS
-	await compress( params )
+	await compress( params, targets )
 
 }

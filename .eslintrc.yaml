@@ -2,8 +2,8 @@
 # Eslint config.
 # #############################################################################
 #
-# @description ESLint is a tool for identifying and 
-#              reporting on patterns found in ECMAScript/JavaScript code, 
+# @description ESLint is a tool for identifying and
+#              reporting on patterns found in ECMAScript/JavaScript code,
 #              with the goal of making code more consistent and avoiding bugs.
 #
 # @see https://eslint.org/
@@ -64,7 +64,7 @@ rules:
     - always-multiline
   comma-spacing:
     - error
-    - after: true 
+    - after: true
   computed-property-spacing:
     - error
     - always
@@ -178,10 +178,9 @@ rules:
   canonical/import-specifier-newline: error
   canonical/export-specifier-newline: error
 
-
 # #############################################################################
 # IGNORE FILES.
-# 
+#
 # @description Specifies which files and directories should be ignored by ESLint,
 #              helping to exclude specific files from linting.
 # @see https://eslint.org/docs/user-guide/configuring/ignoring-code
@@ -214,7 +213,6 @@ ignorePatterns:
   - "docs/index.md"
   - '!.dev'
   - '!.utils'
-
 
 # #############################################################################
 # CONFIG FOR SPECIF FILES.
@@ -276,7 +274,7 @@ overrides:
         - always
         - tags:
             returns: always
-      jsdoc/check-indentation: 
+      jsdoc/check-indentation:
         - error
       jsdoc/check-line-alignment:
         - error
@@ -312,9 +310,9 @@ overrides:
             author:
               count: 1
               lines: always
-      jsdoc/require-example: 
+      jsdoc/require-example:
         - error
-    #   jsdoc/check-syntax: 
+    #   jsdoc/check-syntax:
     #     - error
 
     settings:
@@ -341,7 +339,7 @@ overrides:
         - error
         - prefer: type-imports
           disallowTypeAnnotations: false
-      '@typescript-eslint/no-unused-vars': 
+      '@typescript-eslint/no-unused-vars':
         - error
         - args: all
           argsIgnorePattern: "^_"
@@ -371,14 +369,14 @@ overrides:
   - files:
       - '**/*.md'
     parser: eslint-plugin-markdownlint/parser
-    extends: 
+    extends:
       - plugin:markdownlint/recommended
-    rules: 
-      # Line length | MD013/line-length 
-      markdownlint/md013: "off" 
+    rules:
+      # Line length | MD013/line-length
+      markdownlint/md013: "off"
       # Inline HTML |  MD033/no-inline-html
-      markdownlint/md033: "off" 
-      # Multiple headings with the same content | MD024/no-duplicate-heading/no-duplicate-header 
+      markdownlint/md033: "off"
+      # Multiple headings with the same content | MD024/no-duplicate-heading/no-duplicate-header
       markdownlint/md024: "off"
 
   # ###########################################################################
@@ -425,16 +423,16 @@ overrides:
   # @see https://www.npmjs.com/package/eslint-plugin-package-json
   # @see https://github.com/JoshuaKGoldberg/eslint-plugin-package-json/tree/main/docs/rules
   # ###########################################################################
-  - files: 
+  - files:
       - "package.json"
-    extends: 
+    extends:
       - "plugin:package-json/recommended"
     parser: "jsonc-eslint-parser"
-    plugins: 
+    plugins:
       - "package-json"
-    rules: 
+    rules:
       'package-json/valid-repository-directory': off
-      package-json/sort-collections: 
+      package-json/sort-collections:
          - error
          - ["devDependencies", "dependencies", "peerDependencies", "config"]
 

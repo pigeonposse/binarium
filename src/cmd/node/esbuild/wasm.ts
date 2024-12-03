@@ -3,7 +3,7 @@ import { wasmLoader } from 'esbuild-plugin-wasm'
 import {
 	isAbsolutePath,
 	joinPath,
-	readFile, 
+	readFile,
 } from '../../../_shared/sys'
 
 import type { Plugin } from 'esbuild'
@@ -25,9 +25,9 @@ export const wasmPlugin =  {
 					path      : args.path,
 					namespace : 'wasm-binary',
 				}
-			
+
 			}
-  
+
 			// Otherwise, generate the JavaScript stub module for this
 			// ".wasm" file. Put it in the "wasm-stub" namespace to tell
 			// our stub load callback to fill it with JavaScript.
@@ -38,39 +38,37 @@ export const wasmPlugin =  {
 			if ( args.resolveDir === '' ) {
 
 				return // Ignore unresolvable paths
-			
+
 			}
 			return {
 				path      : isAbsolutePath( args.path ) ? args.path : joinPath( args.resolveDir, args.path ),
 				namespace : 'wasm-stub',
 			}
-		
+
 		} )
-  
+
 		// Virtual modules in the "wasm-stub" namespace are filled with
 		// the JavaScript code for compiling the WebAssembly binary. The
 		// binary itself is imported from a second virtual module.
 		build.onLoad( {
 			filter    : /.*/,
-			namespace : 'wasm-stub', 
-		}, async args => ( {
-			contents : `import wasm from ${JSON.stringify( args.path )}
+			namespace : 'wasm-stub',
+		}, async args => ( { contents : `import wasm from ${JSON.stringify( args.path )}
 		  export default (imports) =>
 			WebAssembly.instantiate(wasm, imports).then(
-			  result => result.instance.exports)`, 
-		} ) )
-  
+			  result => result.instance.exports)` } ) )
+
 		// Virtual modules in the "wasm-binary" namespace contain the
 		// actual bytes of the WebAssembly file. This uses esbuild's
 		// built-in "binary" loader instead of manually embedding the
 		// binary data inside JavaScript code ourselves.
 		build.onLoad( {
 			filter    : /.*/,
-			namespace : 'wasm-binary', 
+			namespace : 'wasm-binary',
 		}, async args => ( {
 			contents : await readFile( args.path ),
 			loader   : 'binary',
 		} ) )
-	
+
 	},
 } satisfies Plugin

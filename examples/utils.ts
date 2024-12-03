@@ -5,7 +5,7 @@ import {
 } from 'node:fs/promises'
 import {
 	dirname,
-	resolve, 
+	resolve,
 	join,
 } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,17 +18,18 @@ export const getCurrFileDir = ( path: string = import.meta.url ) => {
 	return __dirname
 
 }
-const existsPath = async ( path: string ) =>{
+const existsPath = async ( path: string ) => {
 
 	try {
 
 		await access( path )
 		return true
-	
-	} catch ( _e ) {
+
+	}
+	catch ( _e ) {
 
 		return false
-	
+
 	}
 
 }
@@ -39,35 +40,37 @@ export const showBinPaths = async () => {
 	try {
 
 		const exists = await existsPath( dirPath )
-		if( !exists ) return
+		if ( !exists ) return
 		const files = await readdir( dirPath )
 		console.log( 'Execute bin paths:' )
 		for ( const file of files ) {
 
 			const fullPath = join( dirPath, file )
-      
+
 			try {
 
 				const stats = await lstat( fullPath )
-        
+
 				if ( stats.isFile() ) {
 
 					console.log( fullPath )
-				
+
 				}
-			
-			} catch ( err ) {
+
+			}
+			catch ( err ) {
 
 				console.error( `Error reading file: ${err.message}` )
-			
+
 			}
-		
+
 		}
-	
-	} catch ( err ) {
+
+	}
+	catch ( err ) {
 
 		console.error( `Error reading directory: ${err.message}` )
-	
+
 	}
 
 }

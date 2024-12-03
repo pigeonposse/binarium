@@ -1,7 +1,7 @@
 
 import {
 	https,
-	http, 
+	http,
 } from '../../../_shared/sys'
 
 import type { Plugin } from 'esbuild'
@@ -26,7 +26,7 @@ export const httpPlugin = {
 		// inside it will also be resolved as URLs recursively.
 		build.onResolve( {
 			filter    : /.*/,
-			namespace : 'http-url', 
+			namespace : 'http-url',
 		}, args => ( {
 			path      : new URL( args.path, args.importer ).toString(),
 			namespace : 'http-url',
@@ -38,7 +38,7 @@ export const httpPlugin = {
 		// would probably need to be more complex.
 		build.onLoad( {
 			filter    : /.*/,
-			namespace : 'http-url', 
+			namespace : 'http-url',
 		// @ts-ignore
 		}, async args => {
 
@@ -53,37 +53,39 @@ export const httpPlugin = {
 						if ( [
 							301,
 							302,
-							307, 
+							307,
 							// @ts-ignore
 						].includes( res.statusCode ) ) {
 
 							// @ts-ignore
 							fetch( new URL( res.headers.location, url ).toString() )
 							req.abort()
-						
-						} else if ( res.statusCode === 200 ) {
+
+						}
+						else if ( res.statusCode === 200 ) {
 
 							// @ts-ignore
 							const chunks = []
 							res.on( 'data', chunk => chunks.push( chunk ) )
 							// @ts-ignore
 							res.on( 'end', () => resolve( Buffer.concat( chunks ) ) )
-						
-						} else {
+
+						}
+						else {
 
 							reject( new Error( `GET ${url} failed: status ${res.statusCode}` ) )
-						
+
 						}
-					
+
 					} ).on( 'error', reject )
-				
+
 				}
 				fetch( args.path )
-			
+
 			} )
 			return { contents }
-		
+
 		} )
-	
+
 	},
 } satisfies Plugin

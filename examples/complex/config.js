@@ -8,7 +8,7 @@ export default defineConfig( {
 	type   : 'bin',
 	// assets : [ {
 	// 	from : '../Documents/pigeonposse/env-ai/node_modules/llamaindex/**',
-	// 	to   : 'node_modules/llamaindex', 
+	// 	to   : 'node_modules/llamaindex',
 	// } ],
 
 } )

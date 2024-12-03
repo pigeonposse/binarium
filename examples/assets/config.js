@@ -8,10 +8,10 @@
 // 	type   : 'bin',
 // 	assets : [ {
 // 		from : 'examples/assets/public/**',
-// 		to   : 'public', 
+// 		to   : 'public',
 // 	}, {
 // 		from : 'package.json',
-// 		to   : 'public/package.json', 
+// 		to   : 'public/package.json',
 // 	} ],
 // } )
 
@@ -21,11 +21,14 @@ export default {
 	onlyOs : true,
 	name,
 	type   : 'bin',
-	assets : [ {
-		from : 'examples/assets/public/**',
-		to   : 'public', 
-	}, {
-		from : 'package.json',
-		to   : 'public/package.json', 
-	} ],
+	assets : [
+		{
+			from : 'examples/assets/public/**',
+			to   : 'public',
+		},
+		{
+			from : 'package.json',
+			to   : 'public/package.json',
+		},
+	],
 }

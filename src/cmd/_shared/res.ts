@@ -9,8 +9,8 @@ export const printResults = async ( params: BuilderContructorParams ) => {
 		data, log, consts,
 	} = params
 
-	if( data.type === consts.BUILDER_TYPE.BUNDLE ) return
-	
+	if ( data.type === consts.BUILDER_TYPE.BUNDLE ) return
+
 	console.log()
 	const paths = await getPaths( [ params.data.binDir ] )
 	log.info( 'Binaries created:\n', false )
@@ -19,15 +19,15 @@ export const printResults = async ( params: BuilderContructorParams ) => {
 
 		const s = log.spinner( '' )
 		s.info( path )
-	
+
 	}
-	
-	if( data.type !== consts.BUILDER_TYPE.BIN ) {
+
+	if ( data.type !== consts.BUILDER_TYPE.BIN ) {
 
 		console.log()
 		const s = log.spinner( '' )
 		s.info( 'Compressed in: ' + params.data.compressDir )
-	
+
 	}
 
 }

@@ -1,49 +1,7 @@
 {
 	"name": "binarium",
-	"version": "1.1.0",
+	"version": "2.0.0",
 	"description": "Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.",
-	"type": "module",
-	"license": "GPL-3.0",
-	"homepage": "https://github.com/pigeonposse/binarium",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/pigeonposse/binarium"
-	},
-	"bugs": {
-		"url": "https://github.com/pigeonposse/binarium/issues",
-		"email": "dev@pigeonposse.com"
-	},
-	"funding": {
-		"type": "individual",
-		"url": "https://pigeonposse.com/?popup=donate"
-	},
-	"author": {
-		"name": "Angelo",
-		"email": "angelo@pigeonposse.com",
-		"url": "https://github.com/angelespejo"
-	},
-	"packageManager": "pnpm@9.11.0",
-	"engines": {
-		"node": ">=20.0.0",
-		"pnpm": ">=8.10.0"
-	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org/"
-	},
-	"bin": {
-		"binarium": "dist/cli.mjs"
-	},
-	"files": [
-		"dist",
-		"tsconfig.builder.json"
-	],
-	"module": "dist/main.mjs",
-	"main": "dist/main.mjs",
-	"types": "dist/main.d.ts",
-	"exports": {
-		".": "./dist/main.mjs"
-	},
 	"keywords": [
 		"cli",
 		"library",
@@ -55,62 +13,51 @@
 		"pigeonposse",
 		"pp"
 	],
+	"homepage": "https://github.com/pigeonposse/binarium",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/binarium/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/binarium"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"bin": {
+		"binarium": "dist/cli.mjs"
+	},
+	"files": [
+		"dist",
+		"tsconfig.builder.json"
+	],
 	"scripts": {
+		".": "dovenv",
+		"build": "pnpm run --sequential \"/build:.*/\"",
+		"build:lib": "rimraf dist && rimraf build && unbuild",
 		"dev": "tsx src/cli.ts",
 		"example": "bash -c 'run() { tsx examples/$1/main.ts \"${@:1}\"; }; run \"$@\"' --",
 		"example-cli": "bash -c 'run() { source examples/$1/main.sh \"${@:1}\"; }; run \"$@\"' --",
+		"lint": "pnpm eslint src",
 		"preview": "node dist/cli.mjs --input=examples/app.ts",
-		"build": "pnpm run --sequential \"/build:.*/\"",
-		"build:rm": "rimraf dist && rimraf build",
-		"build:lib": "unbuild -c .dev/build.js",
 		"test": "pnpm run --sequential \"/test:.*/\"",
 		"test:unit": "vitest run src --passWithNoTests",
-		"lint": "pnpm eslint src",
-		"update-version": "changeset && changeset version",
-		"prepush": "doctoc README.md",
-		"push": "git add . && cz && git push -f origin $@"
-	},
-	"devDependencies": {
-		"@changesets/changelog-github": "0.5.0",
-		"@changesets/cli": "2.27.9",
-		"@commitlint/cli": "19.5.0",
-		"@parcel/packager-ts": "2.12.0",
-		"@parcel/transformer-typescript-types": "2.12.0",
-		"@pigeon-posse/eslint-config": "1.0.1",
-		"@types/archiver": "6.0.3",
-		"@types/babel__preset-env": "7.9.7",
-		"@types/node": "22.8.0",
-		"@typescript-eslint/eslint-plugin": "8.11.0",
-		"@typescript-eslint/parser": "8.11.0",
-		"commitizen": "4.3.1",
-		"commitlint-config-gitmoji": "2.3.1",
-		"cz-customizable": "7.2.1",
-		"cz-emoji": "1.3.2-canary.2",
-		"doctoc": "2.2.1",
-		"eslint": "8.57.0",
-		"eslint-plugin-align-assignments": "1.1.2",
-		"eslint-plugin-align-import": "1.0.0",
-		"eslint-plugin-canonical": "5.0.0",
-		"eslint-plugin-html": "7.1.0",
-		"eslint-plugin-import": "2.29.1",
-		"eslint-plugin-jsdoc": "46.10.1",
-		"eslint-plugin-json": "3.1.0",
-		"eslint-plugin-jsonc": "2.13.0",
-		"eslint-plugin-markdownlint": "0.5.0",
-		"eslint-plugin-package-json": "0.12.2",
-		"eslint-plugin-promise": "6.1.1",
-		"eslint-plugin-yaml": "0.5.0",
-		"git-cz": "4.9.0",
-		"husky": "9.1.6",
-		"jsdoc": "4.0.4",
-		"jsonc-eslint-parser": "2.4.0",
-		"lint-staged": "15.2.10",
-		"rimraf": "6.0.1",
-		"tslib": "2.8.0",
-		"tsx": "4.19.1",
-		"typescript": "5.6.3",
-		"unbuild": "2.0.0",
-		"vitest": "2.1.3"
+		"update-version": "changeset && changeset version"
 	},
 	"dependencies": {
 		"@babel/core": "7.26.0",
@@ -118,10 +65,11 @@
 		"@babel/plugin-transform-modules-commonjs": "7.25.9",
 		"@babel/plugin-transform-typescript": "7.25.9",
 		"@babel/preset-env": "7.26.0",
-		"@vercel/ncc": "0.38.2",
-		"@yao-pkg/pkg": "6.0.0",
+		"@vercel/ncc": "0.38.3",
+		"@yao-pkg/pkg": "6.1.1",
 		"archiver": "7.0.1",
 		"babel-plugin-transform-import-meta": "2.2.1",
+		"chalk": "5.3.0",
 		"deepmerge-ts": "7.1.3",
 		"esbuild": "0.24.0",
 		"esbuild-node-externals": "1.15.0",
@@ -130,46 +78,69 @@
 		"esbuild-plugin-wasm": "1.1.0",
 		"globby": "14.0.2",
 		"import-meta-resolve": "4.1.0",
-		"ora": "8.1.0",
+		"ora": "8.1.1",
 		"toml": "3.0.0",
-		"yaml": "2.6.0"
+		"yaml": "2.6.1"
 	},
-	"commitlint": {
-		"extends": [
-			"gitmoji"
-		],
-		"rules": {
-			"header-max-length": [
-				0,
-				"always",
-				100
-			]
-		}
+	"devDependencies": {
+		"@changesets/changelog-github": "0.5.0",
+		"@changesets/cli": "2.27.10",
+		"@dovenv/core": "0.0.6",
+		"@dovenv/lint": "0.0.6",
+		"@dovenv/theme-banda": "0.0.6",
+		"@dovenv/utils": "0.0.6",
+		"@parcel/packager-ts": "2.13.2",
+		"@parcel/transformer-typescript-types": "2.13.2",
+		"@types/archiver": "6.0.3",
+		"@types/babel__preset-env": "7.9.7",
+		"@types/node": "22.10.1",
+		"doctoc": "2.2.1",
+		"husky": "9.1.7",
+		"rimraf": "6.0.1",
+		"tslib": "2.8.1",
+		"tsx": "4.19.2",
+		"typescript": "5.7.2",
+		"unbuild": "2.0.0",
+		"vitest": "2.1.8"
 	},
-	"lint-staged": {
-		"*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}": "eslint"
+	"packageManager": "pnpm@9.11.0",
+	"engines": {
+		"node": ">=20.0.0",
+		"pnpm": ">=8.10.0"
 	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-customizable"
-		},
-		"cz-customizable": {
-			"config": ".dev/cz-config.cjs"
-		}
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	},
 	"extra": {
 		"id": "binarium",
 		"productName": "Binarium",
-		"scopes": [
-			{
-				"name": "core"
+		"shortDesc": "Toolkit for make your code workspace easier.",
+		"libraryUrl": "https://www.npmjs.com/package/binarium",
+		"licenseUrl": "https://github.com/pigeonposse/binarium/blob/main/LICENSE",
+		"libraryId": "binarium",
+		"repoId": "binarium",
+		"rawRepoUrl": "https://raw.githubusercontent.com/pigeonposse/binarium",
+		"docsUrl": "https://github.com/pigeonposse/binarium",
+		"collective": {
+			"id": "pigeonposse",
+			"name": "PigeonPosse",
+			"funding": "https://pigeonposse.com/?popup=donate",
+			"gh": "https://github.com/pigeonposse",
+			"about": "https://pigeonposse.com?popup=about",
+			"url": "https://pigeonposse.com",
+			"web": "https://pigeonposse.com",
+			"email": "dev@pigeonposse.com",
+			"socialUser": {
+				"twitter": "pigeonposse_",
+				"instagram": "pigeon.posse",
+				"medium": "pigeonposse"
 			},
-			{
-				"name": "env"
-			},
-			{
-				"name": "all"
+			"social": {
+				"twitter": "https://twitter.com/pigeonposse_",
+				"instagram": "https://www.instagram.com/pigeon.posse/",
+				"medium": "https://medium.com/@pigeonposse"
 			}
-		]
+		}
 	}
 }

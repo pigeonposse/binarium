@@ -1,12 +1,12 @@
 import {
 	build,
-	BINARIUM_CONSTS, 
+	BINARIUM_CONSTS,
 } from 'binarium'
 
 import { name } from './config'
 import {
 	getCurrFileDir,
-	join, 
+	join,
 } from '../utils'
 
 BINARIUM_CONSTS.name = name

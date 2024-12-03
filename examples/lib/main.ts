@@ -1,6 +1,6 @@
 import {
 	build,
-	BINARIUM_CONSTS, 
+	BINARIUM_CONSTS,
 } from 'binarium'
 
 BINARIUM_CONSTS.name = 'binarium-test'

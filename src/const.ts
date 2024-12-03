@@ -1,7 +1,6 @@
-
 import {
 	name as pkgName,
-	version, 
+	version,
 	bugs,
 	repository,
 	description,
@@ -14,9 +13,68 @@ export const documentationURL = repositoryURL
 
 export {
 	version,
-	description, 
+	description,
 }
+export const OPTIONS = {
+	INPUT : {
+		key   : 'input',
+		alias : 'i',
+	},
+	OUTPUT : {
+		key   : 'output',
+		alias : 'o',
+	},
+	NAME : {
+		key   : 'name',
+		alias : 'n',
+	},
+	TYPE : {
+		key   : 'type',
+		alias : 't',
+	},
+	ONLYOS : {
+		key   : 'onlyOs',
+		alias : 'O',
+	},
+	CONFIG : {
+		key   : 'config',
+		alias : 'c',
+	},
+} as const
 
+export const GLOBBAL_OPTIONS = {
+	VERSION : {
+		key   : 'version',
+		alias : 'v',
+	},
+	HELP : {
+		key   : 'help',
+		alias : 'h',
+	},
+	DEBUG : {
+		key   : 'debug',
+		alias : 'd',
+	},
+} as const
+
+export const CONFIG_EXTS = {
+	JSON : 'json',
+	YML  : 'yml',
+	YAML : 'yaml',
+	TOML : 'toml',
+	TML  : 'tml',
+	MJS  : 'mjs',
+	CJS  : 'cjs',
+	JS   : 'js',
+} as const
+export const INPUT_EXTS = {
+	TS  : 'ts',
+	JS  : 'js',
+	MJS : 'mjs',
+	MTS : 'mts',
+	CJS : 'cjs',
+	CTS : 'cts',
+}
 export const ERROR_ID = {
 	NO_INPUT        : 'NO_INPUT',
 	PLATFORM_UNKWON : 'PLATFORM_UNKWON',
@@ -60,16 +118,20 @@ export const PLATFORM = {
 	UNKNOWN : 'unknown',
 } as const
 
-export const BINARIUM_CONSTS: { 
-	name?: string, 
-	debug?: boolean, 
-	icon?: string 
-	onVersion?: () => void
-	onHelp?: () => void
+export const BINARIUM_CONSTS: {
+	name?      : string
+	desc?      : string
+	docsURL?   : string
+	debug?     : boolean
+	icon?      : string
+	onVersion? : () => void
+	onHelp?    : () => void
 } = {
 	icon      : undefined,
+	desc      : undefined,
 	name      : undefined,
-	debug     : undefined, 
+	docsURL   : undefined,
+	debug     : undefined,
 	onVersion : undefined,
 	onHelp    : undefined,
 }

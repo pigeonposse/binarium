@@ -2,9 +2,9 @@
 /* eslint-disable jsdoc/require-jsdoc */
 
 interface Flags {
-	help?: boolean;
-	name?: string;
-	age?: string;
+	help? : boolean
+	name? : string
+	age?  : string
 }
 
 function showHelp() {
@@ -28,24 +28,25 @@ const parseArgs = (): Flags => {
 
 	for ( let i = 0; i < args.length; i++ ) {
 
-		const arg = args[ i ]
+		const arg = args[i]
 		if ( arg.startsWith( '--' ) ) {
 
 			const flagName = arg.slice( 2 ) as keyof Flags
-			const nextArg  = args[ i + 1 ]
+			const nextArg  = args[i + 1]
 			if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
 				// @ts-ignore
-				flags[ flagName ] = nextArg
+				flags[flagName] = nextArg
 				i++ // Saltar al siguiente argumento
-		
-			} else {
+
+			}
+			else {
 
 				// @ts-ignore
-				flags[ flagName ] = true
-		
+				flags[flagName] = true
+
 			}
-	
+
 		}
 
 	}
@@ -57,13 +58,13 @@ const parseArgs = (): Flags => {
 function main(): void {
 
 	const flags = parseArgs()
-	
+
 	if ( flags.help ) showHelp()
 	else {
 
 		if ( flags.name ) console.log( `Hello, ${flags.name}!` )
 		if ( flags.age ) console.log( `You are ${flags.age} years old.` )
-		if( !flags.name && !flags.age ) console.log( 'Unknown command. Use --help for usage information.' )
+		if ( !flags.name && !flags.age ) console.log( 'Unknown command. Use --help for usage information.' )
 
 	}
 

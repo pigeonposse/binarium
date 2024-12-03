@@ -1,5 +1,17 @@
 # binarium
 
+## 2.0.0
+
+### Major Changes
+
+- refactor
+
+## 1.1.1
+
+### Patch Changes
+
+- reactor and change outDir flag to --output
+
 ## 1.1.0
 
 ### Minor Changes

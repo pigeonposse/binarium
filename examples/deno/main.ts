@@ -2,7 +2,7 @@ import { buildDeno } from 'binarium'
 
 import {
 	getCurrFileDir,
-	join, 
+	join,
 } from '../utils'
 
 await buildDeno( {

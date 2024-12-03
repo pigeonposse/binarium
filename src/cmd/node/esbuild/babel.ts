@@ -13,15 +13,13 @@ export const babelPlugin = ( target: string = 'current' ) => {
 
 	const prestOpts: Options = {
 		targets : { node: target },
-		modules : 'commonjs', 
-		
+		modules : 'commonjs',
+
 	}
-	return babel( {
-		config : {
-			ignore  : [ '**/*.json' ],
-			presets : [ [ babelPresetEnv, prestOpts ] ],
-			plugins : [ importMeta(), ts ],
-		},
-	} )
+	return babel( { config : {
+		ignore  : [ '**/*.json' ],
+		presets : [ [ babelPresetEnv, prestOpts ] ],
+		plugins : [ importMeta(), ts ],
+	} } )
 
 }

@@ -2,8 +2,8 @@
 import { globby } from 'globby'
 import {
 	readFile,
-	mkdir, 
-	writeFile as fsWriteFile, 
+	mkdir,
+	writeFile as fsWriteFile,
 	access,
 	unlink,
 	stat,
@@ -12,20 +12,20 @@ import {
 } from 'node:fs/promises'
 import {
 	arch,
-	platform, 
+	platform,
 } from 'node:os'
 import {
 	parse,
 	dirname,
-	join, 
+	join,
 	resolve,
 	extname,
 	basename,
-	isAbsolute, 
+	isAbsolute,
 } from 'node:path'
 import {
 	fileURLToPath,
-	pathToFileURL, 
+	pathToFileURL,
 } from 'node:url'
 import toml from 'toml'
 import yaml from 'yaml'
@@ -52,29 +52,30 @@ export const getFilename = ( path: string ) => {
 
 }
 export const getDirname = dirname
-export const deleteFile = async( path: string ) => {
+export const deleteFile = async ( path: string ) => {
 
 	await unlink( path )
 
 }
-export const existsPath = async ( path: string ) =>{
+export const existsPath = async ( path: string ) => {
 
 	try {
 
 		await access( path )
 		return true
-	
-	} catch ( _e ) {
+
+	}
+	catch ( _e ) {
 
 		return false
-	
+
 	}
 
 }
 export const writeFile = async ( path: string, data: string ) => {
 
 	const dir = getDirname( path )
-        
+
 	await mkdir( dir, { recursive: true } )
 
 	await fsWriteFile( path, data, 'utf8' )
@@ -84,7 +85,7 @@ export const writeFile = async ( path: string, data: string ) => {
 export const getArch = () => {
 
 	const architecture = arch()
-	
+
 	switch ( architecture ) {
 
 		case 'arm64' :
@@ -95,7 +96,7 @@ export const getArch = () => {
 			return 'x64'
 		default :
 			return 'unknown'
-	
+
 	}
 
 }
@@ -114,7 +115,7 @@ export const getPlatform = async () => {
 			return 'linux'
 		default :
 			return 'unknown'
-	
+
 	}
 
 }
@@ -125,88 +126,95 @@ export const removePathIfExist = async ( path: string ) => {
 
 		// Check if the path exists
 		const stats = await stat( path )
-		
+
 		if ( stats.isDirectory() ) {
-			
+
 			// If it's a directory, delete it recursively
 			await rm( path, {
-				recursive : true, 
+				recursive : true,
 				force     : true,
 			} )
 			// console.log( `Directory ${path} successfully deleted.` )
-		
-		} else if( stats.isFile() ){
+
+		}
+		else if ( stats.isFile() ) {
 
 			// If it's a file, delete it
 			await unlink( path )
 			// console.log( `File ${path} successfully deleted.` )
-		
+
 		}
-	
-	} catch ( error ) {
+
+	}
+	catch ( error ) {
 
 		// @ts-ignore
 		// `The directory or file ${path} does not exist.`
 		if ( error.code === 'ENOENT' ) return
 		else console.error( `Error deleting ${path}:`, error )
-	
+
 	}
 
 }
 
 /**
  * Reads a configuration file and returns the parsed content.
- *
  * @param   {string}          filePath - The path to the configuration file.
  * @returns {Promise<object>}          - The parsed content of the configuration file.
  * @throws {Error} - If the file extension is not supported.
  * @example ``
- *
  */
 export const readConfigFile = async ( filePath: string ): Promise<object> => {
 
 	const ext     = extname( filePath )
 	const content = await readFile( filePath, 'utf8' )
 	let res
-	
+
 	if ( ext === '.json' ) {
 
 		res = JSON.parse( content )
-		
-	} else if ( ext === '.yml' || ext === '.yaml' ) {
+
+	}
+	else if ( ext === '.yml' || ext === '.yaml' ) {
 
 		res = yaml.parse( content )
-		
-	} else if ( ext === '.toml' || ext === '.tml' ) {
+
+	}
+	else if ( ext === '.toml' || ext === '.tml' ) {
 
 		res = toml.parse( content )
-		
-	} else if ( ext === '.js' || ext === '.mjs' ) {
+
+	}
+	else if ( ext === '.js' || ext === '.mjs' ) {
 
 		const modulePath = pathToFileURL( filePath ).href
 		res              = ( await import( modulePath ) ).default
-		
-	} else {
+
+	}
+	else {
 
 		throw new Error( `Unsupported file extension: ${ext}` )
-		
+
 	}
 
 	return res
-	
+
 }
 
 export const copyDir = async ( {
 	from, to,
-}:{from: string, to: string} ) =>{
+}:{
+	from : string
+	to   : string
+} ) => {
 
 	const includes: string[] = []
 
-	if( await existsPath( to ) ) 
+	if ( await existsPath( to ) )
 		throw new Error( `Directory [${to}] already exists` )
 
 	const paths = await getPaths( [ from ] )
-		
+
 	for ( const path of paths ) {
 
 		const fromPath = resolve( path )
@@ -214,14 +222,14 @@ export const copyDir = async ( {
 
 		await mkdir( dirname( toPath ), { recursive: true } )
 
-		if ( !( await existsPath( fromPath ) ) ) 
+		if ( !( await existsPath( fromPath ) ) )
 			throw new Error( `Source file ${fromPath} does not exist` )
-		
+
 		await copyFile( fromPath, toPath )
 		includes.push( toPath )
 
 	}
-	
+
 	return includes
 
 }

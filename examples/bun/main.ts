@@ -2,7 +2,7 @@ import { buildBun } from 'binarium'
 
 import {
 	getCurrFileDir,
-	join, 
+	join,
 } from '../utils'
 
 await buildBun( {

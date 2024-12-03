@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @stylistic/multiline-ternary */
 
 import {
 	readFile,
@@ -6,13 +7,13 @@ import {
 } from 'node:fs/promises'
 import {
 	join,
-	dirname, 
+	dirname,
 } from 'node:path'
 import {
 	argv,
 	argv0,
 	cwd,
-	execPath, 
+	execPath,
 } from 'node:process'
 import { fileURLToPath } from 'node:url'
 
@@ -38,30 +39,32 @@ const getPaths = async dirPath => {
 
 	try {
 
-		let paths   = []
+		const paths = []
 		const files = await readdir( dirPath )
-    
+
 		for ( const file of files ) {
 
 			const fullPath = join( dirPath, file )
-      
+
 			try {
 
 				paths.push( fullPath )
-			
-			} catch ( err ) {
+
+			}
+			catch ( err ) {
 
 				console.error( `Error reading file: ${err.message}` )
-			
+
 			}
-		
+
 		}
 		return paths
-	
-	} catch ( err ) {
+
+	}
+	catch ( err ) {
 
 		console.error( `Error reading directory: ${err.message}` )
-	
+
 	}
 
 }
@@ -73,24 +76,25 @@ function parseArgs() {
 
 	for ( let i = 0; i < args.length; i++ ) {
 
-		const arg = args[ i ]
+		const arg = args[i]
 		if ( arg.startsWith( '--' ) ) {
 
-			const flagName = arg.slice( 2 ) 
-			const nextArg  = args[ i + 1 ]
+			const flagName = arg.slice( 2 )
+			const nextArg  = args[i + 1]
 			if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
 				// @ts-ignore
-				flags[ flagName ] = nextArg
+				flags[flagName] = nextArg
 				i++ // Saltar al siguiente argumento
-		
-			} else {
+
+			}
+			else {
 
 				// @ts-ignore
-				flags[ flagName ] = true
-		
+				flags[flagName] = true
+
 			}
-	
+
 		}
 
 	}
@@ -126,17 +130,19 @@ async function main() {
 					path,
 					data : data.toString(),
 				} )
-			
-			} catch ( error ) {
+
+			}
+			catch ( error ) {
 
 				console.error( JSON.stringify( {
 					id    : 'Error Reading file',
 					error : convertError( error ),
 				}, undefined, 2 ) )
-			
+
 			}
-		
-		}else if ( flags.paths ){
+
+		}
+		else if ( flags.paths ) {
 
 			console.log( {
 				dir            : __dirname,
@@ -150,22 +156,23 @@ async function main() {
 				argv,
 				argv0,
 			} )
-		
-		} else if( flags.ls ) {
+
+		}
+		else if ( flags.ls ) {
 
 			console.log( `ls ${flags.ls}` )
 			const paths = await getPaths( flags.ls )
 			console.log( { paths } )
-		
+
 		}
-		else if( flags.cat ) {
+		else if ( flags.cat ) {
 
 			const content = await readFile( flags.cat, 'utf8' )
 			console.log( content )
-		
+
 		}
 		else showHelp()
-	
+
 	}
 
 }

@@ -1,11 +1,11 @@
 #!/usr/bin/env -S bun run
-/* eslint-disable no-undef */
+
 /* eslint-disable jsdoc/require-jsdoc */
 
 import { argv } from 'node:process'
 
-const args    = argv.slice( 2 ) 
-const command = args[ 0 ]
+const args    = argv.slice( 2 )
+const command = args[0]
 const name    = 'binarium-bun-test'
 
 function showHelp() {
@@ -37,13 +37,15 @@ if ( args.includes( '--help' ) || !command ) {
 
 	showHelp()
 
-} else if ( command === 'greet' ) {
+}
+else if ( command === 'greet' ) {
 
 	const nameIndex = args.indexOf( '--name' )
-	const name      = nameIndex !== -1 ? args[ nameIndex + 1 ] : 'Friend'
+	const name      = nameIndex !== -1 ? args[nameIndex + 1] : 'Friend'
 	greet( name )
 
-} else {
+}
+else {
 
 	console.log( 'Unrecognized command. Use \'--help\' to see available commands.' )
 

@@ -1,7 +1,7 @@
 import {
 	cancel,
 	execAndCapture,
-	onCancel, 
+	onCancel,
 } from '../../_shared/process'
 
 import type { BuilderContructorParams } from '../../types'
@@ -14,7 +14,7 @@ export const buildBinWrappingCmd = async ( params: BuilderContructorParams, cmd:
 
 	onCancel( () => {
 
-		cancelRequested = true 
+		cancelRequested = true
 		spinner.fail( `${targetName}: Cancelled!` )
 		cancel()
 
@@ -28,24 +28,25 @@ export const buildBinWrappingCmd = async ( params: BuilderContructorParams, cmd:
 
 				if ( cancelRequested ) cancel()
 				spinner.text( v )
-		
+
 			},
 			onstderr : v => {
 
 				if ( cancelRequested ) cancel()
 				spinner.text( v )
-		
+
 			},
 		} )
-	
+
 		if ( cancelRequested ) cancel()
 
 		spinner.succeed( `${targetName} built.` )
-	
-	} catch ( e ) {
+
+	}
+	catch ( e ) {
 
 		spinner.fail( `${targetName}: ${e instanceof Error ? e.message : 'Unknown error'}` )
-		throw e 
+		throw e
 
 	}
 

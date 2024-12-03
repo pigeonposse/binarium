@@ -11,7 +11,7 @@
 		"strictPropertyInitialization": true,
 		"noImplicitAny": true,
 		"strictNullChecks": true,
-		"sourceMap": true, 
+		"sourceMap": true,
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -31,7 +31,7 @@
 		"isolatedModules": true,
 		"importHelpers": true,
 		"removeComments": false,
-		"allowSyntheticDefaultImports": true, 
+		"allowSyntheticDefaultImports": true,
 		"outDir": "./dist",
 		"baseUrl": "./src"
 	},

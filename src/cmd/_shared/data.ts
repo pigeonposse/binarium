@@ -1,7 +1,7 @@
 
 import {
 	isBun,
-	isDeno, 
+	isDeno,
 	isNode,
 } from '../../_shared/env'
 import {
@@ -9,13 +9,12 @@ import {
 	existsFlag,
 	existsJSRuntimes,
 	getFlagValue,
-	noFlags, 
 } from '../../_shared/process'
 import {
 	existsPath,
-	getArch, 
-	getFilename, 
-	getPlatform, 
+	getArch,
+	getFilename,
+	getPlatform,
 	joinPath,
 	readConfigFile,
 	resolvePath,
@@ -23,74 +22,71 @@ import {
 
 import type {
 	ConfigParams,
-	GetDataParams, 
+	GetDataParams,
 } from '../../types'
 
-export const getData = async ( { 
+export const getData = async ( {
 	input,
-	name, 
+	name,
 	config,
-	outDir = resolvePath( 'build' ),
+	output = resolvePath( 'build' ),
 	onlyOs = false,
 	type,
 	log,
 	Error: BuildError,
 	consts,
-}: GetDataParams )=> {
+}: GetDataParams ) => {
 
 	const {
-		ERROR_ID, 
+		ERROR_ID,
 		BUILDER_TYPE,
+		GLOBBAL_OPTIONS,
+		OPTIONS,
+		CMD,
 	} = consts
 
-	type Plat = typeof consts.PLATFORM[keyof typeof consts.PLATFORM] 
+	type Plat = typeof consts.PLATFORM[keyof typeof consts.PLATFORM]
 	type Arch = typeof consts.ARCH[keyof typeof consts.ARCH]
 
 	const getInput = async ( path: string ) => {
 
-		const validExtensions = [
-			'.ts',
-			'.js',
-			'.mjs',
-			'.mts',
-			'.cjs',
-			'.cts',
-		]
-	
-		if( !validExtensions.some( ext => path.endsWith( ext ) ) ){
-	
+		const validExtensions = Object.values( consts.INPUT_EXTS ).map( ext => `.${ext}` )
+
+		if ( !validExtensions.some( ext => path.endsWith( ext ) ) ) {
+
 			for ( let index = 0; index < validExtensions.length; index++ ) {
-				
-				const input = path + validExtensions[ index ]
-	
+
+				const input = path + validExtensions[index]
+
 				const exists = await existsPath( input )
-				if( exists ) return input
-			
+				if ( exists ) return input
+
 			}
 			return undefined
-		
+
 		}
+
 		const exists = await existsPath( path )
-		if( exists ) return path
+		if ( exists ) return path
 		return undefined
-	
+
 	}
-	
+
 	const getConfigfile = async ( path?: string ): Promise<ConfigParams | undefined> => {
-	
+
 		try {
-	
-			if( !path ) return undefined
-		
+
+			if ( !path ) return undefined
+
 			const exists = await existsPath( path )
-			if( !exists ) throw new Error( 'Config file does not exist' )
-	
+			if ( !exists ) throw new Error( 'Config file does not exist' )
+
 			const config = await readConfigFile( path ) as ConfigParams
-		
-			return {	
+
+			return {
 				input       : config?.input || undefined,
 				name        : config?.name || undefined,
-				outDir      : config?.outDir || undefined,
+				output      : config?.output || undefined,
 				onlyOs      : config?.onlyOs || undefined,
 				type        : ( config?.type && Object.values( BUILDER_TYPE ).includes( config.type ) ) ? config.type : undefined,
 				assets      : config?.assets || undefined,
@@ -102,55 +98,56 @@ export const getData = async ( {
 				bunOptions  : config?.bunOptions || undefined,
 				denoOptions : config?.denoOptions || undefined,
 			}
-	
-		}catch( error ){
-	
+
+		}
+		catch ( error ) {
+
 			throw new BuildError( ERROR_ID.ON_CONFIG, {
 				path,
-				error, 
+				error,
 			} )
-		
-		}
-	
-	}
-	
-	const version = existsFlag( 'version' ) || existsFlag( 'v' )
-	const help    = existsFlag( 'help' ) || existsFlag( 'h' )
-	
-	if( help || noFlags() ) log.printHelp( )
-	if( version ) log.printVersion()
 
-	const params = Object.assign( {}, { 
+		}
+
+	}
+
+	const version = existsFlag( GLOBBAL_OPTIONS.VERSION.key ) || existsFlag( GLOBBAL_OPTIONS.VERSION.alias )
+	const help    = existsFlag( GLOBBAL_OPTIONS.HELP.key ) || existsFlag( GLOBBAL_OPTIONS.HELP.alias )
+
+	if ( help ) log.printHelp( )
+	if ( version ) log.printVersion()
+
+	const params = Object.assign( {}, {
 		input,
-		name, 
-		outDir,
+		name,
+		output,
 		onlyOs,
-		type, 
+		type,
 		config,
 	} )
-	
+
 	const flags = {
-		input  : getFlagValue( 'input' ) || getFlagValue( 'i' ), 
-		outDir : getFlagValue( 'outDir' ) || getFlagValue( 'o' ),
-		name   : getFlagValue( 'name' ) || getFlagValue( 'n' ),
-		config : getFlagValue( 'config' ) || getFlagValue( 'c' ),
-		onlyOs : existsFlag( 'onlyOs' ),
-		type   : getFlagValue( 'type' ) as typeof type,
+		input  : getFlagValue( OPTIONS.INPUT.key ) || getFlagValue(  OPTIONS.INPUT.alias ),
+		output : getFlagValue( OPTIONS.OUTPUT.key ) || getFlagValue( OPTIONS.OUTPUT.alias ),
+		name   : getFlagValue( OPTIONS.NAME.key ) || getFlagValue( OPTIONS.NAME.alias ),
+		config : getFlagValue( OPTIONS.CONFIG.key ) || getFlagValue( OPTIONS.CONFIG.alias ),
+		onlyOs : existsFlag( OPTIONS.ONLYOS.key ) || existsFlag( OPTIONS.ONLYOS.alias ),
+		type   : getFlagValue( OPTIONS.TYPE.key ) as typeof type || getFlagValue( OPTIONS.TYPE.alias ) as typeof type,
 	}
-	
+
 	const cmd = {
-		node : existsCmd( 'node' ),
-		deno : existsCmd( 'deno' ), 
-		bun  : existsCmd( 'bun' ),
-		auto : !existsCmd( 'node' ) && !existsCmd( 'deno' ) && !existsCmd( 'bun' ),
+		node : existsCmd( CMD.NODE ),
+		deno : existsCmd( CMD.DENO ),
+		bun  : existsCmd( CMD.BUN ),
+		auto : !existsCmd( CMD.NODE ) && !existsCmd( CMD.DENO ) && !existsCmd( CMD.BUN ),
 	}
-	
+
 	const existsRT = await existsJSRuntimes()
-	
+
 	const systemRuntime = {
-		node : existsRT.includes( 'node' ),
-		deno : existsRT.includes( 'deno' ),
-		bun  : existsRT.includes( 'bun' ),
+		node : existsRT.includes( CMD.NODE ),
+		deno : existsRT.includes( CMD.DENO ),
+		bun  : existsRT.includes( CMD.BUN ),
 	}
 
 	const processRuntime = {
@@ -158,27 +155,27 @@ export const getData = async ( {
 		deno : isDeno,
 		bun  : isBun,
 	}
-	
-	if( processRuntime.bun ) log.debug( 'Bun must be equal or greater than 1.1.7 version. Because compression could not work. see: https://github.com/oven-sh/bun/issues/6992' )
 
-	if( flags.config ) config = flags.config
+	if ( processRuntime.bun ) log.debug( 'Bun must be equal or greater than 1.1.7 version. Because compression could not work. see: https://github.com/oven-sh/bun/issues/6992' )
+
+	if ( flags.config ) config = flags.config
 	const configfile = await getConfigfile( config )
 
-	if( configfile ){
+	if ( configfile ) {
 
-		if( configfile.name ) name = configfile.name
-		if( configfile.input ) input = configfile.input
-		if( configfile.onlyOs ) onlyOs = configfile.onlyOs
-		if( configfile.outDir ) outDir = configfile.outDir
-		if( configfile.type && Object.values( BUILDER_TYPE ).includes( configfile.type ) ) type = configfile.type 
-	
+		if ( configfile.name ) name = configfile.name
+		if ( configfile.input ) input = configfile.input
+		if ( configfile.onlyOs ) onlyOs = configfile.onlyOs
+		if ( configfile.output ) output = configfile.output
+		if ( configfile.type && Object.values( BUILDER_TYPE ).includes( configfile.type ) ) type = configfile.type
+
 	}
 
-	if( flags.name ) name = flags.name
-	if( flags.input ) input = flags.input
-	if( flags.onlyOs ) onlyOs = flags.onlyOs
-	if( flags.outDir ) outDir = flags.outDir
-	if( flags.type && Object.values( BUILDER_TYPE ).includes( flags.type ) ) type = flags.type 
+	if ( flags.name ) name = flags.name
+	if ( flags.input ) input = flags.input
+	if ( flags.onlyOs ) onlyOs = flags.onlyOs
+	if ( flags.output ) output = flags.output
+	if ( flags.type && Object.values( BUILDER_TYPE ).includes( flags.type ) ) type = flags.type
 
 	log.info( 'Starting construction...' )
 	console.log()
@@ -186,15 +183,15 @@ export const getData = async ( {
 	const arch = await getArch()
 	const plat = await getPlatform()
 
-	const projectBuild = outDir 
-	if( !name ) name = getFilename( input )
-		
+	const projectBuild = output
+	if ( !name ) name = getFilename( input )
+
 	const opts = {
-		name, 
+		name,
 		input       : resolvePath( input ),
-		outDir      : resolvePath( outDir ),
+		output      : resolvePath( output ),
 		onlyOs,
-		type        : type || BUILDER_TYPE.ALL, 
+		type        : type || BUILDER_TYPE.ALL,
 		nodeOptions : configfile?.nodeOptions,
 		bunOptions  : configfile?.bunOptions,
 		denoOptions : configfile?.denoOptions,
@@ -219,7 +216,7 @@ export const getData = async ( {
 	log.debug( {
 		message : 'Init data: function params, process flags, configFile options, final options..',
 		data    : {
-			fnParams : params, 
+			fnParams : params,
 			cliFlags : flags,
 			configfile,
 			opts,
@@ -234,10 +231,10 @@ export const getData = async ( {
 
 	// EXISTs INPUT
 	const exists = await getInput( data.input )
-	if( !exists ) throw new BuildError( ERROR_ID.NO_INPUT, data )
+	if ( !exists ) throw new BuildError( ERROR_ID.NO_INPUT, data )
 
 	// @ts-ignore
-	if( data.platform === consts.PLATFORM.UNKNOWN ) throw new BuildError( ERROR_ID.PLATFORM_UNKWON, data )
+	if ( data.platform === consts.PLATFORM.UNKNOWN ) throw new BuildError( ERROR_ID.PLATFORM_UNKWON, data )
 
 	return data
 

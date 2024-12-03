@@ -1,6 +1,6 @@
 import {
 	build,
-	BINARIUM_CONSTS, 
+	BINARIUM_CONSTS,
 } from 'binarium'
 
 import { name }    from './config'

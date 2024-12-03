@@ -1,5 +1,5 @@
 ###############################################################################
-# RELEASE 
+# RELEASE
 ###############################################################################
 
 name: 🚀 Release packages
@@ -17,13 +17,12 @@ env:
   NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
   CORE_NAME: binarium
 
-
 ###############################################################################
 # JOBS
 ###############################################################################
 
 jobs:
-  
+
   release-lib:
 
     name: 🚀 Release
@@ -104,10 +103,10 @@ jobs:
           echo "core_version=$core_version" >> $GITHUB_OUTPUT
           echo "core_major_version=$core_version_major" >> $GITHUB_OUTPUT
 
-      - name: Release binary 
+      - name: Release binary
         if: ${{ steps.updated.outputs.core_version != '' }}
         uses: ncipollo/release-action@v1
-        with: 
+        with:
           tag: "v${{ steps.updated.outputs.core_version }}"
           draft: false
           prerelease: false
@@ -121,6 +120,5 @@ jobs:
           tag_name: v${{ steps.updated.outputs.core_major_version}}
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-
 
 ###############################################################################
