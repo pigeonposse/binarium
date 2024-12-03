@@ -22,6 +22,7 @@ import {
 	extname,
 	basename,
 	isAbsolute,
+	relative,
 } from 'node:path'
 import {
 	fileURLToPath,
@@ -43,6 +44,8 @@ export const getPaths = globby
 export const packageDir = fileURLToPath( new URL( '..', import.meta.url ) )
 export const joinPath = join
 export const resolvePath = resolve
+export const relativePath = relative
+export const relative2cwd = ( path: string ) => relative( process.cwd(), path )
 export const isAbsolutePath = isAbsolute
 export const getBasename = basename
 export const getFilename = ( path: string ) => {

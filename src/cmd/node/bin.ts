@@ -63,6 +63,7 @@ export default async ( {
 		await writeFile( tempFile, JSON.stringify( pkgConf, null, 2 ) )
 		await exec( buildConfig )
 		await deleteFile( tempFile )
+		return true
 
 	}
 

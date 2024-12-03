@@ -1,5 +1,8 @@
 
-import { getPaths } from '../../_shared/sys'
+import {
+	getPaths,
+	relative2cwd,
+} from '../../_shared/sys'
 
 import type { BuilderContructorParams } from 'types'
 
@@ -18,7 +21,7 @@ export const printResults = async ( params: BuilderContructorParams ) => {
 	for ( const path of paths ) {
 
 		const s = log.spinner( '' )
-		s.info( path )
+		s.info( relative2cwd( path ) )
 
 	}
 
@@ -26,7 +29,7 @@ export const printResults = async ( params: BuilderContructorParams ) => {
 
 		console.log()
 		const s = log.spinner( '' )
-		s.info( 'Compressed in: ' + params.data.compressDir )
+		s.info( 'Compressed in: ' + relative2cwd( params.data.compressDir ) )
 
 	}
 

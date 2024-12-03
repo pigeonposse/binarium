@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.1
+
+### Patch Changes
+
+- fix node compress fn
+
 ## 2.0.0
 
 ### Major Changes

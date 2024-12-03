@@ -6,7 +6,8 @@ import {
 	cancel,
 	onCancel,
 }    from '../../_shared/process'
-import { joinPath } from '../../_shared/sys'
+import { getPaths,
+	joinPath } from '../../_shared/sys'
 
 import type { BuilderContructorParams } from '../../types'
 
@@ -35,10 +36,12 @@ const compressConstructor = async ( {
 		} )
 
 		spinner.start()
+		const inPaths = targetNames?.map( n => joinPath( compressOpts.input, n ) )
+		const paths   = inPaths ? await getPaths( inPaths ) : undefined
 
-		if ( targetNames )
+		if ( targetNames && paths && paths.length > 0 )
 			await zipPaths( {
-				input  : targetNames.map( n => joinPath( compressOpts.input, n ) ),
+				input  : paths,
 				output : compressOpts.output,
 				onDone : v => {
 

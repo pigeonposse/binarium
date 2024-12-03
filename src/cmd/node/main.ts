@@ -113,7 +113,7 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 	binLog.start()
 	const binTime = perf()
 
-	const bin = await buildBins( {
+	const [ binError ] = await buildBins( {
 		targets : targets,
 		input   : compileInput,
 		name    : data.name,
@@ -125,7 +125,6 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 		debug   : log.debug,
 	} )
 
-	const [ binError ] = bin
 	if ( binError ) {
 
 		binLog.end( )
@@ -141,7 +140,11 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 
 	if ( data.type === BUILDER_TYPE.BIN ) return
 
-	// COMPRESS
-	await compress( params, targets )
+	// console.info( {
+	// 	targets,
+	// } )
+
+	// COMPRESS. Not with targets because yao-pkg change the output name of the binaries
+	await compress( params  )
 
 }

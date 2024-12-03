@@ -9,6 +9,7 @@ export default [
 		'README.md',
 		'CHANGELOG.md',
 		'docs/*.md',
+		'**/dev-dist/**',
 		'**/templates/**',
 	] ),
 ]

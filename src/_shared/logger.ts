@@ -43,20 +43,21 @@ export const logger = (
 	},
 ) => {
 
-	const icons  = {
+	const icons = {
 		error   : `${icon}🔴`,
 		warn    : `${icon}🟡`,
 		info    : `${icon}🔵`,
 		debug   : `${icon}⚫️`,
 		success : `${icon}🟢`,
 	}
-	const color  = {
+	const color = {
 		error   : c.red,
 		warn    : c.yellow,
 		info    : c.cyan,
 		debug   : c.dim,
 		success : c.green,
 	}
+
 	const setLog = ( data: LogData, logType: LogType, withName?: boolean ) => {
 
 		const logMethod = logType === 'success' ? 'info' : logType
@@ -74,6 +75,13 @@ export const logger = (
 		}
 
 	}
+
+	// if ( !isDebug ) console.debug = () => { }
+	// else console.debug = m => setLog( m, 'debug' )
+
+	// console.error = m => setLog( m, 'error' )
+	// console.info  = m => setLog( m, 'info' )
+	// console.warn  = m => setLog( m, 'warn' )
 
 	return {
 		debug : ( data: LogData, withName = true ) => {

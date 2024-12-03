@@ -1,19 +1,28 @@
 import color from 'chalk'
 
+import { exit }  from './_shared/process'
+import {
+	CONFIG_EXTS,
+	INPUT_EXTS,
+	BUILDER_TYPE,
+} from './const'
+
 const {
 	bold,
 	green,
 	dim,
+	italic,
 	yellow,
 	cyan,
 	inverse,
 	magenta,
 } = color
-import { exit } from './_shared/process'
 
 export const printHelp = ( name: string, description: string, docsURL: string ): void => {
 
-	name = name.toLowerCase()
+	const extsList = ( obj: Record<string, string> ) => italic( Object.values( obj ).map( ext => `.${ext}`  ).join( ' ' ) )
+	const objList  = ( obj: Record<string, string> ) => italic( Object.values( obj ).join( ', ' ) )
+	name           = name.toLowerCase()
 
 	console.log( `${inverse.bold( ' ' + name + ' help ' )}
 
@@ -34,16 +43,16 @@ ${bold( 'Commands:' )}
 ${bold( 'Options:' )}      
 
   ${yellow( '-i, --input' )}       ${dim( 'Input file path.' )}
-                    ${dim( 'Accepted files: .ts, .js, .mjs, .mts, .cjs, .cts' )}
+                    ${dim( 'Accepted files: ' + extsList( INPUT_EXTS ) )}
                     ${dim( 'The input can be provided without an extension.' )}
   ${yellow( '-o, --output' )}      ${dim( 'Output directory path.' )}
   ${yellow( '-n, --name' )}        ${dim( 'Binary name.' )}
   ${yellow( '-t, --type' )}        ${dim( 'Binary type build' )}
-                    ${dim( 'Supported values: all, cjs, bin' )}
+                    ${dim( 'Supported values: ' + objList( BUILDER_TYPE ) )}
   ${yellow( '-O, --onlyOs' )}      ${dim( 'Build only binary for your current OS.' )}
                     ${dim( `If not set, [${cyan( name )}] will build a binary for every OS.` )}
   ${yellow( '-c, --config' )}      ${dim( 'Config file path.' )}
-                    ${dim( 'Files supported: .mjs, .js, .json, .yml, .yaml, .toml, .tml' )}
+                    ${dim( 'Files supported: ' + extsList( CONFIG_EXTS ) )}
 
 ${bold( 'Global options:' )}
 
@@ -61,7 +70,7 @@ ${bold( 'Examples:' )}
   ${dim( 'Build for deno' )}    ${cyan( `${name} deno -i src/main.js -o out` )}
   ${dim( 'Build for bun' )}     ${cyan( `${name} bun -i src/main.ts -n my-app` )}
 
-${bold( 'More info:' )}          ${magenta( docsURL )}
+${bold( 'More info:' )}          ${magenta.underline( docsURL )}
 	` )
 
 	exit( 0 )
