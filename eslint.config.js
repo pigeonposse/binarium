@@ -1,4 +1,6 @@
-import { dovenvEslintConfig } from '@dovenv/lint'
+import { lint } from '@dovenv/theme-pigeonposse'
+
+const { dovenvEslintConfig } = lint
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [

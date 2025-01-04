@@ -5,6 +5,9 @@ hero:
   name: "BINARIUM"
   text: "zero-config tool to create executables."
   tagline: Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.
+  image:
+    src: /logo.png
+    alt: binarium
   actions:
     - theme: brand
       text: Get started
@@ -19,10 +22,18 @@ features:
     icon: 👋
     details: build your binary now
     link: guide/
-  - title: Library
+  - title: documentation 
     icon: 📚
+    details: Read the documentation.
+    link: guide/core
+  - title: GitHub Action
+    icon: 🤖
+    details: build your binary using a GitHub Action
+    link: guide/action
+  - title: Api documentation 
+    icon: 📖
     details: Api documentation.
-    link: guide/api
+    link: guide/core/api
 
 ---
 

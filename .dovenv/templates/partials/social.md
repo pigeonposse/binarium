@@ -1,7 +1,0 @@
-[![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)]({{pkg.extra.collective.url}})
-[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)]({{pkg.extra.collective.about}})
-[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)]({{pkg.extra.collective.funding}})
-[![Github](https://img.shields.io/badge/Github-black?style=for-the-badge&logo=github&logoColor=white)]({{pkg.extra.collective.gh}})
-[![Twitter](https://img.shields.io/badge/Twitter-black?style=for-the-badge&logo=twitter&logoColor=white)]({{pkg.extra.collective.social.twitter}})
-[![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logo=instagram&logoColor=white)]({{pkg.extra.collective.social.instagram}})
-[![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logo=medium&logoColor=white)]({{pkg.extra.collective.social.medium}})

@@ -65,7 +65,7 @@ jobs:
 
       - name: 🧩 Install dependencies
         run: |
-          pnpm install --no-frozen-lockfile
+          pnpm install --no-frozen-lockfile --ignore-scripts
 
       #########################################################################
       # BUILD
@@ -102,6 +102,18 @@ jobs:
           echo Set updated versions
           echo "core_version=$core_version" >> $GITHUB_OUTPUT
           echo "core_major_version=$core_version_major" >> $GITHUB_OUTPUT
+
+      - name: 🌥 Deploy in cloudflare pages
+        uses: cloudflare/pages-action@v1
+        if: ${{ steps.updated.outputs.core_version != '' }}
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          projectName: "binarium"
+          directory: 'build/docs'
+          wranglerVersion: '3'
 
       - name: Release binary
         if: ${{ steps.updated.outputs.core_version != '' }}

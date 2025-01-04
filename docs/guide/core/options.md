@@ -47,3 +47,5 @@ type BuilderParams = {
  config?: string
 }
 ```
+
+- [More details](/guide/core/api#builderparams)

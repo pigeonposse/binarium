@@ -1,7 +1,0 @@
-# {{title}}
-
-{{header}}
-
-{{intro}}
-
-{{examples}}

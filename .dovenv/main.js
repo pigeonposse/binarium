@@ -1,31 +1,167 @@
-import { defineConfig }         from '@dovenv/core'
-import { config as bandaTheme } from '@dovenv/theme-banda'
+import { defineConfig } from '@dovenv/core'
 import {
-	asciiFont,
-	getCurrentDir,
-	getObjectFromJSONFile,
+	geMDTocString,
 	joinPath,
-} from '@dovenv/utils'
+	writeFile,
+} from '@dovenv/core/utils'
+import pigeonposseTheme, {
+	getWorkspaceConfig,
+	partial,
+	template,
+} from '@dovenv/theme-pigeonposse'
 
-const workspaceDir = joinPath( getCurrentDir( import.meta.url ), '..' )
-const pkgPath      = joinPath( workspaceDir, 'package.json' )
-const pkg          = await getObjectFromJSONFile( pkgPath )
+const core = await getWorkspaceConfig( {
+	metaURL : import.meta.url,
+	path    : '../',
+	core    : {
+		metaURL : import.meta.url,
+		path    : '../',
+	},
+} )
+
+const sidebar = [
+	{
+		text  : 'Introduction',
+		items : [
+			{
+				text : `What is ${core.pkg.name.toUpperCase()}?`,
+				link : '/guide/',
+			},
+		],
+	},
+	{
+		text  : 'Reference',
+		items : [
+			{
+				text  : `📚 Library / cli`,
+				items : [
+					{
+						text : `🏁 Get started`,
+						link : '/guide/core/',
+					},
+					{
+						text : `📈 Usage`,
+						link : '/guide/core/usage.md',
+					},
+					{
+						text : `⚙️ Options`,
+						link : '/guide/core/options.md',
+					},
+					{
+						text : `📖 Api`,
+						link : '/guide/core/api.md',
+					},
+				],
+			},
+			{
+				text : '🤖 Github Action',
+				link : '/guide/action/',
+			},
+		],
+	},
+]
 
 export default defineConfig(
-	{
-		name  : 'BINARIUM DEV UTILS',
-		desc  : 'Workspace tools for BINARIUM',
-		const : {
-			workspaceDir,
-			pkg,
-			mark : `\n${asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\nAuthor: ${pkg.author.name}\n`,
-		},
-	},
-	bandaTheme( {
-		// TODO: make documentation page
+	pigeonposseTheme( {
+		core,
 		docs : {
-			in  : 'docs',
-			out : 'build/docs',
+			input     : 'docs',
+			output    : 'build',
+			vitepress : {
+				ignoreDeadLinks : true,
+				themeConfig     : { outline: { level: [ 2, 3 ] } },
+				vite            : { build: { chunkSizeWarningLimit: 1000 } },
+			},
+			navLinks : [
+				{
+					icon : 'githubactions',
+					link : core.pkg.extra.githubactionUrl,
+				},
+			],
+			sidebar : {
+				'/guide/'       : sidebar,
+				'/todo/'        : sidebar,
+				'/contributors' : sidebar,
+			},
+			autoSidebar : {
+				intro     : false,
+				reference : false,
+			},
+		},
+		convert : {
+			api : {
+				type : 'custom',
+				fn   : async ( { run, config } ) => {
+
+					const wsDir = config.const.workspaceDir
+					const name  = config.const.pkg.productName
+
+					const content = await run.ts2md( {
+						input : [ 'src/main.ts' ],
+						opts  : {
+							tsconfigPath    : joinPath( wsDir, 'tsconfig.json' ),
+							packageJsonPath : joinPath( wsDir, 'package.json' ),
+							typedoc         : { logLevel: 'Error' },
+							typedocMarkdown : {
+								hidePageHeader : true,
+								hidePageTitle  : true,
+							},
+						},
+					} )
+
+					const apiContent = content[0].content
+						.replaceAll( '](index.md#', '](#' ) // this is because typedoc adds index.md# to the links
+
+					await writeFile( joinPath( wsDir, 'docs/guide/core/api.md' ), `# \`${name}\` - API documentation\n\n` + apiContent )
+
+				},
+			},
+		},
+		templates : {
+			readme : {
+				input : template.readmePkg,
+				const : {
+					libPkg : core.pkg,
+					desc   : core.pkg.description,
+					title  : core.pkg.extra.productName,
+				},
+				partial : {
+					installation : { input: partial.installation },
+					footer       : { input: partial.footer },
+					precontent   : { input: '' },
+					content      : { input : `## 🌟 Features
+
+- ⚡ **Fast**: Optimized for quick execution and minimal overhead.
+- 🚀 **Easy to Use**: Simple setup with minimal configuration required.
+- 🛠️ **Advanced Configuration**: Customize to fit your project's exact needs.
+- 🌍 **Available for**:
+  - 🟢 **Node.js**
+  - 🦕 **Deno**
+  - 🍞 **Bun**
+- 🌐 **Supports Multiple Environments**:
+  - 📦 **JavaScript Library**: Integrates seamlessly into any project.
+  - 💻 **Command Line Interface (CLI)**: Works across Node.js, Deno, and Bun environments.
+  - 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
+
+## More
+- [Documentation]({{const.libPkg.homepage}})
+- [GitHub Action]({{const.libPkg.extra.githubactionUrl}})
+
+` },
+				},
+				hook : {
+					afterPartials : async data => {
+
+						data.const.toc = `## Index\n\n` + await geMDTocString( {
+							input    : data.content,
+							removeH1 : true,
+						} ) + `\n- [Documentation]({{const.libPkg.homepage}})`
+						return data
+
+					},
+				},
+				output : joinPath( core.workspaceDir, 'README.md' ),
+			},
 		},
 		repo : { commit : { scopes : [
 			{ value: 'core' },
@@ -33,24 +169,7 @@ export default defineConfig(
 			{ value: 'all' },
 		] } },
 		lint : {
-			staged : { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'eslint' },
-			eslint : { flags: [ '--fix' ] },
+			staged : { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint --fix' },
 		},
-		// 'repo': {
-		// 	''
-		// },
-		workspace : { check : { pkg : { schema : async ( {
-			v, path, data,
-		} ) => {
-
-			if ( !data ) throw new Error( `No data in ${path}` )
-			if ( 'private' in data ) return
-			return v.object( {
-				name        : v.string(),
-				version     : v.string(),
-				description : v.string(),
-			} )
-
-		} } } },
 	} ),
 )

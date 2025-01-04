@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.2
+
+### Patch Changes
+
+- Up documentation
+
 ## 2.0.1
 
 ### Patch Changes
