@@ -1,0 +1,74 @@
+###############################################################################
+# RELEASE DOCS
+###############################################################################
+
+name: 🚀📚 Release Documentation
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Set number for release version'
+        type: string
+        required: true
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+env:
+    GITHUB_TOKEN: ${{ github.token }}
+
+###############################################################################
+# JOBS
+###############################################################################
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      UPDATED_VERSION: ${{ github.event.inputs.version }}
+
+    steps:
+
+      #########################################################################
+      # INIT
+      #########################################################################
+
+      - name: ⬇️🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+      - name: ⬇️🛎 Checkout
+        uses: actions/checkout@v4
+      - name: ⬇️🥡 Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: ⬇️🟢 Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: ⬇️📦 Install dependencies
+        run: |
+           export npm_config_build_from_source=false
+           pnpm install --no-frozen-lockfile --ignore-scripts
+
+      #########################################################################
+      # BUILD
+      #########################################################################
+
+      - name: 🏗 Build packages
+        run: pnpm build:pre && pnpm build:docs
+
+      ###################################################################
+      # BUILD AND DEPLOY
+      ###################################################################
+
+      - name: 🌥 Deploy in cloudflare pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          projectName: "dovenv"
+          directory: 'build/docs'
+          wranglerVersion: '3'
+
+###############################################################################

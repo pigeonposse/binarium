@@ -3,6 +3,7 @@ import {
 	geMDTocString,
 	joinPath,
 	writeFile,
+	joinUrl,
 } from '@dovenv/core/utils'
 import pigeonposseTheme, {
 	getWorkspaceConfig,
@@ -94,7 +95,7 @@ export default defineConfig(
 				fn   : async ( { run, config } ) => {
 
 					const wsDir = config.const.workspaceDir
-					const name  = config.const.pkg.productName
+					const name  = config.const.pkg.extra.productName || config.const.pkg.name
 
 					const content = await run.ts2md( {
 						input : [ 'src/main.ts' ],
@@ -144,8 +145,9 @@ export default defineConfig(
   - 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
 
 ## More
-- [Documentation]({{const.libPkg.homepage}})
-- [GitHub Action]({{const.libPkg.extra.githubactionUrl}})
+- [Documentation](${core.pkg.homepage})
+- [Api Documentation](${joinUrl( core.pkg.homepage, 'guide/core/api' )})
+- [GitHub Action](${core.pkg.extra.githubactionUrl})
 
 ` },
 				},

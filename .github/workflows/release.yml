@@ -103,17 +103,24 @@ jobs:
           echo "core_version=$core_version" >> $GITHUB_OUTPUT
           echo "core_major_version=$core_version_major" >> $GITHUB_OUTPUT
 
-      - name: 🌥 Deploy in cloudflare pages
-        uses: cloudflare/pages-action@v1
-        if: ${{ steps.updated.outputs.core_version != '' }}
+      - name: ℹ️➡️ Check for changes in package.json
+        run: |
+          git fetch origin main
+          git diff --name-only HEAD origin/main | grep 'package.json' || echo "No changes in package.json"
+        continue-on-error: true
+        id: check_package_json
+      - name: ℹ️🐙😺➡️ Update repo info
+        if: steps.check_package_json.outputs.stdout != 'No changes in package.json'
+        run: pnpm . gh info update
+        continue-on-error: true
+
+      - name: 📚🐙😺➡️ Call to workflow for deploy Documentation
+        if: steps.updated.outputs.core_version != ''
+        uses: benc-uk/workflow-dispatch@v1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          projectName: "binarium"
-          directory: 'build/docs'
-          wranglerVersion: '3'
+          workflow: release-docs.yml
+          inputs: '{ "version": "${{ steps.updated.outputs.core_version }}"}'
+        continue-on-error: true
 
       - name: Release binary
         if: ${{ steps.updated.outputs.core_version != '' }}

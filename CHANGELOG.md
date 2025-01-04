@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.3
+
+### Patch Changes
+
+- Up anf fix project env
+
 ## 2.0.2
 
 ### Patch Changes
