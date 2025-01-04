@@ -59,8 +59,7 @@
 		"prepare": "dovenv git husky",
 		"preview": "node dist/cli.mjs --input=examples/app.ts",
 		"test": "pnpm run --sequential \"/test:.*/\"",
-		"test:unit": "vitest run src --passWithNoTests",
-		"update-version": "changeset && changeset version"
+		"test:unit": "vitest run src --passWithNoTests"
 	},
 	"dependencies": {
 		"@babel/core": "7.26.0",
