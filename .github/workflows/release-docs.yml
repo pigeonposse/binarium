@@ -67,7 +67,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          projectName: "dovenv"
+          projectName: "binarium"
           directory: 'build/docs'
           wranglerVersion: '3'
 
