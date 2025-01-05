@@ -6,11 +6,6 @@ name: 🚀📚 Release Documentation
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Set number for release version'
-        type: string
-        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 env:
