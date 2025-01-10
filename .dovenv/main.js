@@ -35,7 +35,7 @@ const sidebar = [
 		text  : 'Reference',
 		items : [
 			{
-				text  : `📚 Library / cli`,
+				text  : `📚 Library / CLI`,
 				items : [
 					{
 						text : `🏁 Get started`,
@@ -84,6 +84,12 @@ export default defineConfig(
 					link : core.pkg.extra.githubactionUrl,
 				},
 			],
+			styles : { color : { dark : {
+				bg      : '#070d0e',
+				bgAlt   : '#080e0f',
+				bgSoft  : '#080e0f',
+				divider : '#a7ebff1a',
+			} } },
 			sidebar : {
 				'/guide/'       : sidebar,
 				'/todo/'        : sidebar,

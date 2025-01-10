@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.5
+
+### Patch Changes
+
+- Change docs color
+
 ## 2.0.4
 
 ### Patch Changes

@@ -20,19 +20,19 @@ features:
 
   - title: Get started
     icon: 👋
-    details: build your binary now
+    details: Build your executable(s) now!
     link: guide/
-  - title: documentation 
+  - title: Documentation 
     icon: 📚
     details: Read the documentation.
     link: guide/core
   - title: GitHub Action
     icon: 🤖
-    details: build your binary using a GitHub Action
+    details: Build your executable(s) using a GitHub Action.
     link: guide/action
   - title: Api documentation 
     icon: 📖
-    details: Api documentation.
+    details: Read all the details of the JavaScript and TypeScript API.
     link: guide/core/api
 
 ---
