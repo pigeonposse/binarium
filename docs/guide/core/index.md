@@ -32,6 +32,8 @@ deno add binarium
 
 :::
 
+![help-output](/binarium-help.png){data-zoomable}
+
 ## More
 
 - [Usage](./usage)

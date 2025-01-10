@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+
 /* eslint-disable @stylistic/multiline-ternary */
+/* eslint-disable jsdoc/require-jsdoc */
 
 import {
 	readFile,
@@ -17,13 +19,10 @@ import {
 } from 'node:process'
 import { fileURLToPath } from 'node:url'
 
-/* eslint-disable jsdoc/require-jsdoc */
-
 function showHelp() {
 
-	const name = 'binarium-assets-test'
 	console.log( `
-Usage: ${name} [options]
+Usage: $0 [options]
 
 Options:
 

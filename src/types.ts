@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 /* eslint-disable jsdoc/check-tag-names */
 
 import type { catchError } from './_shared/error'
@@ -10,6 +11,7 @@ import type { BuildError } from './error'
 import type { getLog }     from './log'
 
 export type Cmd = typeof CONSTS.CMD[keyof typeof CONSTS.CMD]
+export type BuilderType = typeof CONSTS.BUILDER_TYPE[keyof typeof CONSTS.BUILDER_TYPE]
 
 export type BuilderParams = {
 	/**
@@ -34,10 +36,11 @@ export type BuilderParams = {
 	 */
 	[OPTIONS.ONLYOS.key]? : boolean
 	/**
-	 * The build type Result [all|bundle|bin|compress].
+	 * The build type Result.
+	 * Supported: "bin", "all", "bundle", "compress"
 	 * @default 'all'
 	 */
-	[OPTIONS.TYPE.key]?   : typeof CONSTS.BUILDER_TYPE[keyof typeof CONSTS.BUILDER_TYPE]
+	[OPTIONS.TYPE.key]?   : BuilderType
 	/**
 	 * Config file path.
 	 * Files supported: .mjs, .js, .json, .yml, .yaml, .toml, .tml.

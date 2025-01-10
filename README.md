@@ -14,17 +14,17 @@
 
 Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.
 
-## Index
+## 📌 Index
 
 - [🔑 Installation](#-installation)
 - [🌟 Features](#-features)
-- [More](#more)
+- [📚 Documentation](#-documentation)
+- [🤖 GitHub Action](#-github-action)
 - [👨‍💻 Development](#-development)
 - [☕ Donate](#-donate)
 - [📜 License](#-license)
 - [🐦 About us](#-about-us)
 
-- [Documentation]({{const.libPkg.homepage}})
 
 
 
@@ -56,10 +56,16 @@ deno add binarium
   - 💻 **Command Line Interface (CLI)**: Works across Node.js, Deno, and Bun environments.
   - 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
 
-## More
-- [Documentation](https://binarium.pigeonposse.com/)
+## 📚 Documentation
+
+- [Get started](https://binarium.pigeonposse.com/)
 - [Api Documentation](https://binarium.pigeonposse.com/guide/core/api)
-- [GitHub Action](https://github.com/marketplace/actions/binarium-tool-to-create-executables-of-your-node-deno-or-bun-projects)
+
+## 🤖 GitHub Action
+
+You can use Binarium as a GitHub action.
+
+- [Read more](https://github.com/marketplace/actions/binarium-tool-to-create-executables-of-your-node-deno-or-bun-projects)
 
 
 

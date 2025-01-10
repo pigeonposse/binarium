@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.4
+
+### Patch Changes
+
+- add documentation, export more utils and fix issues
+
 ## 2.0.3
 
 ### Patch Changes

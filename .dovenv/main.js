@@ -6,6 +6,7 @@ import {
 	joinUrl,
 } from '@dovenv/core/utils'
 import pigeonposseTheme, {
+	examples,
 	getWorkspaceConfig,
 	partial,
 	template,
@@ -52,6 +53,10 @@ const sidebar = [
 						text : `📖 Api`,
 						link : '/guide/core/api.md',
 					},
+					{
+						text : `💡 Examples`,
+						link : '/guide/core/examples.md',
+					},
 				],
 			},
 			{
@@ -89,48 +94,75 @@ export default defineConfig(
 				reference : false,
 			},
 		},
-		convert : {
-			api : {
-				type : 'custom',
-				fn   : async ( { run, config } ) => {
+		convert : { api : {
+			type : 'custom',
+			fn   : async ( {
+				run, config,
+			} ) => {
 
-					const wsDir = config.const.workspaceDir
-					const name  = config.const.pkg.extra.productName || config.const.pkg.name
+				const wsDir            = config.const.workspaceDir
+				const pkg              = config.const.pkg
+				const name             = pkg.extra.productName || pkg.name
+				const examplesInstance = new examples.Examples( undefined, config )
 
-					const content = await run.ts2md( {
-						input : [ 'src/main.ts' ],
-						opts  : {
-							tsconfigPath    : joinPath( wsDir, 'tsconfig.json' ),
-							packageJsonPath : joinPath( wsDir, 'package.json' ),
-							typedoc         : { logLevel: 'Error' },
-							typedocMarkdown : {
-								hidePageHeader : true,
-								hidePageTitle  : true,
-							},
+				const content = await run.ts2md( {
+					input : [ 'src/main.ts' ],
+					opts  : {
+						tsconfigPath    : joinPath( wsDir, 'tsconfig.json' ),
+						packageJsonPath : joinPath( wsDir, 'package.json' ),
+						typedoc         : { logLevel: 'Error' },
+						typedocMarkdown : {
+							hidePageHeader : true,
+							hidePageTitle  : true,
 						},
-					} )
+					},
+				} )
 
-					const apiContent = content[0].content
-						.replaceAll( '](index.md#', '](#' ) // this is because typedoc adds index.md# to the links
+				const apiContent = content[0].content
+					.replaceAll( '](index.md#', '](#' ) // this is because typedoc adds index.md# to the links
 
-					await writeFile( joinPath( wsDir, 'docs/guide/core/api.md' ), `# \`${name}\` - API documentation\n\n` + apiContent )
+				await writeFile( joinPath( wsDir, 'docs/guide/core/api.md' ), `# \`${name}\` - API documentation\n\n` + apiContent )
 
-				},
+				const examplesContent = await examplesInstance.fromConfig( {
+					input : joinPath( wsDir, 'examples/info.yml' ),
+					title : 'Examples',
+					desc  : `All these examples can be found [here](${pkg.repository.url}/tree/main/examples)`,
+				} )
+
+				await writeFile(
+					joinPath( wsDir, 'docs/guide/core/examples.md' ),
+					examplesContent
+						.split( '\n' )
+						.map( line => {
+
+							if (
+								line.startsWith( '```ts' )
+								|| line.startsWith( '```ts ' )
+							) return line.replace( /(\bts\b|\bts )/g, '$1 twoslash' )
+							else if (
+								line.startsWith( '```js' )
+								|| line.startsWith( '```js ' )
+							) return line.replace( /(\bjs\b|\bjs )/g, '$1 twoslash' )
+							return line
+
+						} )
+						.join( '\n' ),
+				)
+
 			},
-		},
-		templates : {
-			readme : {
-				input : template.readmePkg,
-				const : {
-					libPkg : core.pkg,
-					desc   : core.pkg.description,
-					title  : core.pkg.extra.productName,
-				},
-				partial : {
-					installation : { input: partial.installation },
-					footer       : { input: partial.footer },
-					precontent   : { input: '' },
-					content      : { input : `## 🌟 Features
+		} },
+		templates : { readme : {
+			input : template.readmePkg,
+			const : {
+				libPkg : core.pkg,
+				desc   : core.pkg.description,
+				title  : core.pkg.extra.productName,
+			},
+			partial : {
+				installation : { input: partial.installation },
+				footer       : { input: partial.footer },
+				precontent   : { input: '' },
+				content      : { input : `## 🌟 Features
 
 - ⚡ **Fast**: Optimized for quick execution and minimal overhead.
 - 🚀 **Easy to Use**: Simple setup with minimal configuration required.
@@ -144,34 +176,35 @@ export default defineConfig(
   - 💻 **Command Line Interface (CLI)**: Works across Node.js, Deno, and Bun environments.
   - 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
 
-## More
-- [Documentation](${core.pkg.homepage})
+## 📚 Documentation
+
+- [Get started](${core.pkg.homepage})
 - [Api Documentation](${joinUrl( core.pkg.homepage, 'guide/core/api' )})
-- [GitHub Action](${core.pkg.extra.githubactionUrl})
+
+## 🤖 GitHub Action
+
+You can use Binarium as a GitHub action.
+
+- [Read more](${core.pkg.extra.githubactionUrl})
 
 ` },
-				},
-				hook : {
-					afterPartials : async data => {
-
-						data.const.toc = `## Index\n\n` + await geMDTocString( {
-							input    : data.content,
-							removeH1 : true,
-						} ) + `\n- [Documentation]({{const.libPkg.homepage}})`
-						return data
-
-					},
-				},
-				output : joinPath( core.workspaceDir, 'README.md' ),
 			},
-		},
+			hook : { afterPartials : async data => {
+
+				data.const.toc = `## 📌 Index\n\n` + await geMDTocString( {
+					input    : data.content,
+					removeH1 : true,
+				} )
+				return data
+
+			} },
+			output : joinPath( core.workspaceDir, 'README.md' ),
+		} },
 		repo : { commit : { scopes : [
 			{ value: 'core' },
 			{ value: 'env' },
 			{ value: 'all' },
 		] } },
-		lint : {
-			staged : { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint --fix' },
-		},
+		lint : { staged: { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint --fix' } },
 	} ),
 )

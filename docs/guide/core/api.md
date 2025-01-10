@@ -1,11 +1,11 @@
-# `undefined` - API documentation
+# `Binarium` - API documentation
 
 ## Functions
 
 ### build()
 
 ```ts
-function build(params: BuilderParams): Promise<undefined>
+function build(params: BuilderParams): Promise<void>
 ```
 
 Package your cli application for different platforms and architectures.
@@ -18,7 +18,7 @@ Package your cli application for different platforms and architectures.
 
 #### Returns
 
-`Promise`\<`undefined`\>
+`Promise`\<`void`\>
 
 - A promise that resolves when the binary creation process is complete.
 
@@ -40,7 +40,7 @@ build({
 ### buildAuto()
 
 ```ts
-function buildAuto(params: BuilderParams): Promise<undefined>
+function buildAuto(params: BuilderParams): Promise<void>
 ```
 
 Package your cli application for different platforms and architectures.
@@ -54,7 +54,7 @@ Autodectect runtime (node, deno, bun).
 
 #### Returns
 
-`Promise`\<`undefined`\>
+`Promise`\<`void`\>
 
 - A promise that resolves when the binary creation process is complete.
 
@@ -76,7 +76,7 @@ buildAuto({
 ### buildBun()
 
 ```ts
-function buildBun(params: BuilderParams): Promise<undefined>
+function buildBun(params: BuilderParams): Promise<void>
 ```
 
 Package your Bun cli application for different platforms and architectures.
@@ -89,7 +89,7 @@ Package your Bun cli application for different platforms and architectures.
 
 #### Returns
 
-`Promise`\<`undefined`\>
+`Promise`\<`void`\>
 
 - A promise that resolves when the binary creation process is complete.
 
@@ -111,7 +111,7 @@ buildBun({
 ### buildDeno()
 
 ```ts
-function buildDeno(params: BuilderParams): Promise<undefined>
+function buildDeno(params: BuilderParams): Promise<void>
 ```
 
 Package your Deno cli application for different platforms and architectures.
@@ -124,7 +124,7 @@ Package your Deno cli application for different platforms and architectures.
 
 #### Returns
 
-`Promise`\<`undefined`\>
+`Promise`\<`void`\>
 
 - A promise that resolves when the binary creation process is complete.
 
@@ -146,7 +146,7 @@ buildDeno({
 ### buildNode()
 
 ```ts
-function buildNode(params: BuilderParams): Promise<undefined>
+function buildNode(params: BuilderParams): Promise<void>
 ```
 
 Package your Node.js cli application for different platforms and architectures.
@@ -159,7 +159,7 @@ Package your Node.js cli application for different platforms and architectures.
 
 #### Returns
 
-`Promise`\<`undefined`\>
+`Promise`\<`void`\>
 
 - A promise that resolves when the binary creation process is complete.
 
@@ -225,7 +225,7 @@ function defineConfig(config: {
     };
   onlyOs: boolean;
   output: string;
-  type: "bin" | "all" | "bundle" | "compress";
+  type: BuilderType;
  }): {
   assets: {
      from: string;
@@ -270,7 +270,7 @@ function defineConfig(config: {
     };
   onlyOs: boolean;
   output: string;
-  type: "bin" | "all" | "bundle" | "compress";
+  type: BuilderType;
 }
 ```
 
@@ -304,7 +304,7 @@ Define the configuration for the binary builder.
 | `config.nodeOptions.pkg.targets`? | `string`[] | Targets of your binary. Must be a list of strings in the following format: \{nodeRange\}-\{platform\}-[arch]. **See** https://github.com/yao-pkg/pkg?tab=readme-ov-file#targets **Example** `[ 'node18-macos-x64', 'node14-linux-arm64']` |
 | `config.onlyOs`? | `boolean` | Build only binary for your current OS. **Default** `false` |
 | `config.output`? | `string` | Directory for the output build. **Default** `'./build'` |
-| `config.type`? | `"bin"` \| `"all"` \| `"bundle"` \| `"compress"` | The build type Result [all|bundle|bin|compress]. **Default** `'all'` |
+| `config.type`? | [`BuilderType`](#buildertype) | The build type Result. Supported: "bin", "all", "bundle", "compress" **Default** `'all'` |
 
 #### Returns
 
@@ -353,7 +353,7 @@ Define the configuration for the binary builder.
     };
   onlyOs: boolean;
   output: string;
-  type: "bin" | "all" | "bundle" | "compress";
+  type: BuilderType;
 }
 ```
 
@@ -384,7 +384,7 @@ Define the configuration for the binary builder.
 | `nodeOptions.pkg.targets`? | `string`[] | Targets of your binary. Must be a list of strings in the following format: \{nodeRange\}-\{platform\}-[arch]. **See** https://github.com/yao-pkg/pkg?tab=readme-ov-file#targets **Example** `[ 'node18-macos-x64', 'node14-linux-arm64']` |
 | `onlyOs`? | `boolean` | Build only binary for your current OS. **Default** `false` |
 | `output`? | `string` | Directory for the output build. **Default** `'./build'` |
-| `type`? | `"bin"` \| `"all"` \| `"bundle"` \| `"compress"` | The build type Result [all|bundle|bin|compress]. **Default** `'all'` |
+| `type`? | [`BuilderType`](#buildertype) | The build type Result. Supported: "bin", "all", "bundle", "compress" **Default** `'all'` |
 
 #### Example
 
@@ -423,7 +423,7 @@ type BuilderContructorParams: GetDataParams & {
 ### BuilderErrors
 
 ```ts
-type BuilderErrors: typeof CONSTS.ERROR_ID[keyof typeof CONSTS.ERROR_ID];
+type BuilderErrors: typeof ERROR_ID[keyof typeof ERROR_ID];
 ```
 
 ***
@@ -437,7 +437,7 @@ type BuilderParams: {
   name: string;
   onlyOs: boolean;
   output: string;
-  type: typeof CONSTS.BUILDER_TYPE[keyof typeof CONSTS.BUILDER_TYPE];
+  type: BuilderType;
 };
 ```
 
@@ -450,14 +450,22 @@ type BuilderParams: {
 | `name`? | `string` | Binary name. |
 | `onlyOs`? | `boolean` | Build only binary for your current OS. **Default** `false` |
 | `output`? | `string` | Directory for the output build. **Default** `'./build'` |
-| `type`? | *typeof* `CONSTS.BUILDER_TYPE`\[keyof *typeof* `CONSTS.BUILDER_TYPE`\] | The build type Result [all|bundle|bin|compress]. **Default** `'all'` |
+| `type`? | [`BuilderType`](#buildertype) | The build type Result. Supported: "bin", "all", "bundle", "compress" **Default** `'all'` |
+
+***
+
+### BuilderType
+
+```ts
+type BuilderType: typeof BUILDER_TYPE[keyof typeof BUILDER_TYPE];
+```
 
 ***
 
 ### Cmd
 
 ```ts
-type Cmd: typeof CONSTS.CMD[keyof typeof CONSTS.CMD];
+type Cmd: typeof CMD[keyof typeof CMD];
 ```
 
 ***
@@ -511,14 +519,112 @@ const BINARIUM_CONSTS: {
 };
 ```
 
+Binarium constants for use in CLI output.
+
+Overwrite these values at your own risk.
+
 #### Type declaration
 
-| Name | Type |
-| ------ | ------ |
-| `debug`? | `boolean` |
-| `desc`? | `string` |
-| `docsURL`? | `string` |
-| `icon`? | `string` |
-| `name`? | `string` |
-| `onHelp`? | () => `void` |
-| `onVersion`? | () => `void` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `debug`? | `boolean` | Override debug mode |
+| `desc`? | `string` | CLI Description |
+| `docsURL`? | `string` | Documentation URL |
+| `icon`? | `string` | CLI Icon |
+| `name`? | `string` | CLI name |
+| `onHelp`? | () => `void` | Override onHelp output |
+| `onVersion`? | () => `void` | Override onVersion output |
+
+***
+
+### BUILDER\_TYPE
+
+```ts
+const BUILDER_TYPE: {
+  ALL: 'all';
+  BIN: 'bin';
+  BUNDLE: 'bundle';
+  COMPRESS: 'compress';
+};
+```
+
+Object with builder types values
+
+#### Type declaration
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `ALL` | `"all"` | 'all' |
+| `BIN` | `"bin"` | 'bin' |
+| `BUNDLE` | `"bundle"` | 'bundle' |
+| `COMPRESS` | `"compress"` | 'compress' |
+
+***
+
+### CMD
+
+```ts
+const CMD: {
+  AUTO: 'auto';
+  BUN: 'bun';
+  DENO: 'deno';
+  NODE: 'node';
+};
+```
+
+Command types
+
+#### Type declaration
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `AUTO` | `"auto"` | 'auto' |
+| `BUN` | `"bun"` | 'bun' |
+| `DENO` | `"deno"` | 'deno' |
+| `NODE` | `"node"` | 'node' |
+
+***
+
+### ERROR\_ID
+
+```ts
+const ERROR_ID: {
+  NO_INPUT: 'NO_INPUT';
+  ON_BUN_COMPILE: 'ON_BUN_COMPILE';
+  ON_COMPRESSION: 'ON_COMPRESSION';
+  ON_CONFIG: 'ON_CONFIG';
+  ON_DENO_COMPILE: 'ON_DENO_COMPILE';
+  ON_ESBUILD: 'ON_ESBUILD';
+  ON_NCC: 'ON_NCC';
+  ON_PKG: 'ON_PKG';
+  PLATFORM_UNKWON: 'PLATFORM_UNKWON';
+  PROCESS_NODE: 'PROCESS_NODE';
+  RUNTIME_BUN: 'RUNTIME_BUN';
+  RUNTIME_DENO: 'RUNTIME_DENO';
+  RUNTIME_NODE: 'RUNTIME_NODE';
+  RUNTIME_UNKNOWN: 'RUNTIME_UNKNOWN';
+  UNEXPECTED: 'UNEXPECTED';
+};
+```
+
+Object with all library errors ID values
+
+#### Type declaration
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `NO_INPUT` | `"NO_INPUT"` | 'NO\_INPUT' |
+| `ON_BUN_COMPILE` | `"ON_BUN_COMPILE"` | 'ON\_BUN\_COMPILE' |
+| `ON_COMPRESSION` | `"ON_COMPRESSION"` | 'ON\_COMPRESSION' |
+| `ON_CONFIG` | `"ON_CONFIG"` | 'ON\_CONFIG' |
+| `ON_DENO_COMPILE` | `"ON_DENO_COMPILE"` | 'ON\_DENO\_COMPILE' |
+| `ON_ESBUILD` | `"ON_ESBUILD"` | 'ON\_ESBUILD' |
+| `ON_NCC` | `"ON_NCC"` | 'ON\_NCC' |
+| `ON_PKG` | `"ON_PKG"` | 'ON\_PKG' |
+| `PLATFORM_UNKWON` | `"PLATFORM_UNKWON"` | 'PLATFORM\_UNKWON' |
+| `PROCESS_NODE` | `"PROCESS_NODE"` | 'PROCESS\_NODE' |
+| `RUNTIME_BUN` | `"RUNTIME_BUN"` | 'RUNTIME\_BUN' |
+| `RUNTIME_DENO` | `"RUNTIME_DENO"` | 'RUNTIME\_DENO' |
+| `RUNTIME_NODE` | `"RUNTIME_NODE"` | 'RUNTIME\_NODE' |
+| `RUNTIME_UNKNOWN` | `"RUNTIME_UNKNOWN"` | 'RUNTIME\_UNKNOWN' |
+| `UNEXPECTED` | `"UNEXPECTED"` | 'UNEXPECTED' |

@@ -1,17 +1,13 @@
+import { build } from 'binarium'
 import {
-	build,
-	BINARIUM_CONSTS,
-} from 'binarium'
-
-import { name } from './config'
-import {
-	getCurrFileDir,
+	dirname,
 	join,
-} from '../utils'
+} from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-BINARIUM_CONSTS.name = name
+const __dirname = dirname( fileURLToPath( import.meta.url ) )
 
 await build( {
 	input  : '',
-	config : join( getCurrFileDir( import.meta.url ), 'config.js' ),
+	config : join( __dirname, 'config.js' ),
 } )

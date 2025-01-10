@@ -1,11 +1,13 @@
 import { buildBun } from 'binarium'
-
 import {
-	getCurrFileDir,
+	dirname,
 	join,
-} from '../utils'
+} from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = dirname( fileURLToPath( import.meta.url ) )
 
 await buildBun( {
 	input  : '',
-	config : join( getCurrFileDir( import.meta.url ), 'config.js' ),
+	config : join( __dirname, 'config.js' ),
 } )

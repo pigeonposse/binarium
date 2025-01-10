@@ -18,6 +18,7 @@ export const getCurrFileDir = ( path: string = import.meta.url ) => {
 	return __dirname
 
 }
+
 const existsPath = async ( path: string ) => {
 
 	try {
@@ -42,6 +43,7 @@ export const showBinPaths = async () => {
 		const exists = await existsPath( dirPath )
 		if ( !exists ) return
 		const files = await readdir( dirPath )
+
 		console.log( 'Execute bin paths:' )
 		for ( const file of files ) {
 
@@ -58,18 +60,22 @@ export const showBinPaths = async () => {
 				}
 
 			}
-			catch ( err ) {
+			catch ( e ) {
 
-				console.error( `Error reading file: ${err.message}` )
+				if ( e instanceof Error )
+					console.error( `Error reading file: ${e.message}` )
+				else console.error( e )
 
 			}
 
 		}
 
 	}
-	catch ( err ) {
+	catch ( e ) {
 
-		console.error( `Error reading directory: ${err.message}` )
+		if ( e instanceof Error )
+			console.error( `Error reading directory: ${e.message}` )
+		else console.error( e )
 
 	}
 

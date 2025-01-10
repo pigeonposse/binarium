@@ -10,12 +10,17 @@ import {
 	onExit,
 	setNoDeprecationAlerts,
 } from './_shared/process'
-import { perf }            from './_shared/time'
-import { CMDS }            from './cmd/main'
-import { BINARIUM_CONSTS } from './const'
-import * as consts         from './const'
-import { BuildError }      from './error'
-import { getLog }          from './log'
+import { perf } from './_shared/time'
+import { CMDS } from './cmd/main'
+import {
+	BINARIUM_CONSTS,
+	CMD,
+	BUILDER_TYPE,
+	ERROR_ID,
+} from './const'
+import * as consts    from './const'
+import { BuildError } from './error'
+import { getLog }     from './log'
 
 import type {
 	BuilderParams,
@@ -25,9 +30,14 @@ import type {
 
 export type * from './types'
 
-export { BINARIUM_CONSTS }
+export {
+	BINARIUM_CONSTS,
+	BUILDER_TYPE,
+	CMD,
+	ERROR_ID,
+}
 
-const _buildContructor = async ( params: BuilderParams, type?: Cmd ) => {
+const _buildContructor = async ( params: BuilderParams, type?: Cmd ): Promise<void> => {
 
 	const {
 		ERROR_ID,

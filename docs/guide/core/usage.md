@@ -8,7 +8,7 @@ Quickly compile your JS project into executables for all platforms and architect
 
 > Automatically detects the JS runtime you are working in. Only accepts `node`, `deno`, `bun`
 
-```js
+```ts twoslash
 import { build } from 'binarium'
 
 await build( {
@@ -21,7 +21,7 @@ await build( {
 
 Quickly compile your `Node` project into executables for all platforms and architectures
 
-```js
+```js twoslash
 import { buildNode } from 'binarium'
 
 await buildNode( {
@@ -34,7 +34,7 @@ await buildNode( {
 
 Alternatively, if you are working in a node environment, you can do:
 
-```js
+```js twoslash
 import { build } from 'binarium'
 
 await build( {
@@ -47,7 +47,7 @@ await build( {
 
 Build Deno executables (`deno compile` wrapper)
 
-```js
+```js twoslash
 import { buildDeno } from 'binarium'
 
 await buildDeno( {
@@ -60,7 +60,7 @@ await buildDeno( {
 
 Build Bun executables (`bun build --compile` wrapper)
 
-```js
+```js twoslash
 import { buildBun } from 'binarium'
 
 await buildBun( {
@@ -102,7 +102,7 @@ In the configuration file you can define your build options and configure advanc
 binarium node --config binarium.config.js
 ```
 
-```js
+```js twoslash
 // binarium.config.js
 import { defineConfig } from 'binarium'
 
@@ -120,7 +120,7 @@ export default defineConfig( {
 binarium deno -c binarium.config.js
 ```
 
-```js
+```js twoslash
 // binarium.config.js
 import { defineConfig } from 'binarium'
 
@@ -138,7 +138,7 @@ export default defineConfig( {
 binarium bun -c binarium.config.js
 ```
 
-```js
+```js twoslash
 // binarium.config.js
 import { defineConfig } from 'binarium'
 

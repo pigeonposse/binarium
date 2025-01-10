@@ -9,7 +9,7 @@ import {
 	join,
 } from '../utils'
 
-BINARIUM_CONSTS.name = name
+BINARIUM_CONSTS.name = name // overrite binarium help name. Use it if you want implement this in your own library
 await build( {
 	input  : '',
 	name   : BINARIUM_CONSTS.name,

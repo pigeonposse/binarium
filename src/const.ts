@@ -4,12 +4,13 @@ import {
 	bugs,
 	repository,
 	description,
+	homepage,
 } from '../package.json'
 
 export const name = pkgName.toUpperCase()
 export const bugsURL = bugs.url
 export const repositoryURL = repository.url
-export const documentationURL = repositoryURL
+export const documentationURL = homepage
 
 export {
 	version,
@@ -67,6 +68,7 @@ export const CONFIG_EXTS = {
 	CJS  : 'cjs',
 	JS   : 'js',
 } as const
+
 export const INPUT_EXTS = {
 	TS  : 'ts',
 	JS  : 'js',
@@ -75,6 +77,7 @@ export const INPUT_EXTS = {
 	CJS : 'cjs',
 	CTS : 'cts',
 }
+/** Object with all library errors ID values */
 export const ERROR_ID = {
 	NO_INPUT        : 'NO_INPUT',
 	PLATFORM_UNKWON : 'PLATFORM_UNKWON',
@@ -92,6 +95,8 @@ export const ERROR_ID = {
 	PROCESS_NODE    : 'PROCESS_NODE',
 	UNEXPECTED      : 'UNEXPECTED',
 } as const
+
+/** Object with builder types values */
 export const BUILDER_TYPE = {
 	ALL      : 'all',
 	BUNDLE   : 'bundle',
@@ -99,6 +104,7 @@ export const BUILDER_TYPE = {
 	COMPRESS : 'compress',
 } as const
 
+/** Command types */
 export const CMD = {
 	AUTO : 'auto',
 	NODE : 'node',
@@ -118,13 +124,39 @@ export const PLATFORM = {
 	UNKNOWN : 'unknown',
 } as const
 
+/**
+ * Binarium constants for use in CLI output.
+ *
+ * Overwrite these values at your own risk.
+ */
 export const BINARIUM_CONSTS: {
+	/**
+	 * CLI name
+	 */
 	name?      : string
+	/**
+	 * CLI Description
+	 */
 	desc?      : string
+	/**
+	 * Documentation URL
+	 */
 	docsURL?   : string
+	/**
+	 * Override debug mode
+	 */
 	debug?     : boolean
+	/**
+	 * CLI Icon
+	 */
 	icon?      : string
+	/**
+	 * Override onVersion output
+	 */
 	onVersion? : () => void
+	/**
+	 * Override onHelp output
+	 */
 	onHelp?    : () => void
 } = {
 	icon      : undefined,

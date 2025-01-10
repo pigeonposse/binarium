@@ -1,13 +1,9 @@
-import {
-	build,
-	BINARIUM_CONSTS,
-} from 'binarium'
-
-BINARIUM_CONSTS.name = 'binarium-test'
+import { build } from 'binarium'
+import { join }  from 'node:path'
 
 await build( {
-	input  : 'examples/lib/app',
-	name   : BINARIUM_CONSTS.name,
+	input  : join( import.meta.dirname, 'app' ),
+	name   : 'binarium-test',
 	onlyOs : true,
 	type   : 'bin',
 } )

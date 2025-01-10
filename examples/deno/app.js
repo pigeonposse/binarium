@@ -1,43 +1,36 @@
 
-/* eslint-disable jsdoc/require-jsdoc */
-
 const args = globalThis.Deno?.args
 if ( !args ) console.error( 'args not found' )
 
-const name    = 'binarium-deno-test'
 const command = args[0]
 
 // cli.ts
-function showHelp() {
+const showHelp = () => {
 
 	console.log( `
-  Usage:
+Usage:
 
-	${name} <command> [options]
-  
-  Commands:
+  $0 <command> [options]
 
-	greet    Displays a greeting message.
-  
-  Options:
+Commands:
 
-	--help   Shows this help message.
-	--name   Specifies a name to personalize the greeting.
+  greet    Displays a greeting message.
+
+Options:
+
+  --help   Shows this help message.
+  --name   Specifies a name to personalize the greeting.
 ` )
 
 }
 
-function greet( name ) {
+const greet = name => {
 
 	console.log( `Hello, ${name}! Welcome to our CLI with Deno.` )
 
 }
 
-if ( args.includes( '--help' ) || !command ) {
-
-	showHelp()
-
-}
+if ( args.includes( '--help' ) || !command ) showHelp()
 else if ( command === 'greet' ) {
 
 	const nameIndex = args.indexOf( '--name' )
@@ -47,6 +40,6 @@ else if ( command === 'greet' ) {
 }
 else {
 
-	console.log( 'Unrecognized command. Use \'--help\' to see available commands.' )
+	console.error( 'Unrecognized command. Use \'--help\' to see available commands.' )
 
 }

@@ -6,6 +6,6 @@ export default defineConfig( {
 	name        : name,
 	input       : 'examples/deno/app.js',
 	onlyOs      : false,
-	type        : 'zip',
+	type        : 'compress',
 	denoOptions : { flags: [ '--allow-all', '--no-npm' ] },
 } )

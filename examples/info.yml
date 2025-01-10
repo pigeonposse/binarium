@@ -1,0 +1,112 @@
+CLI:
+  title: CLI example
+  desc: Create a TypeScript app and build the executables with `binarium`
+  data:
+    APP:
+      input: ./cli/app.ts
+      title: "App file"
+      desc: This file is found in "cli/app.ts"
+    CLI:
+      input: "binarium --input cli/app.ts"
+      title: "Build"
+      desc: Build executables for all operating systems and architectures (arm or x64) by automatically detecting the current JS runtime environment to build binaries.
+      type: "bash"
+    RUNTIME:
+      input: |
+        # node
+        binarium node -i cli/app.ts
+        # deno
+        binarium deno -i cli/app.ts
+        # bun
+        binarium bun -i cli/app.ts
+      title: "Build with Specific runtime"
+      desc: Build with a specific runtime environment
+      type: "bash"
+
+LIB:
+  title: JS example
+  desc: |
+   Simple example of using JavaScript.
+   Builds the app found in the 'lib/app.js' file into an executable for the current system only.
+  data:
+    APP:
+      input: ./lib/app.js
+      title: "App file"
+      desc: This file is found in "lib/app.js"
+    JS:
+      input: ./lib/main.ts
+      title: "Build file"
+      desc: This file is found in "lib/main.js"
+    CLI:
+      input: "node lib/main.js"
+      title: "Execute"
+      type: "bash"
+
+LIB_TS:
+  title: TS example
+  desc: |
+   Simple example of using TypeScript.
+   Builds the app found in the 'lib-ts/app.ts' file into an executable for the current system only.
+  data:
+    APP:
+      input: ./lib-ts/app.ts
+      title: "App file"
+      desc: This file is found in "lib-ts/app.ts"
+    JS:
+      input: ./lib-ts/main.ts
+      title: "Build file"
+      desc: This file is found in "lib-ts/main.ts"
+    CLI:
+      input: "node lib-ts/main.ts"
+      title: "Execute"
+      type: "bash"
+
+DENO:
+  title: Deno example
+  desc: |
+   Simple example of build in **deno** runtime.
+  data:
+    CONFIG::
+      input: ./deno/config.js
+      title: "Configuration file"
+    APP:
+      input: ./deno/app.js
+      title: "App file"
+    CLI:
+      input: "binarium deno -c deno/config.js"
+      title: "Execute"
+      type: "bash"
+
+BUN:
+  title: Bun example
+  desc: |
+   Simple example of build in **bun** runtime.
+  data:
+    CONFIG::
+      input: ./bun/config.js
+      title: "Configuration file"
+    APP:
+      input: ./bun/app.ts
+      title: "App file"
+    CLI:
+      input: "binarium bun -c bun/config.js"
+      title: "Execute"
+      type: "bash"
+
+ASSETS:
+  title: With assets
+  desc: Create binaries with custom assets
+  data:
+    CONFIG:
+      input: ./assets/config.js
+      title: "Run dovenv with a custom config file"
+    APP:
+      input: ./assets/app.js
+      title: "App file"
+    JS:
+      input: ./assets/main.ts
+      title: "Run binarium via JS"
+    BIN:
+      input: "binarium -c my/custom/config.js"
+      title: "Run configuration via CLI"
+      type: "bash"

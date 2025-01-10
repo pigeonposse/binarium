@@ -1,11 +1,9 @@
 #!/usr/bin/env node
-/* eslint-disable jsdoc/require-jsdoc */
 
-function showHelp() {
+const showHelp = () => {
 
-	const name = 'binarium-lib-test'
 	console.log( `
-Usage: ${name} [options]
+Usage: $0 [options]
 
 Options:
 --help       Show this help message
@@ -49,7 +47,7 @@ const parseArgs = () => {
 
 }
 
-function main() {
+const main = () => {
 
 	const flags = parseArgs()
 
