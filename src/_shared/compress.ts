@@ -53,7 +53,9 @@ export const zipDir = async ( data: {
 	onError? : ( n: string, err: Error ) => void
 } ) => {
 
-	const { input, output, onDone, onError } = data
+	const {
+		input, output, onDone, onError,
+	} = data
 	// Function to execute zipping in worker threads
 	const createZipForFileInThread = async ( sourceDirectory: string, file: string, outputDirectory: string, onDone: ( n: string ) => void = () => {}, onError: ( n: string, err: Error ) => void = () => {} ) => {
 
@@ -105,7 +107,9 @@ export const zipPaths = async ( data:{
 	onError? : ( n: string, err: Error ) => void
 } ) => {
 
-	const { input, output, opts, onDone, onError } = data
+	const {
+		input, output, opts, onDone, onError,
+	} = data
 
 	const createZipForFileInThread = async ( filePath: string, outputDirectory: string, onDone: ( n: string ) => void = () => {}, onError: ( n: string, err: Error ) => void  = () => {} ) => {
 

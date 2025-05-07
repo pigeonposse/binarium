@@ -20,13 +20,8 @@ const isJsDom: boolean = ( typeof window !== 'undefined' && window.name === 'nod
 		&& ( navigator.userAgent.includes( 'Node.js' )
 			|| navigator.userAgent.includes( 'jsdom' ) ) )
 
-const isDeno: boolean
-  // @ts-ignore
-  = typeof Deno !== 'undefined'
-  // @ts-ignore
-  && typeof Deno.version !== 'undefined'
-  // @ts-ignore
-  && typeof Deno.version.deno !== 'undefined'
+// @ts-ignore
+const isDeno: boolean = typeof Deno !== 'undefined' && typeof Deno.version !== 'undefined' && typeof Deno.version.deno !== 'undefined'
 
 const isBun = typeof process !== 'undefined' && process.versions != null && process.versions.bun != null
 

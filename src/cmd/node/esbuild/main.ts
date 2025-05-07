@@ -4,4 +4,4 @@ export * from './http'
 export * from './native-node-modules'
 export * from './wasm'
 export * from './import-meta-url'
-
+export * from './json'

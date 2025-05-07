@@ -44,7 +44,7 @@ jobs:
         run: |
            export npm_config_build_from_source=false
            pnpm install --no-frozen-lockfile --ignore-scripts
-           pnpm i -g wrangler 
+           pnpm i -g wrangler
 
       #########################################################################
       # BUILD

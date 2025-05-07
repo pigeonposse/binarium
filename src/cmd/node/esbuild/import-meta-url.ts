@@ -20,7 +20,7 @@ import type { Plugin } from 'esbuild'
  * @returns {Plugin} The esbuild plugin
  */
 export const importMetaUrlEsbuildPlugin = () => ( {
-	name : 'import.meta.url',
+	name : 'binarium-import.meta.url',
 	setup( { onLoad } ) {
 
 		// Help vite that bundles/move files in dev mode without touching `import.meta.url` which breaks asset urls

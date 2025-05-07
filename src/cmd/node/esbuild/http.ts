@@ -19,7 +19,7 @@ import type { Plugin } from 'esbuild'
  * @returns {Plugin} The esbuild plugin
  */
 export const httpEsbuildPlugin = () => ( {
-	name : 'http',
+	name : 'binarium-http',
 	setup( build ) {
 
 		// Intercept import paths starting with "http:" and "https:" so

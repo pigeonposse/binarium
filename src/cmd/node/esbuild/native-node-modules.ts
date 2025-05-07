@@ -14,7 +14,7 @@ import type { Plugin } from 'esbuild'
  * @returns {Plugin} The esbuild plugin
  */
 export const nativeNodeModulesEsbuildPlugin = () => ( {
-	name : 'native-node-modules',
+	name : 'binarium-native-node-modules',
 	setup( build ) {
 
 		// If a ".node" file is imported within a module in the "file" namespace, resolve

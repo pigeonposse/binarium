@@ -36,7 +36,7 @@ export const wasmEsbuildPlugin = wasmLoader
  * @returns {Plugin} The esbuild plugin
  */
 export const _experimental__wasmEsbuildPlugin =  () => ( {
-	name : 'wasm',
+	name : 'binarium-experimental-wasm',
 	setup( build ) {
 
 		// Resolve ".wasm" files to a path with a namespace

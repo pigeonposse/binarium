@@ -1,6 +1,6 @@
 {
 	"name": "binarium",
-	"version": "2.0.8",
+	"version": "2.0.9",
 	"description": "Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.",
 	"keywords": [
 		"bin",

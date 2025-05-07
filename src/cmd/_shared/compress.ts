@@ -1,13 +1,17 @@
 
-import { zipDir,
-	zipPaths } from '../../_shared/compress'
+import {
+	zipDir,
+	zipPaths,
+} from '../../_shared/compress'
 import { catchError } from '../../_shared/error'
 import {
 	cancel,
 	onCancel,
 }    from '../../_shared/process'
-import { getPaths,
-	joinPath } from '../../_shared/sys'
+import {
+	getPaths,
+	joinPath,
+} from '../../_shared/sys'
 
 import type { BuilderContructorParams } from '../../types'
 
