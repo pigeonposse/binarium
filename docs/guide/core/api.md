@@ -196,7 +196,9 @@ function defineConfig(config: {
   input: string;
   name: string;
   nodeOptions: {
-     esbuild: false | {};
+     esbuild: false | {
+        noDefaultPlugins: boolean;
+       };
      ncc: false | {
         assetBuilds: boolean;
         cache: string | false;
@@ -241,7 +243,9 @@ function defineConfig(config: {
   input: string;
   name: string;
   nodeOptions: {
-     esbuild: false | {};
+     esbuild: false | {
+        noDefaultPlugins: boolean;
+       };
      ncc: false | {
         assetBuilds: boolean;
         cache: string | false;
@@ -290,7 +294,7 @@ Define the configuration for the binary builder.
 | `config.input`? | `string` | The app input file. The input can be provided without an extension. If the extension is omitted, the system will automatically look for the following extensions: `.ts`, `.js`, `.mjs`, `.mts`. |
 | `config.name`? | `string` | Binary name. |
 | `config.nodeOptions`? | `object` | **`Experimental`** Custom `node` build configuration. Override build options for different build steps. Use this for advanced use cases. |
-| `config.nodeOptions.esbuild`? | `false` \| \{\} | **`Experimental`** ESBUILD configuration. **See** https://esbuild.github.io/api/#build |
+| `config.nodeOptions.esbuild`? | `false` \| \{ `noDefaultPlugins`: `boolean`; \} | **`Experimental`** ESBUILD configuration. **See** https://esbuild.github.io/api/#build |
 | `config.nodeOptions.ncc`? | `false` \| \{ `assetBuilds`: `boolean`; `cache`: `string` \| `false`; `externals`: `string`[]; `filterAssetBase`: `string`; `license`: `string`; `minify`: `boolean`; `sourceMap`: `boolean`; `sourceMapBasePrefix`: `string`; `sourceMapRegister`: `boolean`; `target`: `string`; `v8cache`: `boolean`; `watch`: `boolean`; \} | **`Experimental`** NCC configuration. **See** https://github.com/vercel/ncc?tab=readme-ov-file#programmatically-from-nodejs |
 | `config.nodeOptions.pkg`? | `object` | **`Experimental`** PKG configuration. **See** https://www.npmjs.com/package/@yao-pkg/pkg |
 | `config.nodeOptions.pkg.assets`? | `string` \| `string`[] | Assets is a glob or list of globs. Files specified as assets will be packaged into executable as raw content without modifications. Javascript files may also be specified as assets. Their sources will not be stripped as it improves execution performance of the files and simplifies debugging. Relative to input. Default input: build/cjs. **See** https://github.com/yao-pkg/pkg?tab=readme-ov-file#assets |
@@ -324,7 +328,9 @@ Define the configuration for the binary builder.
   input: string;
   name: string;
   nodeOptions: {
-     esbuild: false | {};
+     esbuild: false | {
+        noDefaultPlugins: boolean;
+       };
      ncc: false | {
         assetBuilds: boolean;
         cache: string | false;
@@ -369,8 +375,8 @@ Define the configuration for the binary builder.
 | `denoOptions.flags` | `string`[] | Custom flags for `deno compile` cmd. For help, run: `deno compile --help`. **See** https://docs.deno.com/go/compile **Example** `[ '--allow-all', '--no-prompt' ]` |
 | `input`? | `string` | The app input file. The input can be provided without an extension. If the extension is omitted, the system will automatically look for the following extensions: `.ts`, `.js`, `.mjs`, `.mts`. |
 | `name`? | `string` | Binary name. |
-| `nodeOptions`? | \{ `esbuild`: `false` \| \{\}; `ncc`: `false` \| \{ `assetBuilds`: `boolean`; `cache`: `string` \| `false`; `externals`: `string`[]; `filterAssetBase`: `string`; `license`: `string`; `minify`: `boolean`; `sourceMap`: `boolean`; `sourceMapBasePrefix`: `string`; `sourceMapRegister`: `boolean`; `target`: `string`; `v8cache`: `boolean`; `watch`: `boolean`; \}; `pkg`: \{ `assets`: `string` \| `string`[]; `compress`: `"Gzip"` \| `"Brotli"`; `flags`: `string`[]; `ignore`: `string`[]; `input`: `string`; `name`: `string`; `output`: `string`; `scripts`: `string` \| `string`[]; `targets`: `string`[]; \}; \} | **`Experimental`** Custom `node` build configuration. Override build options for different build steps. Use this for advanced use cases. |
-| `nodeOptions.esbuild`? | `false` \| \{\} | **`Experimental`** ESBUILD configuration. **See** https://esbuild.github.io/api/#build |
+| `nodeOptions`? | \{ `esbuild`: `false` \| \{ `noDefaultPlugins`: `boolean`; \}; `ncc`: `false` \| \{ `assetBuilds`: `boolean`; `cache`: `string` \| `false`; `externals`: `string`[]; `filterAssetBase`: `string`; `license`: `string`; `minify`: `boolean`; `sourceMap`: `boolean`; `sourceMapBasePrefix`: `string`; `sourceMapRegister`: `boolean`; `target`: `string`; `v8cache`: `boolean`; `watch`: `boolean`; \}; `pkg`: \{ `assets`: `string` \| `string`[]; `compress`: `"Gzip"` \| `"Brotli"`; `flags`: `string`[]; `ignore`: `string`[]; `input`: `string`; `name`: `string`; `output`: `string`; `scripts`: `string` \| `string`[]; `targets`: `string`[]; \}; \} | **`Experimental`** Custom `node` build configuration. Override build options for different build steps. Use this for advanced use cases. |
+| `nodeOptions.esbuild`? | `false` \| \{ `noDefaultPlugins`: `boolean`; \} | **`Experimental`** ESBUILD configuration. **See** https://esbuild.github.io/api/#build |
 | `nodeOptions.ncc`? | `false` \| \{ `assetBuilds`: `boolean`; `cache`: `string` \| `false`; `externals`: `string`[]; `filterAssetBase`: `string`; `license`: `string`; `minify`: `boolean`; `sourceMap`: `boolean`; `sourceMapBasePrefix`: `string`; `sourceMapRegister`: `boolean`; `target`: `string`; `v8cache`: `boolean`; `watch`: `boolean`; \} | **`Experimental`** NCC configuration. **See** https://github.com/vercel/ncc?tab=readme-ov-file#programmatically-from-nodejs |
 | `nodeOptions.pkg`? | \{ `assets`: `string` \| `string`[]; `compress`: `"Gzip"` \| `"Brotli"`; `flags`: `string`[]; `ignore`: `string`[]; `input`: `string`; `name`: `string`; `output`: `string`; `scripts`: `string` \| `string`[]; `targets`: `string`[]; \} | **`Experimental`** PKG configuration. **See** https://www.npmjs.com/package/@yao-pkg/pkg |
 | `nodeOptions.pkg.assets`? | `string` \| `string`[] | Assets is a glob or list of globs. Files specified as assets will be packaged into executable as raw content without modifications. Javascript files may also be specified as assets. Their sources will not be stripped as it improves execution performance of the files and simplifies debugging. Relative to input. Default input: build/cjs. **See** https://github.com/yao-pkg/pkg?tab=readme-ov-file#assets |

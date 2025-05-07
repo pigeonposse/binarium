@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { wasmLoader } from 'esbuild-plugin-wasm'
 
 import {
@@ -8,8 +9,33 @@ import {
 
 import type { Plugin } from 'esbuild'
 
-export { wasmLoader }
-export const wasmPlugin =  {
+/**
+ * Esbuild plugin that compiles WebAssembly binaries.
+ *
+ * Loads `.wasm` files as a js module.
+ * @returns {Plugin} The esbuild plugin
+ */
+export const wasmEsbuildPlugin = wasmLoader
+
+/**
+ * EXPERIMENTAL.
+ * @description Esbuild plugin that compiles WebAssembly binaries.
+ *
+ * This plugin is currently experimental because it is not clear whether
+ * it is better to use this plugin or the "wasm" loader in "esbuild-plugin-wasm".
+ *
+ * This plugin works by resolving ".wasm" files to a path with the
+ * "wasm-stub" namespace. It then loads that path with the JavaScript
+ * code for compiling the binary. The binary itself is imported from
+ * a second virtual module in the "wasm-binary" namespace.
+ *
+ * This plugin currently only supports compiling WebAssembly binaries
+ * with the "WebAssembly.instantiate" API. It does not support compiling
+ * WebAssembly binaries with the "WebAssembly.compile" API. It also does
+ * not support loading WebAssembly binaries as ES modules.
+ * @returns {Plugin} The esbuild plugin
+ */
+export const _experimental__wasmEsbuildPlugin =  () => ( {
 	name : 'wasm',
 	setup( build ) {
 
@@ -71,4 +97,4 @@ export const wasmPlugin =  {
 		} ) )
 
 	},
-} satisfies Plugin
+} satisfies Plugin )

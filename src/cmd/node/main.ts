@@ -27,7 +27,7 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 		arch,
 	} = data
 
-	const nodeVersion = '20'
+	const nodeVersion = '22'
 	const nodeRange   = `node${nodeVersion}`
 
 	log.info( 'Building node executables...', false )
@@ -58,6 +58,7 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 		target        : nodeRange,
 		targetVersion : nodeVersion,
 		assets        : data.assets,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		config        : data?.nodeOptions?.esbuild as any,
 		isDebug       : log.isDebug,
 		debug         : log.debug,

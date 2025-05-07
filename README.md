@@ -7,7 +7,7 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-{{const.banner}}
+![BANNER](docs/public/banner.png)
 
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/binarium)
@@ -18,6 +18,8 @@ Easy-to-use, zero-configuration tool to create executables of your Node, Deno or
 
 - [🔑 Installation](#-installation)
 - [🌟 Features](#-features)
+- [📚 Documentation](#-documentation)
+- [🤖 GitHub Action](#-github-action)
 - [👨‍💻 Development](#-development)
 - [❤️ Donate](#-donate)
 - [📜 License](#-license)
@@ -42,30 +44,30 @@ deno add binarium
 
 ## 🌟 Features
 			
-			- ⚡ **Fast**: Optimized for quick execution and minimal overhead.
-			- 🚀 **Easy to Use**: Simple setup with minimal configuration required.
-			- 🛠️ **Advanced Configuration**: Customize to fit your project's exact needs.
-			- 🌍 **Available for**:
-			  - 🟢 **Node.js**
-			  - 🦕 **Deno**
-			  - 🍞 **Bun**
-			- 🌐 **Supports Multiple Environments**:
-			  - 📦 **JavaScript Library**: Integrates seamlessly into any project.
-			  - 💻 **Command Line Interface (CLI)**: Works across Node.js, Deno, and Bun environments.
-			  - 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
+- ⚡ **Fast**: Optimized for quick execution and minimal overhead.
+- 🚀 **Easy to Use**: Simple setup with minimal configuration required.
+- 🛠️ **Advanced Configuration**: Customize to fit your project's exact needs.
+- 🌍 **Available for**:
+	- 🟢 **Node.js**
+	- 🦕 **Deno**
+	- 🍞 **Bun**
+- 🌐 **Supports Multiple Environments**:
+	- 📦 **JavaScript Library**: Integrates seamlessly into any project.
+	- 💻 **Command Line Interface (CLI)**: Works across Node.js, Deno, and Bun environments.
+	- 🤖 **GitHub Action**: Easily incorporate it into CI/CD pipelines with GitHub Actions support.
+
+## 📚 Documentation
+
+- [Get started](https://binarium.pigeonposse.com/)
+- [Api Documentation](https://binarium.pigeonposse.com/guide/core/api)
+
+## 🤖 GitHub Action
+
+You can use Binarium as a GitHub action.
 			
-			## 📚 Documentation
+- [Read more](https://github.com/marketplace/actions/binarium-tool-to-create-executables-of-your-node-deno-or-bun-projects)
 			
-			- [Get started](https://binarium.pigeonposse.com/)
-			- [Api Documentation](https://binarium.pigeonposse.com/guide/core/api)
-			
-			## 🤖 GitHub Action
-			
-			You can use Binarium as a GitHub action.
-			
-			- [Read more](https://github.com/marketplace/actions/binarium-tool-to-create-executables-of-your-node-deno-or-bun-projects)
-			
-			
+
 
 ---
 
@@ -73,8 +75,8 @@ deno add binarium
 
 __Binarium__ is an open-source project and its development is open to anyone who wants to participate.
 
-[![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)](git+https://github.com/pigeonposse/binarium.git/issues)
-[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)](git+https://github.com/pigeonposse/binarium.git/pulls)
+[![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)](https://github.com/pigeonposse/binarium/issues)
+[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)](https://github.com/pigeonposse/binarium/pulls)
 [![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)](https://binarium.pigeonposse.com/)
 
 ## ❤️ Donate

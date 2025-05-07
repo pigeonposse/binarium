@@ -2,12 +2,14 @@
  * ESBUILD BUILD.
  * @see https://esbuild.github.io/api/#build
  */
-import { babelPlugin }       from './esbuild/babel'
-import { copy }              from './esbuild/copy'
-import { httpPlugin }        from './esbuild/http'
-import { nativeNodeModules } from './esbuild/native-node-modules'
-import { wasmLoader }        from './esbuild/wasm'
-import { catchError }        from '../../_shared/error'
+import {
+	babelEsbuildPlugin,
+	copyEsbuildPlugin,
+	httpEsbuildPlugin,
+	nativeNodeModulesEsbuildPlugin,
+	wasmEsbuildPlugin,
+} from './esbuild/main'
+import { catchError } from '../../_shared/error'
 import {
 	existsPath,
 	joinPath,
@@ -44,6 +46,10 @@ export default async ( data: Opts ) => {
 	type BuildConfig = NonNullable<Config['esbuild']>
 	const merge = mergeCustom<BuildConfig>( {} )
 
+	const {
+		noDefaultPlugins, ...userConfig
+	} = data.config || {}
+
 	const defConfig: BuildConfig = {
 		entryPoints : [ data.input ],
 		minify      : true,
@@ -55,19 +61,21 @@ export default async ( data: Opts ) => {
 		tsconfig    : await getTsConfig(),
 		logOverride : { 'direct-eval': 'silent' },
 		loader      : { '.node': 'file' },
-		plugins     : [
-			httpPlugin,
-			nativeNodeModules,
-			copy( { assets: data.assets } ),
-			wasmLoader( { mode: 'embedded' } ),
-			babelPlugin( data.targetVersion ),
-		],
+		plugins     : noDefaultPlugins
+			? []
+			: [
+				httpEsbuildPlugin(),
+				nativeNodeModulesEsbuildPlugin(),
+				copyEsbuildPlugin( { assets: data.assets } ),
+				wasmEsbuildPlugin( { mode: 'embedded' } ),
+				babelEsbuildPlugin( data.targetVersion ),
+			],
 	}
 
 	const buildConfig = data.config
 		? merge(
 			defConfig,
-			data.config,
+			userConfig,
 		)
 		: defConfig
 

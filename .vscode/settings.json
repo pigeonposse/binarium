@@ -8,11 +8,31 @@
  * *****************************************************************************
  */
 {
-	"editor.tabSize": 4,
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit"
-	},
 	"files.autoSave": "onFocusChange",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit",
+		"source.fixAll.eslint": "explicit",
+		"source.fixAll.stylelint": "explicit"
+	},
+	"eslint.useFlatConfig": true,
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"markdown",
+		"json",
+		"jsonc",
+		"json5",
+		"yaml",
+		"toml",
+		"html",
+		"css",
+		"scss",
+		"less",
+		"svelte",
+		"vue"
+	],
 	"javascript.updateImportsOnFileMove.enabled": "always",
 	"[markdown]": {
 		"editor.formatOnSave": true,
@@ -24,40 +44,6 @@
 			"path": "/bin/zsh"
 		},
 	},
-	/**
-	 * *****************************************************************************
-	 * ESLINT EXTENSION
-	 * *****************************************************************************
-	 */
-	"eslint.validate": [
-		"javascript",
-		"javascriptreact",
-		"typescript",
-		"typescriptreact",
-		"json",
-		"jsonc",
-		"json5",
-		"yaml",
-		"toml",
-		"markdown",
-		"md"
-	],
-	/**
-	 * *****************************************************************************
-	 * TODO-TREE EXTENSION
-	 * *****************************************************************************
-	 */
-	"todo-tree.filtering.excludeGlobs": [
-		"/node_modules/*/**",
-		"**/node_modules/*/**"
-	],
-	"todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
-	"todo-tree.general.tags": [
-		"BUG",
-		"FIXME",
-		"TODO",
-		" * @todo",
-		"[ ]",
-		"[x]"
-	],
+	"editor.tabSize": 4,
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

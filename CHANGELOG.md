@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.8
+
+### Patch Changes
+
+- add node opts and change default nodeversion to 22
+
 ## 2.0.7
 
 ### Patch Changes

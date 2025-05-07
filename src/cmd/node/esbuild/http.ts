@@ -6,7 +6,19 @@ import {
 
 import type { Plugin } from 'esbuild'
 
-export const httpPlugin = {
+/**
+ * An esbuild plugin that allows importing modules directly from URLs.
+ * This plugin intercepts import paths starting with "http:" and "https:",
+ * preventing esbuild from mapping them to the file system. The paths are tagged
+ * with the "http-url" namespace, allowing URLs to be resolved and downloaded
+ * recursively. It supports resolving import paths inside downloaded files
+ * against the original URL, ensuring a consistent import resolution.
+ * The plugin handles downloading the content from the internet for URLs
+ * and is capable of processing imports from unpkg.com, although the logic
+ * might need to be extended for other use cases.
+ * @returns {Plugin} The esbuild plugin
+ */
+export const httpEsbuildPlugin = () => ( {
 	name : 'http',
 	setup( build ) {
 
@@ -88,4 +100,4 @@ export const httpPlugin = {
 		} )
 
 	},
-} satisfies Plugin
+} satisfies Plugin )

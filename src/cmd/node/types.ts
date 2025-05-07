@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import type { BuildOptions } from 'esbuild'
 
 export type Config = {
@@ -66,7 +67,13 @@ export type Config = {
 	 * ESBUILD configuration.
 	 * @see https://esbuild.github.io/api/#build
 	 */
-	esbuild? : BuildOptions | false
+	esbuild? : ( BuildOptions & {
+		/**
+		 * Disable esbuild default plugins.
+		 * @default false
+		 */
+		noDefaultPlugins? : boolean
+	} ) | false
 	/**
 	 * NCC configuration.
 	 * @see https://github.com/vercel/ncc?tab=readme-ov-file#programmatically-from-nodejs

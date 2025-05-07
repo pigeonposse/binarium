@@ -1,3 +1,5 @@
+/* eslint-disable @stylistic/object-curly-newline */
+
 export type Config = {
 	/**
 	 * Custom flags for `deno compile` cmd.
@@ -5,4 +7,5 @@ export type Config = {
 	 * @see https://docs.deno.com/go/compile
 	 * @example [ '--allow-all', '--no-prompt' ]
 	 */
-	flags : string[] }
+	flags : string[]
+}

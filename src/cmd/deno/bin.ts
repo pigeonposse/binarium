@@ -75,9 +75,7 @@ export const buildBins = async ( params: BuilderContructorParams ) => {
 		const targets = getTargets()
 		// const assets  = await assetsConstructor( params )
 
-		log.debug( { deno : { targets,
-			// includes : assets.includes,
-		} } )
+		log.debug( { deno: { targets } } )
 
 		for ( let index = 0; index < targets.length; index++ ) {
 

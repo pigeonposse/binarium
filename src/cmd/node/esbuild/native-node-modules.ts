@@ -1,6 +1,19 @@
 import type { Plugin } from 'esbuild'
 
-export const nativeNodeModules = {
+/**
+ * Esbuild plugin used to import native node modules.
+ *
+ * This plugin intercepts imports of ".node" files, resolves them to absolute paths,
+ * and loads them using the "require()" function at runtime. It also loads the
+ * ".node" files in the output directory using the "file" loader.
+ *
+ * This is required because esbuild's default loading behavior does not support
+ * loading native node modules.
+ *
+ * This plugin is used by the esbuild builder.
+ * @returns {Plugin} The esbuild plugin
+ */
+export const nativeNodeModulesEsbuildPlugin = () => ( {
 	name : 'native-node-modules',
 	setup( build ) {
 
@@ -43,4 +56,4 @@ export const nativeNodeModules = {
 		opts.loader['.node'] = 'file'
 
 	},
-} satisfies Plugin
+} satisfies Plugin )
