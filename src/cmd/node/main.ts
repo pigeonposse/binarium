@@ -58,8 +58,7 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 		target        : nodeRange,
 		targetVersion : nodeVersion,
 		assets        : data.assets,
-		// @ts-ignore
-		config        : data?.options?.esbuild,
+		config        : data?.nodeOptions?.esbuild as any,
 		isDebug       : log.isDebug,
 		debug         : log.debug,
 	} )

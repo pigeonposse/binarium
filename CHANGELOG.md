@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.7
+
+### Patch Changes
+
+- fix esbuild options error
+
 ## 2.0.6
 
 ### Patch Changes

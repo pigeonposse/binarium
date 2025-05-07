@@ -1,0 +1,13 @@
+###############################################################################
+# COMMIT MESSAGE
+#
+# @description runs after creating the COMMIT message
+# @see https://typicode.github.io/husky/
+# @see https://git-scm.com/docs/git-commit#_hooks
+###############################################################################
+
+echo
+echo '🚀 Lint commit meessage'
+echo
+node --run . lint commitlint --silent $1
+echo

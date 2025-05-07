@@ -1,6 +1,6 @@
 {
 	"name": "binarium",
-	"version": "2.0.6",
+	"version": "2.0.7",
 	"description": "Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.",
 	"keywords": [
 		"cli",
@@ -20,7 +20,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/binarium"
+		"url": "git+https://github.com/pigeonposse/binarium.git"
 	},
 	"funding": {
 		"type": "individual",
@@ -34,7 +34,16 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs"
+		".": {
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
+		}
 	},
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
@@ -48,60 +57,61 @@
 	],
 	"scripts": {
 		".": "dovenv",
-		"build": "pnpm build:lib && pnpm build:pre && pnpm build:docs",
+		"build": "node --run build:lib && node --run build:pre && node --run build:docs",
 		"build-assets": "dovenv docs generate-assets --flag=\"--preset minimal\" --flag=\"docs/public/logo.png\"",
 		"build:docs": "dovenv docs build",
 		"build:lib": "rimraf dist && rimraf build && unbuild",
-		"build:pre": "dovenv convert && dovenv templates",
+		"build:pre": "dovenv predocs",
 		"dev": "tsx src/cli.ts",
 		"example": "bash -c 'run() { tsx examples/$1/main.ts \"${@:1}\"; }; run \"$@\"' --",
 		"example-cli": "bash -c 'run() { source examples/$1/main.sh \"${@:1}\"; }; run \"$@\"' --",
-		"lint": "dovenv lint staged",
+		"lint:staged": "dovenv lint staged",
+		"lint:pub": "publint",
 		"prepare": "dovenv git husky --silent",
 		"preview": "node dist/cli.mjs --input=examples/app.ts",
-		"test": "pnpm run --sequential \"/test:.*/\"",
+		"test": "node --run test:unit",
 		"test:unit": "vitest run src --passWithNoTests"
 	},
 	"dependencies": {
-		"@babel/core": "7.26.0",
-		"@babel/plugin-transform-dynamic-import": "7.25.9",
-		"@babel/plugin-transform-modules-commonjs": "7.26.3",
-		"@babel/plugin-transform-typescript": "7.26.5",
-		"@babel/preset-env": "7.26.0",
+		"@babel/core": "7.27.1",
+		"@babel/plugin-transform-dynamic-import": "7.27.1",
+		"@babel/plugin-transform-modules-commonjs": "7.27.1",
+		"@babel/plugin-transform-typescript": "7.27.1",
+		"@babel/preset-env": "7.27.2",
 		"@vercel/ncc": "0.38.3",
-		"@yao-pkg/pkg": "6.2.0",
+		"@yao-pkg/pkg": "6.4.1",
 		"archiver": "7.0.1",
 		"babel-plugin-transform-import-meta": "2.3.2",
 		"chalk": "5.4.1",
-		"deepmerge-ts": "7.1.3",
-		"esbuild": "0.24.2",
-		"esbuild-node-externals": "1.16.0",
+		"deepmerge-ts": "7.1.5",
+		"esbuild": "0.25.4",
+		"esbuild-node-externals": "1.18.0",
 		"esbuild-plugin-babel": "0.2.3",
 		"esbuild-plugin-copy": "2.1.1",
 		"esbuild-plugin-wasm": "1.1.0",
-		"globby": "14.0.2",
+		"globby": "14.1.0",
 		"import-meta-resolve": "4.1.0",
-		"ora": "8.1.1",
+		"ora": "8.2.0",
 		"toml": "3.0.0",
-		"yaml": "2.7.0"
+		"yaml": "2.7.1"
 	},
 	"devDependencies": {
-		"@changesets/changelog-github": "0.5.0",
-		"@changesets/cli": "2.27.11",
-		"@dovenv/core": "1.2.2",
-		"@dovenv/theme-pigeonposse": "1.2.2",
+		"@changesets/changelog-github": "0.5.1",
+		"@dovenv/core": "1.4.7",
+		"@dovenv/theme-pigeonposse": "1.4.7",
 		"@types/archiver": "6.0.3",
-		"@types/babel__preset-env": "7.9.7",
-		"@types/node": "22.10.6",
+		"@types/babel__preset-env": "7.10.0",
+		"@types/node": "22.15.14",
 		"binarium": "*",
+		"publint": "0.3.12",
 		"rimraf": "6.0.1",
 		"tslib": "2.8.1",
-		"tsx": "4.19.2",
-		"typescript": "5.7.3",
-		"unbuild": "3.3.1",
-		"vitest": "2.1.8"
+		"tsx": "4.19.4",
+		"typescript": "5.8.3",
+		"unbuild": "3.5.0",
+		"vitest": "3.1.3"
 	},
-	"packageManager": "pnpm@9.11.0",
+	"packageManager": "pnpm@10.10.0",
 	"engines": {
 		"node": ">=20.0.0",
 		"pnpm": ">=8.10.0"

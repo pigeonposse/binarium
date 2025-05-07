@@ -483,7 +483,7 @@ Create binaries with custom assets
 export default {
 	input  : 'examples/assets/app.js',
 	onlyOs : true,
-	name,
+	name   : 'example-assets',
 	type   : 'bin',
 	assets : [
 		{
