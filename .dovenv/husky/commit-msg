@@ -9,5 +9,5 @@
 echo
 echo '🚀 Lint commit meessage'
 echo
-node --run . lint commitlint --silent $1
+node --run . -- lint commitlint --silent $1
 echo

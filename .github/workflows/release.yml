@@ -41,13 +41,14 @@ jobs:
       - name: '📦 Setup jq'
         uses: dcarbone/install-jq-action@v2
 
-      - name: 🟢 Setup node
-        uses: actions/setup-node@v3
+      - name: ⬇️🥡 Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: ⬇️🟢 Setup node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: 'pnpm'
 
-      - name: 🥡 Install pnpm
-        uses: pnpm/action-setup@v3
 
       - name: Check GitHub API Rate Limit
         id: rate_limit

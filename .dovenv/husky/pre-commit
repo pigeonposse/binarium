@@ -11,4 +11,4 @@ echo '🚀 Precommit'
 echo
 node --run lint:pub
 echo
-node --run . lint staged --silent
+node --run . -- lint staged --silent
