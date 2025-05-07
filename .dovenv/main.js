@@ -122,7 +122,7 @@ export default defineConfig(
 			{ value: 'env' },
 			{ value: 'all' },
 		] } },
-		lint : { staged: { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint --fix' } },
+		lint : { staged: { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint' } },
 	} ),
 	{ custom : { predocs : {
 		desc : 'Custom predocs',

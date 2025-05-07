@@ -14,14 +14,14 @@ This file is found in "cli/app.ts"
 #!/usr/bin/env node
 
 type AllowedFlags = {
-	help? : boolean
-	name? : string
-	age?  : string
+ help? : boolean
+ name? : string
+ age?  : string
 }
 
 const showHelp = ( type: 'error' | 'log' = 'log' ) => {
 
-	console[type]( `
+ console[type]( `
 Usage: $0 [options]
 
 Options:
@@ -34,35 +34,35 @@ Options:
 
 const parseArgs = (): AllowedFlags => {
 
-	const args                = process.argv.slice( 2 )
-	const flags: AllowedFlags = {}
+ const args                = process.argv.slice( 2 )
+ const flags: AllowedFlags = {}
 
-	for ( let i = 0; i < args.length; i++ ) {
+ for ( let i = 0; i < args.length; i++ ) {
 
-		const arg = args[i]
-		if ( arg.startsWith( '--' ) ) {
+  const arg = args[i]
+  if ( arg.startsWith( '--' ) ) {
 
-			const flagName = arg.slice( 2 ) as keyof AllowedFlags
-			const nextArg  = args[i + 1]
-			if ( nextArg && !nextArg.startsWith( '--' ) ) {
+   const flagName = arg.slice( 2 ) as keyof AllowedFlags
+   const nextArg  = args[i + 1]
+   if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
-				// @ts-ignore
-				flags[flagName] = nextArg
-				i++
+    // @ts-ignore
+    flags[flagName] = nextArg
+    i++
 
-			}
-			else {
+   }
+   else {
 
-				// @ts-ignore
-				flags[flagName] = true
+    // @ts-ignore
+    flags[flagName] = true
 
-			}
+   }
 
-		}
+  }
 
-	}
+ }
 
-	return flags
+ return flags
 
 }
 
@@ -98,13 +98,10 @@ binarium bun -i cli/app.ts
 
 ```
 
-
-
 ## JS example
 
 Simple example of using JavaScript.
 Builds the app found in the 'lib/app.js' file into an executable for the current system only.
-
 
 ### App file
 
@@ -115,7 +112,7 @@ This file is found in "lib/app.js"
 
 const showHelp = () => {
 
-	console.log( `
+ console.log( `
 Usage: $0 [options]
 
 Options:
@@ -128,55 +125,54 @@ Options:
 
 const parseArgs = () => {
 
-	const args  = process.argv.slice( 2 )
-	const flags = {}
+ const args  = process.argv.slice( 2 )
+ const flags = {}
 
-	for ( let i = 0; i < args.length; i++ ) {
+ for ( let i = 0; i < args.length; i++ ) {
 
-		const arg = args[i]
-		if ( arg.startsWith( '--' ) ) {
+  const arg = args[i]
+  if ( arg.startsWith( '--' ) ) {
 
-			const flagName = arg.slice( 2 )
-			const nextArg  = args[i + 1]
-			if ( nextArg && !nextArg.startsWith( '--' ) ) {
+   const flagName = arg.slice( 2 )
+   const nextArg  = args[i + 1]
+   if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
-				// @ts-ignore
-				flags[flagName] = nextArg
-				i++ // Saltar al siguiente argumento
+    // @ts-ignore
+    flags[flagName] = nextArg
+    i++ // Saltar al siguiente argumento
 
-			}
-			else {
+   }
+   else {
 
-				// @ts-ignore
-				flags[flagName] = true
+    // @ts-ignore
+    flags[flagName] = true
 
-			}
+   }
 
-		}
+  }
 
-	}
+ }
 
-	return flags
+ return flags
 
 }
 
 const main = () => {
 
-	const flags = parseArgs()
+ const flags = parseArgs()
 
-	if ( flags.help ) showHelp()
-	else {
+ if ( flags.help ) showHelp()
+ else {
 
-		if ( flags.name ) console.log( `Hello, ${flags.name}!` )
-		if ( flags.age ) console.log( `You are ${flags.age} years old.` )
-		if ( !flags.name && !flags.age ) console.log( 'Unknown command. Use --help for usage information.' )
+  if ( flags.name ) console.log( `Hello, ${flags.name}!` )
+  if ( flags.age ) console.log( `You are ${flags.age} years old.` )
+  if ( !flags.name && !flags.age ) console.log( 'Unknown command. Use --help for usage information.' )
 
-	}
+ }
 
 }
 
 main()
-
 
 ```
 
@@ -189,10 +185,10 @@ import { build } from 'binarium'
 import { join }  from 'node:path'
 
 await build( {
-	input  : join( import.meta.dirname, 'app' ),
-	name   : 'binarium-test',
-	onlyOs : true,
-	type   : 'bin',
+ input  : join( import.meta.dirname, 'app' ),
+ name   : 'binarium-test',
+ onlyOs : true,
+ type   : 'bin',
 } )
 
 ```
@@ -203,13 +199,10 @@ await build( {
 node lib/main.js
 ```
 
-
-
 ## TS example
 
 Simple example of using TypeScript.
 Builds the app found in the 'lib-ts/app.ts' file into an executable for the current system only.
-
 
 ### App file
 
@@ -219,14 +212,14 @@ This file is found in "lib-ts/app.ts"
 #!/usr/bin/env node
 
 type AllowedFlags = {
-	help? : boolean
-	name? : string
-	age?  : string
+ help? : boolean
+ name? : string
+ age?  : string
 }
 
 const showHelp = ( type: 'error' | 'log' = 'log' ) => {
 
-	console[type]( `
+ console[type]( `
 Usage: $0 [options]
 
 Options:
@@ -239,35 +232,35 @@ Options:
 
 const parseArgs = (): AllowedFlags => {
 
-	const args                = process.argv.slice( 2 )
-	const flags: AllowedFlags = {}
+ const args                = process.argv.slice( 2 )
+ const flags: AllowedFlags = {}
 
-	for ( let i = 0; i < args.length; i++ ) {
+ for ( let i = 0; i < args.length; i++ ) {
 
-		const arg = args[i]
-		if ( arg.startsWith( '--' ) ) {
+  const arg = args[i]
+  if ( arg.startsWith( '--' ) ) {
 
-			const flagName = arg.slice( 2 ) as keyof AllowedFlags
-			const nextArg  = args[i + 1]
-			if ( nextArg && !nextArg.startsWith( '--' ) ) {
+   const flagName = arg.slice( 2 ) as keyof AllowedFlags
+   const nextArg  = args[i + 1]
+   if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
-				// @ts-ignore
-				flags[flagName] = nextArg
-				i++
+    // @ts-ignore
+    flags[flagName] = nextArg
+    i++
 
-			}
-			else {
+   }
+   else {
 
-				// @ts-ignore
-				flags[flagName] = true
+    // @ts-ignore
+    flags[flagName] = true
 
-			}
+   }
 
-		}
+  }
 
-	}
+ }
 
-	return flags
+ return flags
 
 }
 
@@ -290,10 +283,10 @@ import { build } from 'binarium'
 import { join }  from 'node:path'
 
 await build( {
-	input  : join( import.meta.dirname, 'app' ),
-	name   : 'binarium-lib-test',
-	onlyOs : true,
-	type   : 'bin',
+ input  : join( import.meta.dirname, 'app' ),
+ name   : 'binarium-lib-test',
+ onlyOs : true,
+ type   : 'bin',
 } )
 
 ```
@@ -304,12 +297,9 @@ await build( {
 node lib-ts/main.ts
 ```
 
-
-
 ## Deno example
 
 Simple example of build in **deno** runtime.
-
 
 ### Configuration file
 
@@ -319,11 +309,11 @@ import { defineConfig } from 'binarium'
 export const name = 'binarium-deno-test'
 
 export default defineConfig( {
-	name        : name,
-	input       : 'examples/deno/app.js',
-	onlyOs      : false,
-	type        : 'compress',
-	denoOptions : { flags: [ '--allow-all', '--no-npm' ] },
+ name        : name,
+ input       : 'examples/deno/app.js',
+ onlyOs      : false,
+ type        : 'compress',
+ denoOptions : { flags: [ '--allow-all', '--no-npm' ] },
 } )
 
 ```
@@ -340,7 +330,7 @@ const command = args[0]
 // cli.ts
 const showHelp = () => {
 
-	console.log( `
+ console.log( `
 Usage:
 
   $0 <command> [options]
@@ -359,21 +349,21 @@ Options:
 
 const greet = name => {
 
-	console.log( `Hello, ${name}! Welcome to our CLI with Deno.` )
+ console.log( `Hello, ${name}! Welcome to our CLI with Deno.` )
 
 }
 
 if ( args.includes( '--help' ) || !command ) showHelp()
 else if ( command === 'greet' ) {
 
-	const nameIndex = args.indexOf( '--name' )
-	const name      = nameIndex !== -1 ? args[nameIndex + 1] : 'Friend'
-	greet( name )
+ const nameIndex = args.indexOf( '--name' )
+ const name      = nameIndex !== -1 ? args[nameIndex + 1] : 'Friend'
+ greet( name )
 
 }
 else {
 
-	console.error( 'Unrecognized command. Use \'--help\' to see available commands.' )
+ console.error( 'Unrecognized command. Use \'--help\' to see available commands.' )
 
 }
 
@@ -385,12 +375,9 @@ else {
 binarium deno -c deno/config.js
 ```
 
-
-
 ## Bun example
 
 Simple example of build in **bun** runtime.
-
 
 ### Configuration file
 
@@ -398,11 +385,11 @@ Simple example of build in **bun** runtime.
 import { defineConfig } from 'binarium'
 
 export default defineConfig( {
-	name       : 'binarium-bun-test',
-	input      : 'examples/bun/app',
-	onlyOs     : false,
-	type       : 'compress',
-	bunOptions : { flags: [ '--packages external' ] },
+ name       : 'binarium-bun-test',
+ input      : 'examples/bun/app',
+ onlyOs     : false,
+ type       : 'compress',
+ bunOptions : { flags: [ '--packages external' ] },
 } )
 
 ```
@@ -422,44 +409,44 @@ const name    = 'binarium-bun-test'
 
 function showHelp() {
 
-	console.log( `
+ console.log( `
   Usage:
 
-	${name} <command> [options]
-  
+ ${name} <command> [options]
+
   Commands:
 
-	greet    Displays a greeting message.
-  
+ greet    Displays a greeting message.
+
   Options:
 
-	--help   Shows this help message.
-	--name   Specifies a name to personalize the greeting.
+ --help   Shows this help message.
+ --name   Specifies a name to personalize the greeting.
 ` )
 
 }
 
 function greet( name: string ) {
 
-	console.log( `Hello, ${name}! Welcome to our CLI with Bun.` )
+ console.log( `Hello, ${name}! Welcome to our CLI with Bun.` )
 
 }
 
 if ( args.includes( '--help' ) || !command ) {
 
-	showHelp()
+ showHelp()
 
 }
 else if ( command === 'greet' ) {
 
-	const nameIndex = args.indexOf( '--name' )
-	const name      = nameIndex !== -1 ? args[nameIndex + 1] : 'Friend'
-	greet( name )
+ const nameIndex = args.indexOf( '--name' )
+ const name      = nameIndex !== -1 ? args[nameIndex + 1] : 'Friend'
+ greet( name )
 
 }
 else {
 
-	console.log( 'Unrecognized command. Use \'--help\' to see available commands.' )
+ console.log( 'Unrecognized command. Use \'--help\' to see available commands.' )
 
 }
 
@@ -471,8 +458,6 @@ else {
 binarium bun -c bun/config.js
 ```
 
-
-
 ## With assets
 
 Create binaries with custom assets
@@ -481,20 +466,20 @@ Create binaries with custom assets
 
 ```js twoslash
 export default {
-	input  : 'examples/assets/app.js',
-	onlyOs : true,
-	name   : 'example-assets',
-	type   : 'bin',
-	assets : [
-		{
-			from : 'examples/assets/public/**',
-			to   : 'public',
-		},
-		{
-			from : 'package.json',
-			to   : 'public/package.json',
-		},
-	],
+ input  : 'examples/assets/app.js',
+ onlyOs : true,
+ name   : 'example-assets',
+ type   : 'bin',
+ assets : [
+  {
+   from : 'examples/assets/public/**',
+   to   : 'public',
+  },
+  {
+   from : 'package.json',
+   to   : 'public/package.json',
+  },
+ ],
 }
 
 ```
@@ -508,24 +493,24 @@ export default {
 /* eslint-disable jsdoc/require-jsdoc */
 
 import {
-	readFile,
-	readdir,
+ readFile,
+ readdir,
 } from 'node:fs/promises'
 import {
-	join,
-	dirname,
+ join,
+ dirname,
 } from 'node:path'
 import {
-	argv,
-	argv0,
-	cwd,
-	execPath,
+ argv,
+ argv0,
+ cwd,
+ execPath,
 } from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 function showHelp() {
 
-	console.log( `
+ console.log( `
 Usage: $0 [options]
 
 Options:
@@ -540,75 +525,75 @@ Options:
 
 const getPaths = async dirPath => {
 
-	try {
+ try {
 
-		const paths = []
-		const files = await readdir( dirPath )
+  const paths = []
+  const files = await readdir( dirPath )
 
-		for ( const file of files ) {
+  for ( const file of files ) {
 
-			const fullPath = join( dirPath, file )
+   const fullPath = join( dirPath, file )
 
-			try {
+   try {
 
-				paths.push( fullPath )
+    paths.push( fullPath )
 
-			}
-			catch ( err ) {
+   }
+   catch ( err ) {
 
-				console.error( `Error reading file: ${err.message}` )
+    console.error( `Error reading file: ${err.message}` )
 
-			}
+   }
 
-		}
-		return paths
+  }
+  return paths
 
-	}
-	catch ( err ) {
+ }
+ catch ( err ) {
 
-		console.error( `Error reading directory: ${err.message}` )
+  console.error( `Error reading directory: ${err.message}` )
 
-	}
+ }
 
 }
 
 function parseArgs() {
 
-	const args  = process.argv.slice( 2 )
-	const flags = {}
+ const args  = process.argv.slice( 2 )
+ const flags = {}
 
-	for ( let i = 0; i < args.length; i++ ) {
+ for ( let i = 0; i < args.length; i++ ) {
 
-		const arg = args[i]
-		if ( arg.startsWith( '--' ) ) {
+  const arg = args[i]
+  if ( arg.startsWith( '--' ) ) {
 
-			const flagName = arg.slice( 2 )
-			const nextArg  = args[i + 1]
-			if ( nextArg && !nextArg.startsWith( '--' ) ) {
+   const flagName = arg.slice( 2 )
+   const nextArg  = args[i + 1]
+   if ( nextArg && !nextArg.startsWith( '--' ) ) {
 
-				// @ts-ignore
-				flags[flagName] = nextArg
-				i++ // Saltar al siguiente argumento
+    // @ts-ignore
+    flags[flagName] = nextArg
+    i++ // Saltar al siguiente argumento
 
-			}
-			else {
+   }
+   else {
 
-				// @ts-ignore
-				flags[flagName] = true
+    // @ts-ignore
+    flags[flagName] = true
 
-			}
+   }
 
-		}
+  }
 
-	}
+ }
 
-	return flags
+ return flags
 
 }
 const convertError = data => data instanceof Error ? {
-	message : data.message,
-	stack   : data.stack ? data.stack.split( '\n' ) : [], // Convertir el stack a un array
-	name    : data.name,
+ message : data.message,
+ stack   : data.stack ? data.stack.split( '\n' ) : [], // Convertir el stack a un array
+ name    : data.name,
 } : data
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) )
@@ -617,71 +602,70 @@ const system    = join( workspace, '..' )
 
 async function main() {
 
-	const flags = parseArgs()
+ const flags = parseArgs()
 
-	if ( flags.help ) showHelp()
-	else {
+ if ( flags.help ) showHelp()
+ else {
 
-		if ( flags.read ) {
+  if ( flags.read ) {
 
-			try {
+   try {
 
-				const path = join( __dirname, 'public', flags.read )
-				const data = await readFile( path, 'utf8' )
+    const path = join( __dirname, 'public', flags.read )
+    const data = await readFile( path, 'utf8' )
 
-				console.log( {
-					path,
-					data : data.toString(),
-				} )
+    console.log( {
+     path,
+     data : data.toString(),
+    } )
 
-			}
-			catch ( error ) {
+   }
+   catch ( error ) {
 
-				console.error( JSON.stringify( {
-					id    : 'Error Reading file',
-					error : convertError( error ),
-				}, undefined, 2 ) )
+    console.error( JSON.stringify( {
+     id    : 'Error Reading file',
+     error : convertError( error ),
+    }, undefined, 2 ) )
 
-			}
+   }
 
-		}
-		else if ( flags.paths ) {
+  }
+  else if ( flags.paths ) {
 
-			console.log( {
-				dir            : __dirname,
-				dirPaths       : await getPaths( __dirname ),
-				workspace,
-				workspacePaths : await getPaths( workspace ),
-				system,
-				systemPaths    : await getPaths( system ),
-				cwd            : cwd(),
-				execPath,
-				argv,
-				argv0,
-			} )
+   console.log( {
+    dir            : __dirname,
+    dirPaths       : await getPaths( __dirname ),
+    workspace,
+    workspacePaths : await getPaths( workspace ),
+    system,
+    systemPaths    : await getPaths( system ),
+    cwd            : cwd(),
+    execPath,
+    argv,
+    argv0,
+   } )
 
-		}
-		else if ( flags.ls ) {
+  }
+  else if ( flags.ls ) {
 
-			console.log( `ls ${flags.ls}` )
-			const paths = await getPaths( flags.ls )
-			console.log( { paths } )
+   console.log( `ls ${flags.ls}` )
+   const paths = await getPaths( flags.ls )
+   console.log( { paths } )
 
-		}
-		else if ( flags.cat ) {
+  }
+  else if ( flags.cat ) {
 
-			const content = await readFile( flags.cat, 'utf8' )
-			console.log( content )
+   const content = await readFile( flags.cat, 'utf8' )
+   console.log( content )
 
-		}
-		else showHelp()
+  }
+  else showHelp()
 
-	}
+ }
 
 }
 
 main()
-
 
 ```
 
@@ -690,16 +674,16 @@ main()
 ```ts twoslash
 import { build } from 'binarium'
 import {
-	dirname,
-	join,
+ dirname,
+ join,
 } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) )
 
 await build( {
-	input  : '',
-	config : join( __dirname, 'config.js' ),
+ input  : '',
+ config : join( __dirname, 'config.js' ),
 } )
 
 ```
@@ -709,6 +693,3 @@ await build( {
 ```bash
 binarium -c my/custom/config.js
 ```
-
-
-
