@@ -9,6 +9,7 @@ export type Config = {
 	 *
 	 * Override build options for different build steps.
 	 * Use this for advanced use cases.
+	 *
 	 * @experimental
 	 */
 	nodeOptions? : ConfigNode

@@ -11,6 +11,7 @@ import type { Plugin } from 'esbuild'
  * loading native node modules.
  *
  * This plugin is used by the esbuild builder.
+ *
  * @returns {Plugin} The esbuild plugin
  */
 export const nativeNodeModulesEsbuildPlugin = () => ( {

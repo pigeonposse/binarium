@@ -1,5 +1,6 @@
 /**
  * PACKAGE FILE.
+ *
  * @description File with build function.
  */
 
@@ -162,6 +163,7 @@ REPORT:
 
 /**
  * Package your cli application for different platforms and architectures.
+ *
  * @param   {BuilderParams} params - The parameters for creating the binaries.
  * @returns {Promise<void>}        - A promise that resolves when the binary creation process is complete.
  * @example
@@ -178,6 +180,7 @@ export const build = async ( params: BuilderParams ) => await _buildContructor( 
 
 /**
  * Package your Node.js cli application for different platforms and architectures.
+ *
  * @param   {BuilderParams} params - The parameters for creating the binaries.
  * @returns {Promise<void>}        - A promise that resolves when the binary creation process is complete.
  * @example
@@ -194,6 +197,7 @@ export const buildNode = async ( params: BuilderParams ) => await _buildContruct
 
 /**
  * Package your Deno cli application for different platforms and architectures.
+ *
  * @param   {BuilderParams} params - The parameters for creating the binaries.
  * @returns {Promise<void>}        - A promise that resolves when the binary creation process is complete.
  * @example
@@ -210,6 +214,7 @@ export const buildDeno = async ( params: BuilderParams ) => await _buildContruct
 
 /**
  * Package your Bun cli application for different platforms and architectures.
+ *
  * @param   {BuilderParams} params - The parameters for creating the binaries.
  * @returns {Promise<void>}        - A promise that resolves when the binary creation process is complete.
  * @example
@@ -227,6 +232,7 @@ export const buildBun = async ( params: BuilderParams ) => await _buildContructo
 /**
  * Package your cli application for different platforms and architectures.
  * Autodectect runtime (node, deno, bun).
+ *
  * @param   {BuilderParams} params - The parameters for creating the binaries.
  * @returns {Promise<void>}        - A promise that resolves when the binary creation process is complete.
  * @example
@@ -243,6 +249,7 @@ export const buildAuto = async ( params: BuilderParams ) => await _buildContruct
 
 /**
  * Define the configuration for the binary builder.
+ *
  * @param   {ConfigParams} config - The configuration object.
  * @returns {ConfigParams}        - The configuration object.
  * @example

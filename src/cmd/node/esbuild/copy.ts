@@ -5,6 +5,7 @@ import { copy } from 'esbuild-plugin-copy'
  *
  * Typically used for transferring static assets or configuration files
  * from source directories to the output directory.
+ *
  * @returns {Plugin} The esbuild plugin
  */
 export const copyEsbuildPlugin = copy

@@ -13,12 +13,14 @@ import type { Plugin } from 'esbuild'
  * Esbuild plugin that compiles WebAssembly binaries.
  *
  * Loads `.wasm` files as a js module.
+ *
  * @returns {Plugin} The esbuild plugin
  */
 export const wasmEsbuildPlugin = wasmLoader
 
 /**
  * EXPERIMENTAL.
+ *
  * @description Esbuild plugin that compiles WebAssembly binaries.
  *
  * This plugin is currently experimental because it is not clear whether

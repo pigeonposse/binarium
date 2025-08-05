@@ -1,5 +1,6 @@
 /**
  * NCC BUILD.
+ *
  * @see https://github.com/vercel/ncc?tab=readme-ov-file#programmatically-from-nodejs
  */
 

@@ -27,23 +27,27 @@ export type BuilderParams = {
 	[OPTIONS.NAME.key]?   : string
 	/**
 	 * Directory for the output build.
+	 *
 	 * @default './build'
 	 */
 	[OPTIONS.OUTPUT.key]? : string
 	/**
 	 * Build only binary for your current OS.
+	 *
 	 * @default false
 	 */
 	[OPTIONS.ONLYOS.key]? : boolean
 	/**
 	 * The build type Result.
 	 * Supported: "bin", "all", "bundle", "compress"
+	 *
 	 * @default 'all'
 	 */
 	[OPTIONS.TYPE.key]?   : BuilderType
 	/**
 	 * Config file path.
 	 * Files supported: .mjs, .js, .json, .yml, .yaml, .toml, .tml.
+	 *
 	 * @default undefined
 	 */
 	[OPTIONS.CONFIG.key]? : string
@@ -54,6 +58,7 @@ export type BuilderErrors = typeof CONSTS.ERROR_ID[keyof typeof CONSTS.ERROR_ID]
 export type ConfigParams = Prettify<Partial<BuilderParams> & Config & {
 	/**
 	 * Assets for you app.
+	 *
 	 * @experimental
 	 * @example
 	 * {

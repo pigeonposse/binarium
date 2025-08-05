@@ -145,6 +145,6 @@ export const buildNodeConstructor = async ( params: BuilderContructorParams ) =>
 	// } )
 
 	// COMPRESS. Not with targets because yao-pkg change the output name of the binaries
-	await compress( params  )
+	await compress( params )
 
 }

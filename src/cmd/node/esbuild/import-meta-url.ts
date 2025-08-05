@@ -17,6 +17,7 @@ import type { Plugin } from 'esbuild'
  * URLs. It intercepts JavaScript files and rewrites instances of `new URL(...)`
  * constructs that use `import.meta.url` as the base, resolving the path to the
  * file system path using `import-meta-resolve`.
+ *
  * @returns {Plugin} The esbuild plugin
  */
 export const importMetaUrlEsbuildPlugin = () => ( {

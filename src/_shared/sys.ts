@@ -1,5 +1,7 @@
 
-import { globby } from 'globby'
+import { deserialize as tomlParse } from '@structium/toml'
+import { deserialize as yamlParse } from '@structium/yaml'
+import { globby }                   from 'globby'
 import {
 	readFile,
 	mkdir,
@@ -28,8 +30,6 @@ import {
 	fileURLToPath,
 	pathToFileURL,
 } from 'node:url'
-import {deserialize as tomlParse} from '@structium/toml'
-import {deserialize as yamlParse} from '@structium/yaml'
 
 export * as http from 'node:http'
 export * as https from 'node:https'
@@ -162,6 +162,7 @@ export const removePathIfExist = async ( path: string ) => {
 
 /**
  * Reads a configuration file and returns the parsed content.
+ *
  * @param   {string}          filePath - The path to the configuration file.
  * @returns {Promise<object>}          - The parsed content of the configuration file.
  * @throws {Error} - If the file extension is not supported.

@@ -19,7 +19,7 @@ export default setConfig( {
 	ignore    : [
 		'README.md',
 		'CHANGELOG.md',
-		'docs/*.md',
+		'**/docs/**',
 		'**/dev-dist/**',
 	],
 } )

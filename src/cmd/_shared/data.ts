@@ -127,7 +127,7 @@ export const getData = async ( {
 	} )
 
 	const flags = {
-		input  : getFlagValue( OPTIONS.INPUT.key ) || getFlagValue(  OPTIONS.INPUT.alias ),
+		input  : getFlagValue( OPTIONS.INPUT.key ) || getFlagValue( OPTIONS.INPUT.alias ),
 		output : getFlagValue( OPTIONS.OUTPUT.key ) || getFlagValue( OPTIONS.OUTPUT.alias ),
 		name   : getFlagValue( OPTIONS.NAME.key ) || getFlagValue( OPTIONS.NAME.alias ),
 		config : getFlagValue( OPTIONS.CONFIG.key ) || getFlagValue( OPTIONS.CONFIG.alias ),

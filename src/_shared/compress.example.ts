@@ -1,7 +1,7 @@
 import { zipPaths } from './compress'
 
 await zipPaths( {
-	input  : [  './*' ],
+	input  : [ './*' ],
 	output : './build/compress-test',
 	opts   : { gitignore: true },
 } )

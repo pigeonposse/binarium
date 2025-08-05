@@ -12,9 +12,10 @@ import type { Options } from '@babel/preset-env'
 /**
  * An esbuild plugin that uses Babel to compile modern JavaScript to
  * versions supported by the given target Node.js version.
- * @param {string} [target] The target Node.js version.
- * The default is to use the current Node.js version.
- * @returns {Plugin} The esbuild plugin
+ *
+ * @param   {string} [target] - The target Node.js version.
+ *                            The default is to use the current Node.js version.
+ * @returns {Plugin}          The esbuild plugin
  */
 export const babelEsbuildPlugin = ( target: string = 'current' ) => {
 

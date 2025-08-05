@@ -20,7 +20,7 @@ const {
 
 export const printHelp = ( name: string, description: string, docsURL: string ): void => {
 
-	const extsList = ( obj: Record<string, string> ) => italic( Object.values( obj ).map( ext => `.${ext}`  ).join( ' ' ) )
+	const extsList = ( obj: Record<string, string> ) => italic( Object.values( obj ).map( ext => `.${ext}` ).join( ' ' ) )
 	const objList  = ( obj: Record<string, string> ) => italic( Object.values( obj ).join( ', ' ) )
 	name           = name.toLowerCase()
 

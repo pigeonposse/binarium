@@ -16,6 +16,7 @@ import type { Plugin } from 'esbuild'
  * The plugin handles downloading the content from the internet for URLs
  * and is capable of processing imports from unpkg.com, although the logic
  * might need to be extended for other use cases.
+ *
  * @returns {Plugin} The esbuild plugin
  */
 export const httpEsbuildPlugin = () => ( {

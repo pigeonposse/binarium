@@ -111,7 +111,7 @@ export const zipPaths = async ( data:{
 		input, output, opts, onDone, onError,
 	} = data
 
-	const createZipForFileInThread = async ( filePath: string, outputDirectory: string, onDone: ( n: string ) => void = () => {}, onError: ( n: string, err: Error ) => void  = () => {} ) => {
+	const createZipForFileInThread = async ( filePath: string, outputDirectory: string, onDone: ( n: string ) => void = () => {}, onError: ( n: string, err: Error ) => void = () => {} ) => {
 
 		const fileName = filePath.split( '/' ).pop() || 'file' // Extract file name
 		const zipName  = `${fileName}.zip`
