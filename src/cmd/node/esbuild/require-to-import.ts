@@ -3,7 +3,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { readFile } from '_shared/sys'
+import { readFile } from '../../../_shared/sys'
 
 import type { Plugin } from 'esbuild'
 
