@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.12
+
+### Patch Changes
+
+- add 1 more esbuild plugin
+
 ## 2.0.11
 
 ### Patch Changes
