@@ -5,13 +5,14 @@ export default defineBuildConfig( [
 		entries : [
 			'./src/main',
 			'./src/cli',
-			'./src/utils',
+			'./src/tools',
 		],
+		clean       : true,
 		sourcemap   : false,
 		declaration : true,
 		failOnWarn  : true,
 		rollup      : {
-			emitCJS : true,
+			emitCJS : false,
 			esbuild : {
 				minify : true,
 				target : 'node20',

@@ -9,6 +9,6 @@
 
 echo '🚀 Precommit'
 echo
-node --run lint:pub
+node --run lint:pkg
 echo
 node --run . -- lint staged --silent

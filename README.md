@@ -88,7 +88,7 @@ Help us to develop more interesting things.
 
 ## 📜 License
 
-This software is licensed with __[GPL-3.0]({{const.pkg.extra.licenseURL}})__.
+This software is licensed with __[MIT]({{const.pkg.extra.licenseURL}})__.
 
 [![Read more](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)]({{const.pkg.extra.licenseURL}})
 

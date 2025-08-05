@@ -5,15 +5,21 @@ import {
 	writeFile,
 	joinUrl,
 } from '@dovenv/core/utils'
-import pigeonposseTheme, {
+import  {
+	pigeonposseTheme,
 	convert,
 	examples,
+	getWorkspaceConfig,
 	partial,
 	template,
 	templates,
 } from '@dovenv/theme-pigeonposse'
 
-import core from './const.js'
+const core = await getWorkspaceConfig( {
+	metaURL  : import.meta.url,
+	path     : '../',
+	corePath : './',
+} )
 
 const sidebar = [
 	{
@@ -122,7 +128,10 @@ export default defineConfig(
 			{ value: 'env' },
 			{ value: 'all' },
 		] } },
-		lint : { staged: { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint' } },
+		lint : {
+			staged  : { '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,json}': 'dovenv lint eslint' },
+			publint : { pkg: { pkgDir: core.pkgDir } },
+		},
 	} ),
 	{ custom : { predocs : {
 		desc : 'Custom predocs',

@@ -1,6 +1,6 @@
 {
 	"name": "binarium",
-	"version": "2.0.12",
+	"version": "2.1.0",
 	"description": "Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.",
 	"keywords": [
 		"bin",
@@ -26,7 +26,7 @@
 		"type": "individual",
 		"url": "https://pigeonposse.com/?popup=donate"
 	},
-	"license": "GPL-3.0",
+	"license": "MIT",
 	"author": {
 		"name": "Angelo",
 		"email": "angelo@pigeonposse.com",
@@ -38,20 +38,12 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		},
-		"./utils": {
+		"./tools": {
 			"import": {
-				"types": "./dist/utils.d.mts",
-				"default": "./dist/utils.mjs"
-			},
-			"require": {
-				"types": "./dist/utils.d.cts",
-				"default": "./dist/utils.cjs"
+				"types": "./dist/tools.d.mts",
+				"default": "./dist/tools.mjs"
 			}
 		}
 	},
@@ -68,15 +60,16 @@
 	"scripts": {
 		".": "dovenv",
 		"build": "node --run build:lib && node --run build:pre && node --run build:docs",
-		"build-assets": "dovenv docs generate-assets --flag=\"--preset minimal\" --flag=\"docs/public/logo.png\"",
 		"build:docs": "dovenv docs build",
-		"build:lib": "rimraf dist && rimraf build && unbuild",
+		"build:lib": "unbuild",
 		"build:pre": "dovenv predocs",
 		"dev": "tsx src/cli.ts",
 		"example": "bash -c 'run() { tsx examples/$1/main.ts \"${@:1}\"; }; run \"$@\"' --",
 		"example-cli": "bash -c 'run() { source examples/$1/main.sh \"${@:1}\"; }; run \"$@\"' --",
-		"lint:pub": "publint",
-		"lint:staged": "dovenv lint staged",
+		"lint:commit": "dovenv lint commitlint --silent",
+		"lint:eslint": "dovenv lint eslint --silent",
+		"lint:pkg": "dovenv lint publint -k pkg --silent",
+		"lint:staged": "dovenv lint staged --silent",
 		"prepare": "dovenv git husky --silent",
 		"preview": "node dist/cli.mjs --input=examples/app.ts",
 		"test": "node --run test:unit",
@@ -114,8 +107,6 @@
 		"@types/node": "24.2.0",
 		"binarium": "*",
 		"eslint": "9.32.0",
-		"publint": "0.3.12",
-		"rimraf": "6.0.1",
 		"tslib": "2.8.1",
 		"tsx": "4.20.3",
 		"typescript": "5.9.2",

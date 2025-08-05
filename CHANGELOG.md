@@ -1,5 +1,11 @@
 # binarium
 
+## 2.1.0
+
+### Minor Changes
+
+- Change license, change path /utils for /tools
+
 ## 2.0.12
 
 ### Patch Changes
