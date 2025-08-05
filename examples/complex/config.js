@@ -2,7 +2,7 @@ import { defineConfig } from 'binarium'
 
 export const name = 'binarium-complex-test'
 export default defineConfig( {
-	input  : '../Documents/pigeonposse/env-ai/src/bin.ts',
+	input  : '../env-ai/packages/core/src/bin.ts',
 	name,
 	onlyOs : true,
 	type   : 'bin',

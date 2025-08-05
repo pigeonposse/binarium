@@ -6,10 +6,11 @@
 import {
 	babelEsbuildPlugin,
 	copyEsbuildPlugin,
+	esbuild,
 	httpEsbuildPlugin,
 	nativeNodeModulesEsbuildPlugin,
 	wasmEsbuildPlugin,
-} from './esbuild/main'
+} from './esbuild'
 import { catchError } from '../../_shared/error'
 import {
 	existsPath,
@@ -88,8 +89,7 @@ export default async ( data: Opts ) => {
 		} } )
 
 		if ( data.config === false ) return data.input
-		const { build } = await import( 'esbuild' )
-		await build( buildConfig )
+		await esbuild( buildConfig )
 
 		return data.output
 

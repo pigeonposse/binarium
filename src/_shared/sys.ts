@@ -2,6 +2,7 @@
 import { deserialize as tomlParse } from '@structium/toml'
 import { deserialize as yamlParse } from '@structium/yaml'
 import { globby }                   from 'globby'
+import { randomUUID }               from 'node:crypto'
 import {
 	readFile,
 	mkdir,
@@ -15,6 +16,7 @@ import {
 import {
 	arch,
 	platform,
+	tmpdir,
 } from 'node:os'
 import {
 	parse,
@@ -54,6 +56,8 @@ export const getFilename = ( path: string ) => {
 	return name.endsWith( '.' ) ? name.slice( 0, -1 ) : name
 
 }
+export const getRandomUUID = () => randomUUID()
+export const getTempDir = tmpdir
 export const getDirname = dirname
 export const deleteFile = async ( path: string ) => {
 

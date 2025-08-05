@@ -1,1 +1,6 @@
-export * from './cmd/node/esbuild/main'
+export * from './cmd/node/esbuild'
+export * from './_shared/env'
+export * from './_shared/compress'
+export * from './cmd/node/esbuild'
+export * from './cmd/node/pkg'
+export * from './cmd/node/ncc'

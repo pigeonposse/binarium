@@ -4,6 +4,7 @@
  * @see https://github.com/vercel/ncc?tab=readme-ov-file#programmatically-from-nodejs
  */
 
+import { ncc }        from './ncc'
 import { catchError } from '../../_shared/error'
 import {
 	deleteFile,
@@ -50,9 +51,11 @@ export default async ( {
 		} } )
 
 		if ( config === false ) return input
-		// @ts-ignore
-		const { default: ncc } = await import( '@vercel/ncc' )
-		const { code }         = await ncc( input, buildConfig )
+
+		const code = await ncc( {
+			...buildConfig,
+			input,
+		} )
 
 		// console.log( {
 		// 	// code,

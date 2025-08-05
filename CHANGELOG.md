@@ -1,5 +1,11 @@
 # binarium
 
+## 2.0.11
+
+### Patch Changes
+
+- Refactor code, add more utils
+
 ## 2.0.10
 
 ### Patch Changes

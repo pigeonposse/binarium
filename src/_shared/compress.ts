@@ -12,7 +12,7 @@ import {
 	joinPath as join,
 } from './sys'
 
-export const getPaths = globby
+const getPaths = globby
 
 // Function that handles the zipping of a single file
 const _zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory: string, onDone: ( n: string ) => void, onError: ( n: string, err: Error ) => void ) => {
