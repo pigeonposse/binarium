@@ -13,6 +13,8 @@ env:
     DOCS_ID: 'binarium'
     DOCS_DIR: 'build/docs'
     BUILD_CMD: 'pnpm build:pre && pnpm build:docs'
+permissions:
+  contents: read
 
 ###############################################################################
 # JOBS

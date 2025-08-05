@@ -93,7 +93,7 @@ export default defineConfig(
 				intro     : false,
 				reference : false,
 			},
-			pwa : { manifest : {  icons : [
+			pwa : { manifest : { icons : [
 				{
 					src   : 'pwa-64x64.png',
 					sizes : '64x64',

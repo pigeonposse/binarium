@@ -28,8 +28,8 @@ import {
 	fileURLToPath,
 	pathToFileURL,
 } from 'node:url'
-import toml from 'toml'
-import yaml from 'yaml'
+import {deserialize as tomlParse} from '@structium/toml'
+import {deserialize as yamlParse} from '@structium/yaml'
 
 export * as http from 'node:http'
 export * as https from 'node:https'
@@ -180,12 +180,12 @@ export const readConfigFile = async ( filePath: string ): Promise<object> => {
 	}
 	else if ( ext === '.yml' || ext === '.yaml' ) {
 
-		res = yaml.parse( content )
+		res = yamlParse( content )
 
 	}
 	else if ( ext === '.toml' || ext === '.tml' ) {
 
-		res = toml.parse( content )
+		res = tomlParse( content )
 
 	}
 	else if ( ext === '.js' || ext === '.mjs' ) {

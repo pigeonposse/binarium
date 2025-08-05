@@ -11,6 +11,7 @@
 
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/binarium)
+{{const.libPkgBadges}}
 
 Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.
 
@@ -97,9 +98,10 @@ This software is licensed with __[GPL-3.0]({{const.pkg.extra.licenseURL}})__.
 
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
 
----
 
 {{const.contributors}}
+
+---
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
 [![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com?popup=about)
@@ -116,21 +118,15 @@ This software is licensed with __[GPL-3.0]({{const.pkg.extra.licenseURL}})__.
 ██╔═══╝ ██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║██╔═══╝ ██║   ██║╚════██║╚════██║██╔══╝  
 ██║     ██║╚██████╔╝███████╗╚██████╔╝██║ ╚████║██║     ╚██████╔╝███████║███████║███████╗
 ╚═╝     ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝
-                                                                                        
-                                                                                        
-                                                                                        
-█████╗█████╗█████╗█████╗█████╗█████╗█████╗                                              
-╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝                                              
-                                                                                        
-                                                                                        
-                                                                                        
+█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗                                  
+╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝                                  
 ██████╗ ██╗███╗   ██╗ █████╗ ██████╗ ██╗██╗   ██╗███╗   ███╗                            
 ██╔══██╗██║████╗  ██║██╔══██╗██╔══██╗██║██║   ██║████╗ ████║                            
 ██████╔╝██║██╔██╗ ██║███████║██████╔╝██║██║   ██║██╔████╔██║                            
 ██╔══██╗██║██║╚██╗██║██╔══██║██╔══██╗██║██║   ██║██║╚██╔╝██║                            
 ██████╔╝██║██║ ╚████║██║  ██║██║  ██║██║╚██████╔╝██║ ╚═╝ ██║                            
 ╚═════╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝     ╚═╝                            
-                                                                                        
+
 - Author: [Angelo](https://github.com/angelespejo)
 
 

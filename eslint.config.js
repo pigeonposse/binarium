@@ -1,17 +1,26 @@
-import { lint } from '@dovenv/theme-pigeonposse'
+/**
+ * ESLint config.
+ *
+ * @description ESLint config for JavaScript and TypeScript projects.
+ * @see https://eslint.org/docs
+ * @see https://typescript-eslint.io/
+ * @see https://dovenv.pigeonposse.com/guide/plugin/lint
+ */
 
-const { dovenvEslintConfig } = lint
+import { setConfig } from '@dovenv/theme-pigeonposse/eslint'
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-	dovenvEslintConfig.includeGitIgnore(),
-	...dovenvEslintConfig.config,
-	// { rules: { '@stylistic/object-curly-newline': 'off' } },
-	dovenvEslintConfig.setIgnoreConfig( [
+export default setConfig( {
+	gitignore : true,
+	general   : 'ts',
+	md        : true,
+	package   : true,
+	json      : true,
+	jsdoc     : true,
+	ignore    : [
 		'README.md',
 		'CHANGELOG.md',
 		'docs/*.md',
 		'**/dev-dist/**',
-	] ),
-]
+	],
+} )
 

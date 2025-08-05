@@ -16,6 +16,12 @@ env:
   GITHUB_TOKEN: ${{ github.token }}
   NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
   CORE_NAME: binarium
+permissions:
+  contents: write # to create release (changesets/action)
+  pull-requests: write # to create pull request (changesets/action)
+  issues: write # to post issue comments (changesets/action
+  id-token: write # to use OpenID Connect token for provenance (changesets/action)
+  actions: write # to create workflow dispatches 
 
 ###############################################################################
 # JOBS
@@ -87,10 +93,11 @@ jobs:
           version: pnpm . pkg version --silent
           publish: pnpm . pkg publish --silent
           commit: "chore(release): version packages 🦋 [skip ci]"
-          createGithubReleases: false
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ env.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Get updated versions if exists
         id: updated

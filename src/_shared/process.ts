@@ -14,6 +14,7 @@ export { exit }
 /**
  * This is not recomended but is for not display `(node:31972) [DEP0040] DeprecationWarning:
  * The `punycode` module is deprecated. Please use a userland alternative instead.` message.
+ *
  * @example setNoDeprecationAlerts()
  */
 export const setNoDeprecationAlerts = () => {
