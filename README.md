@@ -11,7 +11,7 @@
 
 [![License](https://img.shields.io/github/license/pigeonposse/binarium?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/binarium?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/binarium)
-{{const.libPkgBadges}}
+<!-- {{const.libPkgBadges}} -->
 
 Easy-to-use, zero-configuration tool to create executables of your Node, Deno or Bun projects for all platforms and architectures.
 
@@ -99,7 +99,7 @@ This software is licensed with __[MIT]({{const.pkg.extra.licenseURL}})__.
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
 
 
-{{const.contributors}}
+<!-- {{const.contributors}} -->
 
 ---
 

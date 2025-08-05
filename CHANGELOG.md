@@ -1,5 +1,11 @@
 # binarium
 
+## 2.1.1
+
+### Patch Changes
+
+- fix docs
+
 ## 2.1.0
 
 ### Minor Changes
