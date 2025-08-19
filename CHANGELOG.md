@@ -1,5 +1,11 @@
 # binarium
 
+## 2.1.2
+
+### Patch Changes
+
+- add updater notifier
+
 ## 2.1.1
 
 ### Patch Changes

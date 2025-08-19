@@ -1,5 +1,20 @@
 #!/usr/bin/env node
 
-import { build } from './main'
+import { updater } from './_shared/up'
+import {
+	name,
+	version,
+} from './const'
+import { build } from './index'
 
-build( { input: '' } )
+const run = async () => {
+
+	await build( { input: '' } )
+	await updater( {
+		name,
+		version,
+	} )
+
+}
+
+run()

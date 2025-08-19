@@ -2,11 +2,6 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig( [
 	{
-		entries : [
-			'./src/main',
-			'./src/cli',
-			'./src/tools',
-		],
 		clean       : true,
 		sourcemap   : false,
 		declaration : true,
