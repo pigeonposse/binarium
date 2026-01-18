@@ -5,7 +5,6 @@ export default defineConfig( {
 	input  : 'examples/assets-ts/app.ts',
 	onlyOs : true,
 	name,
-	type   : 'bin',
 	assets : [
 		{
 			from : 'examples/assets-ts/public/**',

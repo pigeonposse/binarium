@@ -241,3 +241,9 @@ export const copyDir = async ( {
 	return includes
 
 }
+
+export const ensureDir = async ( path: string ) => {
+
+	if ( !( await existsPath( path ) ) ) await mkdir( path, { recursive: true } )
+
+}

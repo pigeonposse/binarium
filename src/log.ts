@@ -17,7 +17,7 @@ export const getLog = () => {
 
 	const projectName = BINARIUM_CONSTS.name || name
 	const projectDesc = BINARIUM_CONSTS.desc || description
-	const isDebug     = BINARIUM_CONSTS.debug || existsFlag( 'debug' ) || false
+	const isDebug     = BINARIUM_CONSTS.debug || existsFlag( 'debug' ) || existsFlag( 'd', true ) || false
 	const docsURL     = BINARIUM_CONSTS.docsURL || documentationURL
 	const icon        = BINARIUM_CONSTS.icon || '📦'
 	const log         = logger( {

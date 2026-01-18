@@ -60,7 +60,7 @@ const getPaths = async ( dirPath: string ) => {
 			}
 			catch ( err ) {
 
-				console.error( `Error reading file: ${err.message}` )
+				console.error( `Error reading file: ${err instanceof Error ? err.message : err}` )
 
 			}
 
@@ -70,7 +70,7 @@ const getPaths = async ( dirPath: string ) => {
 	}
 	catch ( err ) {
 
-		console.error( `Error reading directory: ${err.message}` )
+		console.error( `Error reading directory: ${err instanceof Error ? err.message : err}` )
 
 	}
 

@@ -1,5 +1,11 @@
 # binarium
 
+## 2.1.3
+
+### Patch Changes
+
+- update dependences
+
 ## 2.1.2
 
 ### Patch Changes
